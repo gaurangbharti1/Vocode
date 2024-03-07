@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up</title>
+    <link rel="stylesheet" href="signup.css">
+</head>
+<body>
+
+<div class="panels-container">
+    <div class="panel">
+        <img src="student.png" alt="image of student">
+        <p>I am a student</p>
+        <button>Sign up!</button>
+    </div>
+    <div class="panel">
+        <img src="teacher.png" alt="image of teacher">
+        <button>Sign up!</button>
+    </div>
+    <div class="panel">
+        <img src="admin.png" alt="image of admin">
+        <p>I am an administrator</p>
+        <button>Sign up!</button>
+    </div>
+</div>
+
+<div class="dark-mode-toggle">
+    <label for="dark-mode-slider">Dark Mode:</label>
+    <input type="checkbox" id="dark-mode-slider" name="dark-mode-slider">
+    <script>
+        // Check for user's dark mode preference in localStorage
+        const isDarkMode = localStorage.getItem('darkMode') === 'true';
+
+        // Apply dark mode based on the stored preference
+        if (isDarkMode) {
+        document.body.classList.add('dark-mode');
+}
+        const toggleSlider = document.getElementById('dark-mode-slider');
+        const bodyElement = document.body;
+        const panelElement = document.querySelector('.panel');
+
+        toggleSlider.addEventListener('change', function() {
+            bodyElement.classList.toggle('dark-mode');
+            localStorage.setItem('darkMode', document.body.classList.contains('dark-mode'));
+        });
+    </script>
+</body>
+</html>

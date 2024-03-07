@@ -1,6 +1,14 @@
 from flask import Flask, request, jsonify
+from flask_mysqldb import MySQL
 
 app = Flask(__name__)
+
+app.config['MYSQL_HOST'] = 'sql3.freemysqlhosting.net'
+app.config['MYSQL_USER'] = 'sql3689458'
+app.config['MYSQL_PASSWORD'] = ''
+app.config['MYSQL_DB'] = 'sql3689458'
+app.config['MYSQL_CURSORCLASS'] = 'DictCursor'
+
 
 # Dummy data for users
 users = [
@@ -15,6 +23,20 @@ posts = [
     {'id': 2, 'title': 'Post 2', 'content': 'Content of Post 2'},
     # Add more dummy posts as needed
 ]
+
+mysql = MySQL(app)
+
+@app.route('/test')
+def index():
+    cur = mysql.connection.cursor()
+    cur.execute('''CREATE TABLE example (id INTEGER, name VARCHAR(20))''')
+    cur.execute("INSERT INTO example VALUES (1, 'Hello')")
+
+    cur.execute("SELECT * FROM example")
+    results = cur.fetchall()
+    print(results)
+    mysql.connection.commit()
+    return jsonify({'message': 'Hello, World!'})
 
 @app.route('/register', methods=['POST'])
 def register():

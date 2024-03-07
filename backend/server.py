@@ -26,17 +26,74 @@ posts = [
 
 mysql = MySQL(app)
 
-@app.route('/test')
-def index():
+@app.before_request
+def initialize_database():
     cur = mysql.connection.cursor()
-    cur.execute('''CREATE TABLE example (id INTEGER, name VARCHAR(20))''')
-    cur.execute("INSERT INTO example VALUES (1, 'Hello')")
+    
+    # Create the Users table
+    cur.execute('''CREATE TABLE IF NOT EXISTS Users (
+        id INT AUTO_INCREMENT PRIMARY KEY,
+        first_name VARCHAR(255),
+        last_name VARCHAR(255),
+        date_of_birth DATE,
+        email VARCHAR(255) UNIQUE,
+        password VARCHAR(255),
+        role ENUM('admin', 'teacher', 'student')
+    )''')
 
-    cur.execute("SELECT * FROM example")
-    results = cur.fetchall()
-    print(results)
+    # Create the Courses table
+    cur.execute('''CREATE TABLE IF NOT EXISTS Courses (
+        id INT AUTO_INCREMENT PRIMARY KEY,
+        title VARCHAR(255),
+        description TEXT,
+        admin_id INT,
+        FOREIGN KEY (admin_id) REFERENCES Users(id)
+    )''')
+
+    # Create the Assignments table
+    cur.execute('''CREATE TABLE IF NOT EXISTS Assignments (
+        id INT AUTO_INCREMENT PRIMARY KEY,
+        title VARCHAR(255),
+        type VARCHAR(255),
+        content TEXT,
+        course_id INT,
+        FOREIGN KEY (course_id) REFERENCES Courses(id)
+    )''')
+
+    # Create the Enrollment table
+    cur.execute('''CREATE TABLE IF NOT EXISTS Enrollment (
+        student_id INT,
+        course_id INT,
+        PRIMARY KEY (student_id, course_id),
+        FOREIGN KEY (student_id) REFERENCES Users(id),
+        FOREIGN KEY (course_id) REFERENCES Courses(id)
+    )''')
+
+    # Create the Grades table
+    cur.execute('''CREATE TABLE IF NOT EXISTS Grades (
+        student_id INT,
+        assignment_id INT,
+        grade INT,
+        PRIMARY KEY (student_id, assignment_id),
+        FOREIGN KEY (student_id) REFERENCES Users(id),
+        FOREIGN KEY (assignment_id) REFERENCES Assignments(id)
+    )''')
+
+    # Insert dummy users
+    cur.execute("INSERT IGNORE INTO Users (first_name, last_name, date_of_birth, email, password, role) VALUES ('John', 'Doe', '1990-01-01', 'john.doe@example.com', 'hashed_password', 'admin')")
+    cur.execute("INSERT IGNORE INTO Users (first_name, last_name, date_of_birth, email, password, role) VALUES ('Jane', 'Smith', '1992-02-02', 'jane.smith@example.com', 'hashed_password', 'teacher')")
+    cur.execute("INSERT IGNORE INTO Users (first_name, last_name, date_of_birth, email, password, role) VALUES ('Jim', 'Bean', '1994-03-03', 'jim.bean@example.com', 'hashed_password', 'student')")
+
+    # Commit changes and close the connection
+    print('Database initialized')
+    print('Users:', cur.execute('SELECT * FROM Users'))
+
     mysql.connection.commit()
-    return jsonify({'message': 'Hello, World!'})
+    cur.close()
+
+@app.route('/')
+def index():
+    return "Hello, World!"
 
 @app.route('/register', methods=['POST'])
 def register():

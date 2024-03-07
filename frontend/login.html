@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Page</title>
+    <link rel="stylesheet" href="login.css">
+</head>
+
+<body>
+    <div class="container">
+        <div class="left">
+            <img src="savnac1transparent.png" alt="Login Image" class="login-image">
+        </div>
+        <div class="right">
+            <h2>Welcome back! Please sign in:</h2>
+            <form class="login-form">
+                <label for="username">Username</label>
+                <input type="text" id="username" name="username" required>
+                
+                <label for="password">Password</label>
+                <input type="password" id="password" name="password" required>
+                
+                <button type="submit">Login</button>
+
+                <p><h3>New to savnac? <a href="signup.html" class="signup-button">Sign up here</a></h3></p>
+            </form>
+        </div>
+    </div>
+
+    <!-- dark mode toggle-->
+    <div class="dark-mode-toggle">
+        <label for="dark-mode-slider">Dark Mode:</label>
+        <input type="checkbox" id="dark-mode-slider" name="dark-mode-slider">
+        <script>
+            // Check for user's dark mode preference in localStorage
+            const isDarkMode = localStorage.getItem('darkMode') === 'true';
+
+            // Apply dark mode based on the stored preference
+            if (isDarkMode) {
+            document.body.classList.add('dark-mode');
+            }
+
+            const toggleSlider = document.getElementById('dark-mode-slider');
+            const bodyElement = document.body;
+            const containerElement = document.querySelector('.container');
+            const leftSide = document.querySelector('.left');
+            const rightSide = document.querySelector('.right');
+        
+            toggleSlider.addEventListener('change', function() {
+                bodyElement.classList.toggle('dark-mode');
+                containerElement.classList.toggle('dark-mode');
+                leftSide.classList.toggle('dark-mode');
+                rightSide.classList.toggle('dark-mode');
+                localStorage.setItem('darkMode', document.body.classList.contains('dark-mode'));
+            });
+        </script>
+    </div>
+</body>
+</html>
+</body>
+</html>

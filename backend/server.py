@@ -1,11 +1,11 @@
-from flask import Flask, request, jsonify
+from flask import Flask, render_template, request, jsonify, session
 from flask_mysqldb import MySQL
 
-app = Flask(__name__)
+app = Flask(__name__, template_folder='../frontend', static_url_path='', static_folder='../frontend')
 
 app.config['MYSQL_HOST'] = 'sql3.freemysqlhosting.net'
 app.config['MYSQL_USER'] = 'sql3689458'
-app.config['MYSQL_PASSWORD'] = ''
+app.config['MYSQL_PASSWORD'] = '5R7THCLmzf'
 app.config['MYSQL_DB'] = 'sql3689458'
 app.config['MYSQL_CURSORCLASS'] = 'DictCursor'
 
@@ -93,7 +93,7 @@ def initialize_database():
 
 @app.route('/')
 def index():
-    return "Hello, World!"
+    return render_template("login.html")
 
 @app.route('/register', methods=['POST'])
 def register():
@@ -109,17 +109,20 @@ def register():
 
 @app.route('/login', methods=['POST'])
 def login():
-    data = request.get_json()
-    username = data.get('username')
-    password = data.get('password')
+    username = request.form['username']
+    password = request.form['password']
 
-    # Dummy login logic (check if user exists and password is correct)
-    user = next((user for user in users if user['username'] == username and user['password'] == password), None)
+    cur = mysql.connection.cursor()
+    cur.execute("SELECT * FROM Users WHERE email = %s AND password = %s", (username, password))
+    user_data = cur.fetchone()
+    cur.close()
 
-    if user:
-        return jsonify({'message': 'Login successful', 'user': user})
-    else:
-        return jsonify({'message': 'Invalid credentials'}), 401
+    if user_data:
+        # Store user ID in the session for simple session management
+        session['user_id'] = user_data['id']
+        return "successful"  # Change 'dashboard' to the desired route after login
+
+    return "unsuccessful"
 
 @app.route('/posts', methods=['GET'])
 def get_posts():

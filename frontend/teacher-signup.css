@@ -55,24 +55,32 @@ body, html {
     display: block;
 }
 
+.login-form #firstname,
+.login-form #lastname {
+    width: 50%;
+    padding: 4px;
+    margin: 5px 0;
+    display: inline-block;
+}
+
 .login-form input[type="text"],
+.login-form input[type="date"],
+.login-form input[type="email"],
 .login-form input[type="password"] {
     width: 100%;
-    padding: 8px;
-    margin: 10px 0;
+    padding: 4px;
+    margin: 5px 0;
     display: inline-block;
-    border: 1px solid #ccc;
-    box-sizing: border-box;
 }
 
 .login-form button {
     background-color: #04AA6D;
     color: white;
-    padding: 14px 20px;
+    padding: 10px;
     margin: 8px 0;
     border: none;
     cursor: pointer;
-    width: 100%;
+    width: 104%;
 }
 
 .login-form button:hover {

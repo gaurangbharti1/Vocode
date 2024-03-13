@@ -7,44 +7,29 @@
     <link rel="stylesheet" href="signup.css">
 </head>
 <body>
-
+<h2>To sign up, please tell us who you are!</h2>
 <div class="panels-container">
     <div class="panel">
         <img src="student.png" alt="image of student">
         <p>I am a student</p>
-        <button>Sign up!</button>
+        <a href="student-signup.html">
+            <button>Sign up!</button>
+        </a>
     </div>
     <div class="panel">
         <img src="teacher.png" alt="image of teacher">
         <p>I am a teacher</p>
-        <button>Sign up!</button>
+        <a href="teacher-signup.html">
+            <button>Sign up!</button>
+        </a>
     </div>
     <div class="panel">
         <img src="admin.png" alt="image of admin">
-        <p>I am an administrator</p>
-        <button>Sign up!</button>
+        <p>I am an admin</p>
+        <a href="admin-signup.html">
+            <button>Sign up!</button>
+        </a>
     </div>
 </div>
-
-<div class="dark-mode-toggle">
-    <label for="dark-mode-slider">Dark Mode:</label>
-    <input type="checkbox" id="dark-mode-slider" name="dark-mode-slider">
-    <script>
-        // Check for user's dark mode preference in localStorage
-        const isDarkMode = localStorage.getItem('darkMode') === 'true';
-
-        // Apply dark mode based on the stored preference
-        if (isDarkMode) {
-        document.body.classList.add('dark-mode');
-}
-        const toggleSlider = document.getElementById('dark-mode-slider');
-        const bodyElement = document.body;
-        const panelElement = document.querySelector('.panel');
-
-        toggleSlider.addEventListener('change', function() {
-            bodyElement.classList.toggle('dark-mode');
-            localStorage.setItem('darkMode', document.body.classList.contains('dark-mode'));
-        });
-    </script>
 </body>
 </html>

@@ -27,35 +27,6 @@
             </form>
         </div>
     </div>
-
-    <!-- dark mode toggle-->
-    <div class="dark-mode-toggle">
-        <label for="dark-mode-slider">Dark Mode:</label>
-        <input type="checkbox" id="dark-mode-slider" name="dark-mode-slider">
-        <script>
-            // Check for user's dark mode preference in localStorage
-            const isDarkMode = localStorage.getItem('darkMode') === 'true';
-
-            // Apply dark mode based on the stored preference
-            if (isDarkMode) {
-            document.body.classList.add('dark-mode');
-            }
-
-            const toggleSlider = document.getElementById('dark-mode-slider');
-            const bodyElement = document.body;
-            const containerElement = document.querySelector('.container');
-            const leftSide = document.querySelector('.left');
-            const rightSide = document.querySelector('.right');
-        
-            toggleSlider.addEventListener('change', function() {
-                bodyElement.classList.toggle('dark-mode');
-                containerElement.classList.toggle('dark-mode');
-                leftSide.classList.toggle('dark-mode');
-                rightSide.classList.toggle('dark-mode');
-                localStorage.setItem('darkMode', document.body.classList.contains('dark-mode'));
-            });
-        </script>
-    </div>
 </body>
 </html>
 </body>

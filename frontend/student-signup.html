@@ -15,20 +15,24 @@
         <div class="right">
             <h3>Please enter your information below:</h3>
             <form class="login-form">
-                <label for="name">Full Name</label>
-                <input type="text" id="name" name="name" required>
+                <label for="firstname">First Name</label>
+                <input type="text" id="firstname" name="firstname" required pattern="[A-Za-z ]{1,}" title="Please enter only letters">
 
-                <label for="student#">Student Number</label>
-                <input type="text" id="student#" name="student#" required>
+                <label for="lastname">Last Name</label>
+                <input type="text" id="lastname" name="lastname" required pattern="[A-Za-z ]{1,}" title="Please enter only letters">
+
+                <label for="birthdate">Birth Date</label>
+                <input type="date" id="birthdate" name="birthdate" required>
 
                 <label for="username">Username</label>
-                <input type="text" id="username" name="username" required>
+                <input type="text" id="username" name="username" required pattern="[A-Za-z0-9]{1,16}" title="Please enter a maximum of 16 letters without special characters or spaces">
                 
                 <label for="email">Email</label>
                 <input type="email" id="emailusername" name="email" required>
 
                 <label for="password">Password</label>
-                <input type="password" id="password" name="password" required>
+                <input type="password" id="password" name="password" required pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"
+                title="Password must be 8 or more characters and contain at least one number and one uppercase and lowercase letter">
 
                 <label for="confirm_password">Confirm Password</label>
                 <input type="password" id="confirm_password" name="confirm_password" required>
@@ -38,6 +42,7 @@
         </div>
     </div>
     <script>
+        //code to check password matches
         var password = document.getElementById("password"), check_password = document.getElementById("confirm_password");
 
         function passwordCheck(){
@@ -47,6 +52,7 @@
             check_password.setCustomValidity('');
         }
         }
+
         password.onchange = passwordCheck;
         check_password.onkeyup = passwordCheck;
     </script>

@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+    <link rel="stylesheet" href="student-dashboard.css">
+</head>
+<body>
+    <div class="dashboard">
+        <div class="sidebar">
+            <img src="savnac1transparent.png">
+            <button id="profile"><img src="profile-user.png">Profile</button>
+            <button id="dashboard"><img src="dashboard.png">Dashboard</button>
+            <button id="assignments"><img src="assignment.png">Assignments</button>
+        </div>
+        <div class="main">
+            <button id="addClass"> Add Class </button>
+            <div class="class"></div>
+        </div>
+    </div>
+
+<script>
+    document.getElementById('addClass').addEventListener('click', function() {
+        const classesCont = document.querySelector('.classes');
+        const newClass = document.createElement('div');
+        newClass.classList.add('class');
+        newClass.textContent = 'New Class';
+        classesCont.appendChild(newClass);
+    });
+</script>
+</body>

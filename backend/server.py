@@ -1,29 +1,18 @@
-from flask import Flask, request, jsonify
+from flask import Flask, render_template, request, jsonify, session
 from flask_mysqldb import MySQL
+from flask_bcrypt import Bcrypt
 
-app = Flask(__name__)
+
+app = Flask(__name__, template_folder='../frontend', static_url_path='', static_folder='../frontend')
 
 app.config['MYSQL_HOST'] = 'sql3.freemysqlhosting.net'
 app.config['MYSQL_USER'] = 'sql3689458'
-app.config['MYSQL_PASSWORD'] = ''
+app.config['MYSQL_PASSWORD'] = '5R7THCLmzf'
 app.config['MYSQL_DB'] = 'sql3689458'
 app.config['MYSQL_CURSORCLASS'] = 'DictCursor'
+app.config['SECRET_KEY'] = 'test_key'
 
-
-# Dummy data for users
-users = [
-    {'id': 1, 'username': 'user1', 'password': 'pass1'},
-    {'id': 2, 'username': 'user2', 'password': 'pass2'},
-    # Add more dummy users as needed
-]
-
-# Dummy data for other resources (e.g., posts)
-posts = [
-    {'id': 1, 'title': 'Post 1', 'content': 'Content of Post 1'},
-    {'id': 2, 'title': 'Post 2', 'content': 'Content of Post 2'},
-    # Add more dummy posts as needed
-]
-
+bcrypt = Bcrypt(app)
 mysql = MySQL(app)
 
 @app.before_request
@@ -93,33 +82,35 @@ def initialize_database():
 
 @app.route('/')
 def index():
-    return "Hello, World!"
+    return render_template("login.html")
 
-@app.route('/register', methods=['POST'])
-def register():
-    data = request.get_json()
-    username = data.get('username')
-    password = data.get('password')
+# @app.route('/register', methods=['POST'])
+# def register():
+#     data = request.get_json()
+#     username = data.get('username')
+#     password = data.get('password')
 
-    # Dummy registration logic (add user to the users list)
-    new_user = {'id': len(users) + 1, 'username': username, 'password': password}
-    users.append(new_user)
+#     # Dummy registration logic (add user to the users list)
+#     new_user = {'id': len(users) + 1, 'username': username, 'password': password}
+#     users.append(new_user)
 
-    return jsonify({'message': 'Registration successful', 'user': new_user})
+#     return jsonify({'message': 'Registration successful', 'user': new_user})
 
 @app.route('/login', methods=['POST'])
 def login():
-    data = request.get_json()
-    username = data.get('username')
-    password = data.get('password')
+    username = request.form['username']
+    raw_password = request.form['password']
 
-    # Dummy login logic (check if user exists and password is correct)
-    user = next((user for user in users if user['username'] == username and user['password'] == password), None)
+    cur = mysql.connection.cursor()
+    cur.execute("SELECT * FROM Users WHERE email = %s", (username,))
+    user_data = cur.fetchone()
+    cur.close()
 
-    if user:
-        return jsonify({'message': 'Login successful', 'user': user})
-    else:
-        return jsonify({'message': 'Invalid credentials'}), 401
+    if user_data and user_data['password'] == raw_password:
+        session['user_id'] = user_data['id']
+        return "successful"
+
+    return "unsuccessful"
 
 @app.route('/posts', methods=['GET'])
 def get_posts():

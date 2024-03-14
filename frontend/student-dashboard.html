@@ -9,24 +9,44 @@
 <body>
     <div class="dashboard">
         <div class="sidebar">
-            <img src="savnac1transparent.png">
-            <button id="profile"><img src="profile-user.png">Profile</button>
-            <button id="dashboard"><img src="dashboard.png">Dashboard</button>
-            <button id="assignments"><img src="assignment.png">Assignments</button>
-        </div>
-        <div class="main">
-            <button id="addClass"> Add Class </button>
-            <div class="class"></div>
+            <img id="logo" src="savnac1transparent.png">
+            <a href="profile.html">
+            <button id="profile">
+                <img src="profile-user.png" alt="profile picture">
+                <span><b>Profile</b></span>
+            </button>
+            </a>
+            <a href="student-dashboard.html">
+            <button id="dashboard" class="active">
+                <img src="dashboard.png" alt="dashboard">
+                <span><b>Dashboard</b></span>
+            </button>
+            </a>
+            <a href="assignments.html">
+            <button id="assignments">
+                <img src="assignment.png" alt="assignment">
+                <span><b>Assignments</b></span>
+            </button>
+            </a>
+            <a href="classes.html">
+            <button id="classes">
+                <img src="homework.png" alt="classes">
+                <span><b>Classes</b></span>
+            </button>
+            </a>
+            <button id="logout">
+                <img src="logout.png" alt="log out">
+                <span><b>Log Out</b></span>
+            </button>
         </div>
     </div>
-
-<script>
-    document.getElementById('addClass').addEventListener('click', function() {
-        const classesCont = document.querySelector('.classes');
-        const newClass = document.createElement('div');
-        newClass.classList.add('class');
-        newClass.textContent = 'New Class';
-        classesCont.appendChild(newClass);
-    });
-</script>
+    <div class="main-content">
+        <div id="noPanelsMessage" class="center-message">
+            <p>You haven't joined a class yet! Press the button to join one.</p>
+            <button id="initialAddPanel">Join Class</button>
+        </div>
+        <button id="addPanel" style="display:none;">Join Class</button>
+        <div class="panels"></div>
+    </div>
+    <script src="studentcontentselector.js"></script>
 </body>

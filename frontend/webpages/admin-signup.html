@@ -4,13 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Student Signup Page</title>
-    <link rel="stylesheet" href="student-signup.css">
+    <link rel="stylesheet" href="styling/student-signup.css">
 </head>
 
 <body>
     <div class="container">
         <div class="left">
-            <img src="savnac1transparent.png" alt="Login Image" class="login-image">
+            <img src="images/savnac1transparent.png" alt="Login Image" class="login-image">
         </div>
         <div class="right">
             <h3>Please enter your information below:</h3>
@@ -39,6 +39,8 @@
                 
                 <label for="admin_password">Enter Your Admin Passcode Here</label>
                 <input type="password" id="admin_password" name="admin_password" required>
+
+                <input type="hidden" id="role" name="role" value="admin">
 
                 <button type="submit">Sign up!</button>
             </form>

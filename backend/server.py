@@ -92,7 +92,8 @@ def register():
     email = request.form['email']
     password = request.form['password']
     confirm_password = request.form['confirm_password']
-
+    role = request.form['role']
+    print("role", role)
     if password != confirm_password:
         return jsonify({'error': 'Passwords do not match'}), 400
     
@@ -104,7 +105,7 @@ def register():
     if existing_user:
         return jsonify({'error': 'Email already exists'}), 400
     else:
-        cur.execute("INSERT INTO Users (first_name, last_name, date_of_birth, email, password) VALUES (%s, %s, %s, %s, %s)", (first_name, last_name, birthdate, email, password))
+        cur.execute("INSERT INTO Users (first_name, last_name, date_of_birth, email, password, role) VALUES (%s, %s, %s, %s, %s, %s)", (first_name, last_name, birthdate, email, password, role))
         mysql.connection.commit()
     cur.close()
     

@@ -84,18 +84,26 @@ def initialize_database():
 def index():
     return render_template("login.html")
 
-# @app.route('/register', methods=['POST'])
-# def register():
-#     data = request.get_json()
-#     username = data.get('username')
-#     password = data.get('password')
+@app.route('/register', methods=['POST'])
+def register():
+    first_name = request.form['firstname']
+    last_name = request.form['lastname']
+    birthdate = request.form['birthdate']
+    username = request.form['username']
+    email = request.form['email']
+    password = request.form['password']
+    confirm_password = request.form['confirm_password']
 
-#     # Dummy registration logic (add user to the users list)
-#     new_user = {'id': len(users) + 1, 'username': username, 'password': password}
-#     users.append(new_user)
+    if password != confirm_password:
+        return jsonify({'error': 'Passwords do not match'}), 400
+    
+    hashed_password = bcrypt.generate_password_hash(password).decode('utf-8')
 
-#     return jsonify({'message': 'Registration successful', 'user': new_user})
-
+    cur = mysql.connection.cursor()
+    cur.execute("INSERT INTO Users (first_name, last_name, date_of_birth, email, username, password) VALUES (%s, %s, %s, %s, %s, %s)", (first_name, last_name, birthdate, email, username, hashed_password))
+    mysql.connection.commit()
+    cur.close()
+    
 @app.route('/login', methods=['POST'])
 def login():
     username = request.form['username']
@@ -111,11 +119,6 @@ def login():
         return "successful"
 
     return "unsuccessful"
-
-@app.route('/posts', methods=['GET'])
-def get_posts():
-    # Dummy route to fetch posts
-    return jsonify({'posts': posts})
 
 if __name__ == '__main__':
     app.run(debug=True)

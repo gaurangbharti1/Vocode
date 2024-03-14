@@ -6,9 +6,9 @@ from flask_bcrypt import Bcrypt
 app = Flask(__name__, template_folder='../frontend', static_url_path='', static_folder='../frontend')
 
 app.config['MYSQL_HOST'] = 'sql3.freemysqlhosting.net'
-app.config['MYSQL_USER'] = 'sql3689458'
-app.config['MYSQL_PASSWORD'] = '5R7THCLmzf'
-app.config['MYSQL_DB'] = 'sql3689458'
+app.config['MYSQL_USER'] = 'sql3691381'
+app.config['MYSQL_PASSWORD'] = 'MN4ufRH1tb'
+app.config['MYSQL_DB'] = 'sql3691381'
 app.config['MYSQL_CURSORCLASS'] = 'DictCursor'
 app.config['SECRET_KEY'] = 'test_key'
 
@@ -89,7 +89,6 @@ def register():
     first_name = request.form['firstname']
     last_name = request.form['lastname']
     birthdate = request.form['birthdate']
-    username = request.form['username']
     email = request.form['email']
     password = request.form['password']
     confirm_password = request.form['confirm_password']
@@ -97,11 +96,16 @@ def register():
     if password != confirm_password:
         return jsonify({'error': 'Passwords do not match'}), 400
     
-    hashed_password = bcrypt.generate_password_hash(password).decode('utf-8')
+    # hashed_password = bcrypt.generate_password_hash(password).decode('utf-8')
 
     cur = mysql.connection.cursor()
-    cur.execute("INSERT INTO Users (first_name, last_name, date_of_birth, email, username, password) VALUES (%s, %s, %s, %s, %s, %s)", (first_name, last_name, birthdate, email, username, hashed_password))
-    mysql.connection.commit()
+    cur.execute("SELECT * FROM Users WHERE email = %s", (email,))
+    existing_user = cur.fetchone()
+    if existing_user:
+        return jsonify({'error': 'Email already exists'}), 400
+    else:
+        cur.execute("INSERT INTO Users (first_name, last_name, date_of_birth, email, password) VALUES (%s, %s, %s, %s, %s)", (first_name, last_name, birthdate, email, password))
+        mysql.connection.commit()
     cur.close()
     
 @app.route('/login', methods=['POST'])

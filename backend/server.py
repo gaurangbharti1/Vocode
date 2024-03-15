@@ -107,7 +107,7 @@ def register():
         cur.execute("INSERT INTO Users (first_name, last_name, date_of_birth, email, password, role) VALUES (%s, %s, %s, %s, %s, %s)", (first_name, last_name, birthdate, email, password, role))
         mysql.connection.commit()
     cur.close()
-    return render_template("login.html")
+    return render_template("webpages/login.html")
     
 @app.route('/login', methods=['POST'])
 def login():
@@ -123,11 +123,11 @@ def login():
         session['user_id'] = user_data['id']
         session['role'] = user_data['role']
         if user_data['role'] == 'admin':
-            return render_template("admin-dashboard.html")
+            return render_template("webpages/admin-dashboard.html")
         elif user_data['role'] == 'teacher':
-            return render_template("teacher-dashboard.html")
+            return render_template("webpages/teacher-dashboard.html")
         else:
-            return render_template("student-dashboard.html")
+            return render_template("webpages/student-dashboard.html")
 
     return "unsuccessful"
 

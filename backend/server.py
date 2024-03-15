@@ -2,13 +2,12 @@ from flask import Flask, render_template, request, jsonify, session
 from flask_mysqldb import MySQL
 from flask_bcrypt import Bcrypt
 
-
-app = Flask(__name__, template_folder='../frontend', static_url_path='', static_folder='../frontend')
+app = Flask(__name__, template_folder='../frontend/', static_url_path='', static_folder='../frontend')
 
 app.config['MYSQL_HOST'] = 'sql3.freemysqlhosting.net'
-app.config['MYSQL_USER'] = 'sql3689458'
-app.config['MYSQL_PASSWORD'] = '5R7THCLmzf'
-app.config['MYSQL_DB'] = 'sql3689458'
+app.config['MYSQL_USER'] = 'sql3691381'
+app.config['MYSQL_PASSWORD'] = 'MN4ufRH1tb'
+app.config['MYSQL_DB'] = 'sql3691381'
 app.config['MYSQL_CURSORCLASS'] = 'DictCursor'
 app.config['SECRET_KEY'] = 'test_key'
 
@@ -82,20 +81,34 @@ def initialize_database():
 
 @app.route('/')
 def index():
-    return render_template("login.html")
+    return render_template("webpages/login.html")
 
-# @app.route('/register', methods=['POST'])
-# def register():
-#     data = request.get_json()
-#     username = data.get('username')
-#     password = data.get('password')
+@app.route('/register', methods=['POST'])
+def register():
+    first_name = request.form['firstname']
+    last_name = request.form['lastname']
+    birthdate = request.form['birthdate']
+    email = request.form['email']
+    password = request.form['password']
+    confirm_password = request.form['confirm_password']
+    role = request.form['role']
+    print("role", role)
+    if password != confirm_password:
+        return jsonify({'error': 'Passwords do not match'}), 400
+    
+    # hashed_password = bcrypt.generate_password_hash(password).decode('utf-8')
 
-#     # Dummy registration logic (add user to the users list)
-#     new_user = {'id': len(users) + 1, 'username': username, 'password': password}
-#     users.append(new_user)
-
-#     return jsonify({'message': 'Registration successful', 'user': new_user})
-
+    cur = mysql.connection.cursor()
+    cur.execute("SELECT * FROM Users WHERE email = %s", (email,))
+    existing_user = cur.fetchone()
+    if existing_user:
+        return jsonify({'error': 'Email already exists'}), 400
+    else:
+        cur.execute("INSERT INTO Users (first_name, last_name, date_of_birth, email, password, role) VALUES (%s, %s, %s, %s, %s, %s)", (first_name, last_name, birthdate, email, password, role))
+        mysql.connection.commit()
+    cur.close()
+    return render_template("webpages/login.html")
+    
 @app.route('/login', methods=['POST'])
 def login():
     username = request.form['username']
@@ -108,14 +121,15 @@ def login():
 
     if user_data and user_data['password'] == raw_password:
         session['user_id'] = user_data['id']
-        return "successful"
+        session['role'] = user_data['role']
+        if user_data['role'] == 'admin':
+            return render_template("webpages/admin-dashboard.html")
+        elif user_data['role'] == 'teacher':
+            return render_template("webpages/teacher-dashboard.html")
+        else:
+            return render_template("webpages/student-dashboard.html")
 
     return "unsuccessful"
-
-@app.route('/posts', methods=['GET'])
-def get_posts():
-    # Dummy route to fetch posts
-    return jsonify({'posts': posts})
 
 if __name__ == '__main__':
     app.run(debug=True)

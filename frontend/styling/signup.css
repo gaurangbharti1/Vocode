@@ -1,0 +1,44 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    text-align: center;
+}
+
+.panels-container {
+    display: flex;
+    justify-content: space-around;
+    margin: 20px;
+    flex-wrap: wrap;
+}
+
+.panel {
+    width: 25%; 
+    margin: 10px; 
+    text-align: center; 
+    font-size: 1.5em;
+    font-family: 'Trebuchet MS';
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5); 
+    padding: 20px;
+}
+
+.panel img {
+    height: 300px; 
+    width: auto; 
+    object-fit: scale-down; 
+}
+
+.panel button {
+    background-color: #007bff;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 10px; 
+}
+
+.panel button:hover {
+    background-color: #0056b3;
+}

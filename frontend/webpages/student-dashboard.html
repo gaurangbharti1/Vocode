@@ -1,37 +1,52 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Student Dashboard</title>
-    <style>
-        /* Add your CSS styles here */
-    </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+    <link rel="stylesheet" href="../styling/student-dashboard.css">
 </head>
 <body>
-    <header>
-        <h1>Welcome, Student!</h1>
-    </header>
-    
-    <nav>
-        <ul>
-            <li><a href="#">Home</a></li>
-            <li><a href="#">Assignments</a></li>
-            <li><a href="#">Grades</a></li>
-            <li><a href="#">Profile</a></li>
-            <li><a href="#">Logout</a></li>
-        </ul>
-    </nav>
-    
-    <main>
-        <h2>Upcoming Assignments</h2>
-        <ul>
-            <li>Assignment 1 - Due Date: 10/15/2022</li>
-            <li>Assignment 2 - Due Date: 10/22/2022</li>
-            <li>Assignment 3 - Due Date: 10/29/2022</li>
-        </ul>
-    </main>
-    
-    <footer>
-        <p>&copy; 2022 Your University. All rights reserved.</p>
-    </footer>
+    <div class="dashboard">
+        <div class="sidebar">
+            <img id="logo" src="../images/savnac1transparent.png">
+            <a href="profile.html">
+            <button id="profile">
+                <img src="../images/profile-user.png" alt="profile picture">
+                <span><b>Profile</b></span>
+            </button>
+            </a>
+            <a href="student-dashboard.html">
+            <button id="dashboard" class="active">
+                <img src="../images/dashboard.png" alt="dashboard">
+                <span><b>Dashboard</b></span>
+            </button>
+            </a>
+            <a href="assignments.html">
+            <button id="assignments">
+                <img src="../images/assignment.png" alt="assignment">
+                <span><b>Assignments</b></span>
+            </button>
+            </a>
+            <a href="classes.html">
+            <button id="classes">
+                <img src="../images/homework.png" alt="classes">
+                <span><b>Classes</b></span>
+            </button>
+            </a>
+            <button id="logout">
+                <img src="../images/logout.png" alt="log out">
+                <span><b>Log Out</b></span>
+            </button>
+        </div>
+    </div>
+    <div class="main-content">
+        <div id="noPanelsMessage" class="center-message">
+            <p>You haven't joined a class yet! Press the button to join one.</p>
+            <button id="initialAddPanel">Join Class</button>
+        </div>
+        <button id="addPanel" style="display:none;">Join Class</button>
+        <div class="panels"></div>
+    </div>
+    <script src="studentcontentselector.js"></script>
 </body>
-</html>

@@ -2,33 +2,55 @@
 <html>
 <head>
     <title>Student Dashboard</title>
+    <link rel="stylesheet" href="../styling/student-dashboard.css">
     <style>
         /* Add your CSS styles here */
     </style>
 </head>
 <body>
+    <nav>
+        <ul>
+            <li><a href="#"><img src="../images/student-dashboard/Home.png" alt="Home" style="height: 50%; margin:20%;"></a></li>
+            <li><a href="#"><img src="../images/student-dashboard/Literature.png" alt="Courses" style="height: 50%; margin:10%;"></a></li>
+            <li><a href="#"><img src="../images/student-dashboard/Calendar 7.png" alt="Calendar" style="height: 50%; margin:10%;"></a></li>
+            <li><a href="#"><img src="../images/student-dashboard/Letter.png" alt="Inbox" style="height: 50%; margin:10%;"></a></li>
+            <li><a href="#"><img src="../images/student-dashboard/Male User.png" alt="Profile" style="height: 50%; margin:10%;"></a></li>
+            <li><a href="#"><img src="../images/student-dashboard/Logout.png" alt="Logout" style="height: 60%; margin:10%;"></a></li>
+        </ul>
+    </nav>
+    
     <header>
         <h1>Welcome, Student!</h1>
     </header>
     
-    <nav>
-        <ul>
-            <li><a href="#">Home</a></li>
-            <li><a href="#">Assignments</a></li>
-            <li><a href="#">Grades</a></li>
-            <li><a href="#">Profile</a></li>
-            <li><a href="#">Logout</a></li>
-        </ul>
-    </nav>
-    
-    <main>
-        <h2>Upcoming Assignments</h2>
-        <ul>
-            <li>Assignment 1 - Due Date: 10/15/2022</li>
-            <li>Assignment 2 - Due Date: 10/22/2022</li>
-            <li>Assignment 3 - Due Date: 10/29/2022</li>
-        </ul>
-    </main>
+    <section class="content">
+        
+        <div id="left">
+            <h2>Dashboard</h2>
+            <div id="course-card">
+                <h5>Course Image</h5>
+                <h4>Course Name</h4>
+            </div>
+            <div id="course-card">
+                <h5>Course Image</h5>
+                <h4>Course Name</h4>
+            </div>
+            <div id="course-card">
+                <h5>Course Image</h5>
+                <h4>Course Name</h4>
+            </div>
+        </div>
+
+        <div id="right">
+            <h2>Upcoming Assignments</h2>
+            <ul>
+                <li>Assignment 1 - Due Date: 10/15/2022</li>
+                <li>Assignment 2 - Due Date: 10/22/2022</li>
+                <li>Assignment 3 - Due Date: 10/29/2022</li>
+            </ul>
+        </div>
+        
+    </section>
     
     <footer>
         <p>&copy; 2022 Your University. All rights reserved.</p>

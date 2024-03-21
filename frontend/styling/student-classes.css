@@ -9,13 +9,25 @@ body, html {
     height: 100vh;
 }
 
+.header{
+    background-color: #fff;
+    padding: 10px;
+    width: 100%;
+    height: 10%;
+    display: flex;
+    flex-direction: column;
+    position: fixed;
+    top: 0;
+    left: 10%;
+}
+
 .left, .right {
     flex: 1;
     display: flex;
 }
 
 .left {
-    background-color: #fff; 
+    background-color: #932222; 
     position: absolute;
     left: 95px;
     width: 65%;

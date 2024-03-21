@@ -86,9 +86,81 @@ def initialize_database():
     mysql.connection.commit()
     cur.close()
 
+@app.before_request
+def initialize_assignments():
+    cur = mysql.connection.cursor()
+
+    # Clear the Assignments table
+    cur.execute("DELETE FROM Assignments")
+
+    # Check if the Assignments table is empty
+    cur.execute("SELECT COUNT(*) as count FROM Assignments")
+    result = cur.fetchone()
+    if result['count'] == 0:
+        # The table is empty, safe to insert dummy data
+        cur.execute("INSERT INTO Assignments (title, type, content, course_id) VALUES ('Introduction to Programming', 'Homework', 'Complete the Python exercise.', 1)")
+        cur.execute("INSERT INTO Assignments (title, type, content, course_id) VALUES ('Database Basics', 'Quiz', 'Take the SQL basics quiz.', 2)")
+        print("Assignments inserted.")
+    else:
+        print("Assignments table was not empty after clearing.")
+
+    mysql.connection.commit()
+    cur.close()
+
+
 @app.route('/')
 def index():
     return render_template("webpages/login.html")
+
+@app.route('/profile')
+def profile():
+    if 'user_id' not in session:
+        return redirect(url_for('login'))
+
+    user_id = session['user_id']
+    
+    cur = mysql.connection.cursor()
+    cur.execute('SELECT * FROM Users WHERE id = %s', (user_id,))
+    user_details = cur.fetchone()
+    cur.close()
+
+    return render_template('webpages/profile.html', user=user_details)
+
+@app.route('/assignments')
+def assignments():
+    if 'user_id' not in session:
+        return redirect(url_for('login'))
+
+    user_id = session['user_id']
+
+    cur = mysql.connection.cursor()
+    cur.execute('''SELECT Assignments.id, Assignments.title, Assignments.type, Assignments.content, Courses.title AS course_title
+                   FROM Assignments
+                   JOIN Courses ON Assignments.course_id = Courses.id
+                   JOIN Enrollment ON Courses.id = Enrollment.course_id
+                   WHERE Enrollment.student_id = %s''', (user_id,))
+    assignments = cur.fetchall()
+    cur.close()
+
+    return render_template('webpages/assignments.html', assignments=assignments)
+
+@app.route('/student-classes')
+def student_classes():
+    if 'user_id' not in session:
+        return redirect(url_for('login'))
+
+    user_id = session['user_id']
+
+    cur = mysql.connection.cursor()
+    cur.execute('''SELECT Courses.id, Courses.title, Courses.description
+                   FROM Enrollment
+                   JOIN Courses ON Enrollment.course_id = Courses.id
+                   WHERE Enrollment.student_id = %s''', (user_id,))
+    classes = cur.fetchall()
+    cur.close()
+
+    return render_template('webpages/student-classes.html', classes=classes)
+
 
 @app.route('/register', methods=['POST'])
 def register():
@@ -146,14 +218,17 @@ def student_dashboard():
     user_id = session['user_id']
     
     cur = mysql.connection.cursor()
-    cur.execute('''SELECT Courses.id, Courses.title, Courses.description 
+    cur.execute('''SELECT Courses.id, Courses.title, Courses.description, COUNT(Assignments.id) as assignment_count
                    FROM Enrollment
                    JOIN Courses ON Enrollment.course_id = Courses.id
-                   WHERE Enrollment.student_id = %s''', (user_id,))
+                   LEFT JOIN Assignments ON Courses.id = Assignments.course_id
+                   WHERE Enrollment.student_id = %s
+                   GROUP BY Courses.id''', (user_id,))
     courses = cur.fetchall()
     cur.close()
 
-    return render_template('webpages/student-dashboard.html', courses = courses)
+    return render_template('webpages/student-dashboard.html', courses=courses)
+
 
 if __name__ == '__main__':
     app.run(debug=True)

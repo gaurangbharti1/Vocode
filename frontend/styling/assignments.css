@@ -64,17 +64,22 @@ text-decoration: none;
     width: calc(100% - 85px);
 }
 
-.classes-list {
+.assignments-list {
     display: flex;
     flex-direction: column;
+    margin-top: 20px;
 }
 
-.class {
+.assignment {
     background-color: #fff;
     padding: 20px;
     margin-bottom: 10px;
     border-radius: 8px;
     box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.assignment h2 {
+    margin-top: 0;
 }
 
 /* Additional styling as needed */

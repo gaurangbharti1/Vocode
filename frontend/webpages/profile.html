@@ -4,31 +4,31 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Profile</title>
-    <link rel="stylesheet" href="../styling/student-dashboard.css">
+    <link rel="stylesheet" href="../styling/profile.css">
 </head>
 <body>
     <div class="dashboard">
         <div class="sidebar">
             <img id="logo" src="../images/savnac1transparent.png">
-            <a href="profile.html">
+            <a href="{{ url_for('profile') }}">
             <button id="profile">
                 <img src="../images/profile-user.png" alt="profile picture">
                 <span><b>Profile</b></span>
             </button>
             </a>
-            <a href="student-dashboard.html">
+            <a href="{{ url_for('student_dashboard') }}">
             <button id="dashboard" class="active">
                 <img src="../images/dashboard.png" alt="dashboard">
                 <span><b>Dashboard</b></span>
             </button>
             </a>
-            <a href="assignments.html">
+            <a href="{{ url_for('assignments') }}">
             <button id="assignments">
                 <img src="../images/assignment.png" alt="assignment">
                 <span><b>Assignments</b></span>
             </button>
             </a>
-            <a href="classes.html">
+            <a href="{{ url_for('student_classes') }}">
             <button id="classes">
                 <img src="../images/homework.png" alt="classes">
                 <span><b>Classes</b></span>
@@ -41,10 +41,24 @@
             </button>
             </a>
         </div>
-    <div class="main-content">
-        <div class="container">
-            
+        <div class="main-content">
+            <div class="profile-details">
+                <h1>User Profile</h1>
+                <div class="detail">
+                    <strong>Name:</strong> <span>{{ user.first_name }} {{ user.last_name }}</span>
+                </div>
+                <div class="detail">
+                    <strong>Email:</strong> <span>{{ user.email }}</span>
+                </div>
+                <div class="detail">
+                    <strong>Date of Birth:</strong> <span>{{ user.date_of_birth }}</span>
+                </div>
+                <div class="detail">
+                    <strong>Role:</strong> <span>{{ user.role }}</span>
+                </div>
+               
+            </div>
         </div>
-    </div>
-</div>
-</body>
+        <script src="../scripts/profile.js"></script> 
+    </body>
+    </html>

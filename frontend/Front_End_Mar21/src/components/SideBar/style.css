@@ -1,0 +1,63 @@
+.side-bar {
+  background-color: #0f1b44;
+  height: 1024px;
+  position: relative;
+  width: 100px;
+}
+
+.side-bar .savnactransparent {
+  height: 65px;
+  left: 18px;
+  object-fit: cover;
+  position: absolute;
+  top: 14px;
+  width: 65px;
+}
+
+.side-bar .calendar {
+  height: 50px;
+  left: 25px;
+  position: absolute;
+  top: 281px;
+  width: 50px;
+}
+
+.side-bar .letter {
+  height: 50px;
+  left: 25px;
+  position: absolute;
+  top: 365px;
+  width: 50px;
+}
+
+.side-bar .home {
+  height: 50px;
+  left: 25px;
+  position: absolute;
+  top: 113px;
+  width: 50px;
+}
+
+.side-bar .logout {
+  height: 50px;
+  left: 25px;
+  position: absolute;
+  top: 956px;
+  width: 50px;
+}
+
+.side-bar .literature {
+  height: 50px;
+  left: 25px;
+  position: absolute;
+  top: 197px;
+  width: 50px;
+}
+
+.side-bar .male-user {
+  height: 50px;
+  left: 25px;
+  position: absolute;
+  top: 449px;
+  width: 50px;
+}

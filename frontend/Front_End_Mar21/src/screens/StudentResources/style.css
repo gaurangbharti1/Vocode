@@ -1,0 +1,182 @@
+.student-resources {
+  background-color: #ffffff;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  width: 100%;
+}
+
+.student-resources .div-5 {
+  background-color: #ffffff;
+  height: 1024px;
+  position: relative;
+  width: 1440px;
+}
+
+.student-resources .side-bar-3 {
+  left: 0 !important;
+  position: absolute !important;
+  top: 0 !important;
+}
+
+.student-resources .course-nav-bar-2 {
+  left: 100px !important;
+  position: absolute !important;
+  top: 0 !important;
+}
+
+.student-resources .overlap-4 {
+  background-color: #ada2b8;
+  border: 3px solid;
+  border-color: #000000;
+  height: 65px;
+  left: 255px;
+  position: absolute;
+  top: 281px;
+  width: 948px;
+}
+
+.student-resources .text-wrapper-9 {
+  color: #000000;
+  font-family: "Lexend Exa", Helvetica;
+  font-size: 40px;
+  font-weight: 400;
+  left: 10px;
+  letter-spacing: 0;
+  line-height: normal;
+  position: absolute;
+  text-align: center;
+  top: 9px;
+  white-space: nowrap;
+  width: 601px;
+}
+
+.student-resources .overlap-5 {
+  background-color: #ada2b8;
+  border: 3px solid;
+  border-color: #000000;
+  height: 65px;
+  left: 255px;
+  position: absolute;
+  top: 622px;
+  width: 948px;
+}
+
+.student-resources .text-wrapper-10 {
+  color: #000000;
+  font-family: "Lexend Exa", Helvetica;
+  font-size: 40px;
+  font-weight: 400;
+  left: 10px;
+  letter-spacing: 0;
+  line-height: normal;
+  position: absolute;
+  text-align: center;
+  top: 9px;
+  white-space: nowrap;
+  width: 469px;
+}
+
+.student-resources .overlap-6 {
+  background-color: #ada2b8;
+  border: 3px solid;
+  border-color: #000000;
+  height: 65px;
+  left: 255px;
+  position: absolute;
+  top: 707px;
+  width: 948px;
+}
+
+.student-resources .text-wrapper-11 {
+  color: #000000;
+  font-family: "Lexend Exa", Helvetica;
+  font-size: 40px;
+  font-weight: 400;
+  left: 11px;
+  letter-spacing: 0;
+  line-height: normal;
+  position: absolute;
+  text-align: center;
+  top: 8px;
+  white-space: nowrap;
+  width: 603px;
+}
+
+.student-resources .overlap-7 {
+  background-color: #ada2b8;
+  border: 3px solid;
+  border-color: #000000;
+  height: 66px;
+  left: 255px;
+  position: absolute;
+  top: 451px;
+  width: 948px;
+}
+
+.student-resources .text-wrapper-12 {
+  color: #000000;
+  font-family: "Lexend Exa", Helvetica;
+  font-size: 40px;
+  font-weight: 400;
+  left: 11px;
+  letter-spacing: 0;
+  line-height: normal;
+  position: absolute;
+  text-align: center;
+  top: 10px;
+  white-space: nowrap;
+  width: 693px;
+}
+
+.student-resources .overlap-8 {
+  background-color: #ada2b8;
+  border: 3px solid;
+  border-color: #000000;
+  height: 66px;
+  left: 255px;
+  position: absolute;
+  top: 536px;
+  width: 948px;
+}
+
+.student-resources .text-wrapper-13 {
+  color: #000000;
+  font-family: "Lexend Exa", Helvetica;
+  font-size: 40px;
+  font-weight: 400;
+  left: 10px;
+  letter-spacing: 0;
+  line-height: normal;
+  position: absolute;
+  text-align: center;
+  top: 11px;
+  white-space: nowrap;
+  width: 604px;
+}
+
+.student-resources .overlap-9 {
+  background-color: #ada2b8;
+  border: 3px solid;
+  border-color: #000000;
+  height: 65px;
+  left: 255px;
+  position: absolute;
+  top: 366px;
+  width: 948px;
+}
+
+.student-resources .text-wrapper-14 {
+  color: #000000;
+  font-family: "Lexend Exa", Helvetica;
+  font-size: 40px;
+  font-weight: 400;
+  left: 10px;
+  letter-spacing: 0;
+  line-height: normal;
+  position: absolute;
+  text-align: center;
+  top: 9px;
+  white-space: nowrap;
+  width: 465px;
+}

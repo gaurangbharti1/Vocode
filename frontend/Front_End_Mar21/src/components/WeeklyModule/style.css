@@ -1,0 +1,57 @@
+.weekly-module {
+  height: 255px;
+  width: 861px;
+}
+
+.weekly-module .overlap-group-3 {
+  height: 256px;
+  position: relative;
+  top: -1px;
+}
+
+.weekly-module .rectangle-2 {
+  background-color: #72edca47;
+  height: 251px;
+  left: 1px;
+  position: absolute;
+  top: 5px;
+  width: 860px;
+}
+
+.weekly-module .rectangle-3 {
+  background-color: #acdfcf;
+  height: 72px;
+  left: 0;
+  position: absolute;
+  top: 1px;
+  width: 861px;
+}
+
+.weekly-module .week {
+  color: #000000;
+  font-family: "Lexend Exa", Helvetica;
+  font-size: 28px;
+  font-weight: 500;
+  height: 72px;
+  left: 0;
+  letter-spacing: 0;
+  line-height: normal;
+  position: absolute;
+  text-align: center;
+  top: 0;
+  width: 861px;
+}
+
+.weekly-module .resource-assignment {
+  color: #000000;
+  font-family: "News Cycle", Helvetica;
+  font-size: 28px;
+  font-weight: 400;
+  height: 99px;
+  left: 45px;
+  letter-spacing: 0;
+  line-height: normal;
+  position: absolute;
+  top: 106px;
+  width: 603px;
+}

@@ -1,0 +1,84 @@
+.teacher-home {
+  background-color: #ffffff;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  width: 100%;
+}
+
+.teacher-home .div-7 {
+  background-color: #ffffff;
+  height: 1024px;
+  position: relative;
+  width: 1440px;
+}
+
+.teacher-home .dashboard-2 {
+  color: #000000;
+  font-family: "Lexend Exa", Helvetica;
+  font-size: 45px;
+  font-weight: 500;
+  height: 43px;
+  left: 593px;
+  letter-spacing: 0;
+  line-height: normal;
+  position: absolute;
+  text-align: center;
+  top: 78px;
+  white-space: nowrap;
+  width: 348px;
+}
+
+.teacher-home .course-card-7 {
+  height: 237px;
+  left: 183px;
+  position: absolute;
+  top: 243px;
+  width: 357px;
+}
+
+.teacher-home .course-card-8 {
+  height: 237px;
+  left: 586px;
+  position: absolute;
+  top: 243px;
+  width: 357px;
+}
+
+.teacher-home .course-card-9 {
+  height: 237px;
+  left: 989px;
+  position: absolute;
+  top: 243px;
+  width: 357px;
+}
+
+.teacher-home .course-card-10 {
+  height: 237px;
+  left: 183px;
+  position: absolute;
+  top: 552px;
+  width: 357px;
+}
+
+.teacher-home .course-card-11 {
+  height: 237px;
+  left: 586px;
+  position: absolute;
+  top: 552px;
+  width: 357px;
+}
+
+.teacher-home .course-card-12 {
+  height: 237px;
+  left: 989px;
+  position: absolute;
+  top: 552px;
+  width: 357px;
+}
+
+.teacher-home .teacher-side-bar-instance {
+  left: 0 !important;
+  position: absolute !important;
+  top: 0 !important;
+}

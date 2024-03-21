@@ -1,0 +1,59 @@
+.assignment-card {
+  background-image: url(../../../static/img/rectangle-17.svg);
+  background-size: 100% 100%;
+  height: 120px;
+  position: relative;
+  width: 760px;
+}
+
+.assignment-card .assignment {
+  color: #000000;
+  font-family: "Lexend Exa", Helvetica;
+  font-size: 22px;
+  font-weight: 700;
+  height: 45px;
+  left: 257px;
+  letter-spacing: 0;
+  line-height: normal;
+  position: absolute;
+  text-align: center;
+  top: 2px;
+  width: 246px;
+}
+
+.assignment-card .due-date {
+  color: #000000;
+  font-family: "News Cycle", Helvetica;
+  font-size: 22px;
+  font-weight: 700;
+  left: 622px;
+  letter-spacing: 0;
+  line-height: normal;
+  position: absolute;
+  top: 59px;
+  white-space: nowrap;
+  width: 117px;
+}
+
+.assignment-card .text-wrapper-2 {
+  color: #000000;
+  font-family: "News Cycle", Helvetica;
+  font-size: 22px;
+  font-weight: 400;
+  left: 41px;
+  letter-spacing: 0;
+  line-height: normal;
+  position: absolute;
+  top: 59px;
+  white-space: nowrap;
+  width: 495px;
+}
+
+.assignment-card .line {
+  height: 1px;
+  left: 1px;
+  object-fit: cover;
+  position: absolute;
+  top: 46px;
+  width: 759px;
+}

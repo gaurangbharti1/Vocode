@@ -1,0 +1,106 @@
+.course-nav-bar {
+  height: 160px;
+  width: 1340px;
+}
+
+.course-nav-bar .overlap-group {
+  height: 160px;
+  position: relative;
+}
+
+.course-nav-bar .rectangle {
+  background-color: #48b896;
+  height: 90px;
+  left: 0;
+  position: absolute;
+  top: 0;
+  width: 1340px;
+}
+
+.course-nav-bar .div {
+  background-color: #48b89673;
+  height: 70px;
+  left: 0;
+  position: absolute;
+  top: 90px;
+  width: 1340px;
+}
+
+.course-nav-bar .course {
+  color: #000000;
+  font-family: "Lexend Exa", Helvetica;
+  font-size: 45px;
+  font-weight: 500;
+  height: 43px;
+  left: 496px;
+  letter-spacing: 0;
+  line-height: normal;
+  position: absolute;
+  text-align: center;
+  top: 20px;
+  white-space: nowrap;
+  width: 348px;
+}
+
+.course-nav-bar .resources {
+  color: #000000;
+  display: block;
+  font-family: "Lexend Exa", Helvetica;
+  font-size: 30px;
+  font-weight: 500;
+  height: 69px;
+  left: 729px;
+  letter-spacing: 0;
+  line-height: normal;
+  position: absolute;
+  text-align: center;
+  top: 89px;
+  width: 231px;
+}
+
+.course-nav-bar .grades {
+  color: #000000;
+  display: block;
+  font-family: "Lexend Exa", Helvetica;
+  font-size: 30px;
+  font-weight: 500;
+  height: 69px;
+  left: 1060px;
+  letter-spacing: 0;
+  line-height: normal;
+  position: absolute;
+  text-align: center;
+  top: 89px;
+  width: 178px;
+}
+
+.course-nav-bar .assignments {
+  color: #000000;
+  font-family: "Lexend Exa", Helvetica;
+  font-size: 30px;
+  font-weight: 500;
+  height: 69px;
+  left: 341px;
+  letter-spacing: 0;
+  line-height: normal;
+  position: absolute;
+  text-align: center;
+  top: 89px;
+  width: 288px;
+}
+
+.course-nav-bar .text-wrapper {
+  color: #000000;
+  display: block;
+  font-family: "Lexend Exa", Helvetica;
+  font-size: 30px;
+  font-weight: 500;
+  height: 69px;
+  left: 102px;
+  letter-spacing: 0;
+  line-height: normal;
+  position: absolute;
+  text-align: center;
+  top: 89px;
+  width: 139px;
+}

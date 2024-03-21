@@ -1,0 +1,23 @@
+.teacher-side-bar {
+  height: 1024px;
+  width: 100px;
+}
+
+.teacher-side-bar .overlap-group-4 {
+  height: 1024px;
+  position: relative;
+}
+
+.teacher-side-bar .side-bar-instance {
+  left: 0 !important;
+  position: absolute !important;
+  top: 0 !important;
+}
+
+.teacher-side-bar .add-to-clipboard {
+  height: 50px;
+  left: 25px;
+  position: absolute;
+  top: 535px;
+  width: 50px;
+}

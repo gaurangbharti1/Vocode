@@ -1,0 +1,71 @@
+.student-course {
+  background-color: #ffffff;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  width: 100%;
+}
+
+.student-course .div-6 {
+  background-color: #ffffff;
+  height: 1024px;
+  overflow: hidden;
+  position: relative;
+  width: 1440px;
+}
+
+.student-course .side-bar-4 {
+  left: 0 !important;
+  position: absolute !important;
+  top: 0 !important;
+}
+
+.student-course .course-nav-bar-3 {
+  left: 100px !important;
+  position: absolute !important;
+  top: 0 !important;
+}
+
+.student-course .weekly-module-instance {
+  left: 138px !important;
+  position: absolute !important;
+  top: 500px !important;
+}
+
+.student-course .weekly-module-2 {
+  left: 139px !important;
+  position: absolute !important;
+  top: 803px !important;
+}
+
+.student-course .overlap-10 {
+  height: 786px;
+  left: 1037px;
+  position: absolute;
+  top: 196px;
+  width: 370px;
+}
+
+.student-course .rectangle-4 {
+  background-color: #e69a643d;
+  height: 785px;
+  left: 0;
+  position: absolute;
+  top: 1px;
+  width: 370px;
+}
+
+.student-course .announcements {
+  color: #000000;
+  font-family: "Lexend Exa", Helvetica;
+  font-size: 25px;
+  font-weight: 500;
+  height: 70px;
+  left: 39px;
+  letter-spacing: 0;
+  line-height: normal;
+  position: absolute;
+  text-align: center;
+  top: 0;
+  width: 292px;
+}

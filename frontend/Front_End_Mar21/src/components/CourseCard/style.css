@@ -1,0 +1,65 @@
+.course-card {
+  box-shadow: -2px 4px 4px #00000040;
+  display: block;
+  height: 225px;
+  width: 345px;
+}
+
+.course-card .overlap-group-2 {
+  background-color: #ffffff;
+  border: 2px solid;
+  border-color: #0f1b44;
+  height: 229px;
+  left: -2px;
+  position: relative;
+  top: -2px;
+  width: 349px;
+}
+
+.course-card .overlap {
+  background-color: #48b896;
+  height: 83px;
+  left: 2px;
+  position: absolute;
+  top: 144px;
+  width: 345px;
+}
+
+.course-card .text-wrapper-3 {
+  color: #000000;
+  font-family: "Inter", Helvetica;
+  font-size: 20px;
+  font-weight: 400;
+  left: 22px;
+  letter-spacing: 0;
+  line-height: normal;
+  position: absolute;
+  text-align: center;
+  top: 32px;
+  white-space: nowrap;
+  width: 300px;
+}
+
+.course-card .div-wrapper {
+  background-color: #72edca82;
+  height: 142px;
+  left: 2px;
+  position: absolute;
+  top: 2px;
+  width: 345px;
+}
+
+.course-card .text-wrapper-4 {
+  color: #000000;
+  font-family: "Inter", Helvetica;
+  font-size: 20px;
+  font-weight: 400;
+  left: 70px;
+  letter-spacing: 0;
+  line-height: normal;
+  position: absolute;
+  text-align: center;
+  top: 70px;
+  white-space: nowrap;
+  width: 205px;
+}

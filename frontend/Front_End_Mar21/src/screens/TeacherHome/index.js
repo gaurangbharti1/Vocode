@@ -1,0 +1,1 @@
+export { TeacherHome } from "./TeacherHome";

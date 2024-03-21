@@ -1,13 +1,13 @@
-from flask import Flask, render_template, request, jsonify, session
+from flask import Flask, redirect, render_template, request, jsonify, session, url_for
 from flask_mysqldb import MySQL
 from flask_bcrypt import Bcrypt
 
 app = Flask(__name__, template_folder='../frontend/', static_url_path='', static_folder='../frontend')
 
 app.config['MYSQL_HOST'] = 'sql3.freemysqlhosting.net'
-app.config['MYSQL_USER'] = 'sql3691381'
-app.config['MYSQL_PASSWORD'] = 'MN4ufRH1tb'
-app.config['MYSQL_DB'] = 'sql3691381'
+app.config['MYSQL_USER'] = 'sql3693258'
+app.config['MYSQL_PASSWORD'] = 'nl3aj2W92N'
+app.config['MYSQL_DB'] = 'sql3693258'
 app.config['MYSQL_CURSORCLASS'] = 'DictCursor'
 app.config['SECRET_KEY'] = 'test_key'
 
@@ -71,6 +71,13 @@ def initialize_database():
     cur.execute("INSERT IGNORE INTO Users (first_name, last_name, date_of_birth, email, password, role) VALUES ('John', 'Doe', '1990-01-01', 'john.doe@example.com', 'hashed_password', 'admin')")
     cur.execute("INSERT IGNORE INTO Users (first_name, last_name, date_of_birth, email, password, role) VALUES ('Jane', 'Smith', '1992-02-02', 'jane.smith@example.com', 'hashed_password', 'teacher')")
     cur.execute("INSERT IGNORE INTO Users (first_name, last_name, date_of_birth, email, password, role) VALUES ('Jim', 'Bean', '1994-03-03', 'jim.bean@example.com', 'hashed_password', 'student')")
+    # insert dummy courses
+    cur.execute("INSERT IGNORE INTO Courses (title, description, admin_id) VALUES ('Basic Programming', 'Learn the fundamentals of programming.', 1)")
+    cur.execute("INSERT IGNORE INTO Courses (title, description, admin_id) VALUES ('Database Concepts', 'An introduction to relational databases.', 2)")
+    cur.execute("INSERT IGNORE INTO Courses (title, description, admin_id) VALUES ('Web Development', 'Design and develop interactive websites.', 1)")
+    cur.execute("INSERT IGNORE INTO Enrollment (student_id, course_id) VALUES (3, 1)")
+    cur.execute("INSERT IGNORE INTO Enrollment (student_id, course_id) VALUES (3, 2)")
+    cur.execute("INSERT IGNORE INTO Enrollment (student_id, course_id) VALUES (3, 3)")
 
     # Commit changes and close the connection
     print('Database initialized')
@@ -127,9 +134,26 @@ def login():
         elif user_data['role'] == 'teacher':
             return render_template("webpages/teacher-dashboard.html")
         else:
-            return render_template("webpages/student-dashboard.html")
+            return redirect(url_for('student_dashboard'))
 
     return "unsuccessful"
+
+@app.route('/student-dashboard')
+def student_dashboard():
+    if 'user_id' not in session or session['role'] != 'student':
+        return "Unauthorized", 401
+
+    user_id = session['user_id']
+    
+    cur = mysql.connection.cursor()
+    cur.execute('''SELECT Courses.id, Courses.title, Courses.description 
+                   FROM Enrollment
+                   JOIN Courses ON Enrollment.course_id = Courses.id
+                   WHERE Enrollment.student_id = %s''', (user_id,))
+    courses = cur.fetchall()
+    cur.close()
+
+    return render_template('webpages/student-dashboard.html', courses = courses)
 
 if __name__ == '__main__':
     app.run(debug=True)

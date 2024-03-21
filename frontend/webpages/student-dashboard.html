@@ -22,6 +22,19 @@
     </nav>
     
     <main>
+        <h2>Your Courses</h2>
+        <ul>
+            {% if courses %}
+        <ul>
+            {% for course in courses %}
+                <li>{{ course.title }} - {{ course.description }}</li>
+            {% endfor %}
+        </ul>
+            {% else %}
+                <p>No courses found.</p>
+            {% endif %}
+        </ul>
+
         <h2>Upcoming Assignments</h2>
         <ul>
             <li>Assignment 1 - Due Date: 10/15/2022</li>

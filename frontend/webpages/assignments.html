@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard</title>
-    <link rel="stylesheet" href="../styling/student-dashboard.css">
+    <title>Assignments</title>
+    <link rel="stylesheet" href="../styling/assignments.css">
 </head>
 <body>
     <div class="dashboard">
@@ -41,37 +41,23 @@
             </button>
             </a>
         </div>
-        </div>
         <div class="main-content">
-            <div class="container">
-                <div class="left">
-                    <h1 id="dashHeader"><u>DASHBOARD</u></h1>
-                    {% if courses %}
-                        <div class="panels">
-                            {% for course in courses %}
-                                <div class="panel">
-                                    <h3>{{ course.title }}</h3>
-                                    <p>{{ course.description }}</p>
-                                    <!-- You can add more course details here -->
-                                </div>
-                            {% endfor %}
+            <h1>Assignments</h1>
+            <div class="assignments-list">
+                {% if assignments %}
+                    {% for assignment in assignments %}
+                        <div class="assignment">
+                            <h2>{{ assignment.title }} ({{ assignment.course_title }})</h2>
+                            <p>Type: {{ assignment.type }}</p>
+                            <p>{{ assignment.content }}</p>
                         </div>
-                        
-                    {% else %}
-                        <div id="noPanelsMessage" class="center-message">
-                            <p>You haven't joined a class yet! Press the button to join one.</p>
-                            <button id="initialAddPanel">Join Class</button>
-                        </div>
-                    {% endif %}
-                    <button id="addPanel" style="display:none;">Join Class</button>
-                </div>
-                <div class="right">
-                    <h2 id="taskHeader"><u>UPCOMING TASKS</u></h2>
-                        <h3>Nothing to do!</h3>
-                </div>
+                    {% endfor %}
+                {% else %}
+                    <p>No assignments found!</p>
+                {% endif %}
             </div>
         </div>
     </div>
-    <script src="studentcontentselector.js"></script>
+    <script src="../scripts/assignments.js"></script>
 </body>
 </html>

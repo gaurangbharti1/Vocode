@@ -2,13 +2,13 @@ body, html {
     margin: 0;
     padding: 0;
     font-family: 'Arial', sans-serif;
+    background-color: #f4f4f4; /* Light background for the content area */
 }
 
 .dashboard {
     display: flex;
     min-height: 100vh;
 }
-
 
 .sidebar {
     background-color: #0F1B44;
@@ -57,24 +57,34 @@ text-decoration: none;
     background-color: #fff;
 }
 
-
 .main-content {
-    margin-left: 85px;
+    margin-left: 85px; /* Adjust based on sidebar width to ensure content doesn't overlap */
     padding: 20px;
-    width: calc(100% - 85px);
-}
-
-.classes-list {
+    width: calc(100% - 85px); /* Adjust width to fill remaining space */
     display: flex;
     flex-direction: column;
+    align-items: center; /* Center content horizontally */
 }
 
-.class {
+.profile-details, .right {
     background-color: #fff;
     padding: 20px;
-    margin-bottom: 10px;
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    margin-top: 20px;
+    border-radius: 8px; /* Adds rounded corners for a modern look */
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1); /* Subtle shadow for depth */
+    width: 80%; /* Adjust as needed for layout */
+    max-width: 800px; /* Prevents content from stretching too wide on larger screens */
 }
 
-/* Additional styling as needed */
+.sidebar button {
+    margin-bottom: 10px;
+    border: none; /* Removes border for a cleaner look */
+    border-radius: 4px; /* Rounded corners for buttons */
+}
+
+.sidebar button:hover {
+    background-color: #06a3a9;
+    color: #fff;
+}
+
+/* Additional styling for other elements as needed */

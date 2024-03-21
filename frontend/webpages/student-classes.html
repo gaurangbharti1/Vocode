@@ -10,25 +10,25 @@
     <div class="dashboard">
         <div class="sidebar">
             <img id="logo" src="../images/savnac1transparent.png">
-            <a href="profile.html">
+            <a href="{{ url_for('profile') }}">
             <button id="profile">
                 <img src="../images/profile-user.png" alt="profile picture">
                 <span><b>Profile</b></span>
             </button>
             </a>
-            <a href="student-dashboard.html">
+            <a href="{{ url_for('student_dashboard') }}">
             <button id="dashboard" class="active">
                 <img src="../images/dashboard.png" alt="dashboard">
                 <span><b>Dashboard</b></span>
             </button>
             </a>
-            <a href="assignments.html">
+            <a href="{{ url_for('assignments') }}">
             <button id="assignments">
                 <img src="../images/assignment.png" alt="assignment">
                 <span><b>Assignments</b></span>
             </button>
             </a>
-            <a href="student-classes.html">
+            <a href="{{ url_for('student_classes') }}">
             <button id="classes">
                 <img src="../images/homework.png" alt="classes">
                 <span><b>Classes</b></span>
@@ -45,19 +45,18 @@
             <p>test</p>
         </div>
     <div class="main-content">
-        <div class="container">
-            <div class="left">
-                <div id="noPanelsMessage" class="center-message">
-                    <p>You haven't joined a class yet! Press the button to join one.</p>
-                    <button id="initialAddPanel">Join Class</button>
-                </div>
-                <button id="addPanel" style="display:none;">Join Class</button>
-                <div class="panels"></div>
+            <h1>My Classes</h1>
+            <div class="classes-list">
+                {% if classes %}
+                    {% for class in classes %}
+                        <div class="class">
+                            <h2>{{ class.title }}</h2>
+                            <p>{{ class.description }}</p>
+                        </div>
+                    {% endfor %}
+                {% else %}
+                    <p>No classes found!</p>
+                {% endif %}
             </div>
-            <div class="right">
-                <h2 id="taskHeader"><u>UPCOMING TASKS</u></h2>
-                    <h3>Nothing to do!</h3>
-            </div>
-    </div>
 </div>
 </body>

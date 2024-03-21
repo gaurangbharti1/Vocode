@@ -4,10 +4,18 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard</title>
-    <link rel="stylesheet" href="../styling/student-classes.css">
+    <link rel="stylesheet" href="../styling/student-course-home.css">
 </head>
 <body>
     <div class="dashboard">
+        <header class="site-header">
+            <nav class="navigation">
+                <button class="nav-btn"><b>Home</b></button>
+                <button class="nav-btn"><b>Assignments</b></button>
+                <button class="nav-btn"><b>Resources</b></button>
+                <button class="nav-btn"><b>Grades</b></button>
+            </nav>
+        </header>
         <div class="sidebar">
             <img id="logo" src="../images/savnac1transparent.png">
             <a href="profile.html">
@@ -41,22 +49,15 @@
             </button>
             </a>
         </div>
-        <div class="header">
-            <p>test</p>
-        </div>
     <div class="main-content">
         <div class="container">
             <div class="left">
-                <div id="noPanelsMessage" class="center-message">
-                    <p>You haven't joined a class yet! Press the button to join one.</p>
-                    <button id="initialAddPanel">Join Class</button>
-                </div>
-                <button id="addPanel" style="display:none;">Join Class</button>
+                <!--  stuff for class modules goes here -->
                 <div class="panels"></div>
             </div>
             <div class="right">
-                <h2 id="taskHeader"><u>UPCOMING TASKS</u></h2>
-                    <h3>Nothing to do!</h3>
+                <h2 id="taskHeader"><u>ANNOUNCEMENTS</u></h2>
+                    <h3>No announcements!</h3>
             </div>
     </div>
 </div>

@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, jsonify, session
+from flask import Flask, redirect, render_template, request, jsonify, session, url_for
 from flask_mysqldb import MySQL
 from flask_bcrypt import Bcrypt
 
@@ -127,9 +127,26 @@ def login():
         elif user_data['role'] == 'teacher':
             return render_template("webpages/teacher-dashboard.html")
         else:
-            return render_template("webpages/student-dashboard.html")
+            return redirect(url_for('student_dashboard'))
 
     return "unsuccessful"
+
+@app.route('/student-dashboard')
+def student_dashboard():
+    if 'user_id' not in session or session['role'] != 'student':
+        return "Unauthorized", 401
+
+    user_id = session['user_id']
+
+    cur = mysql.connection.cursor()
+    cur.execure('''SELECT Courses.id, Courses.title, Courses.description 
+                   FROM Enrollment
+                   JOIN Courses ON Enrollment.course_id = Courses.id
+                   WHERE Enrollment.student_id = %s''', (user_id))
+    courses = cur.fetchall()
+    cur.close()
+
+    return render_template('webpages/student-dashboard.html', courses = courses)
 
 if __name__ == '__main__':
     app.run(debug=True)

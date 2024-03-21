@@ -16,10 +16,10 @@
             <h3>Please enter your information below:</h3>
             <form class="login-form" action="/register" method="POST">
                 <label for="firstname">First Name</label>
-                <input type="text" id="firstname" name="firstname" required pattern="[A-Za-z ]{1,}" title="Please enter only letters">
+                <input type="text" id="firstname" name="firstname" required pattern="[A-Za-z -]{1,}" title="Please enter only letters">
 
                 <label for="lastname">Last Name</label>
-                <input type="text" id="lastname" name="lastname" required pattern="[A-Za-z ]{1,}" title="Please enter only letters">
+                <input type="text" id="lastname" name="lastname" required pattern="[A-Za-z -]{1,}" title="Please enter only letters">
 
                 <label for="birthdate">Birth Date</label>
                 <input type="date" id="birthdate" name="birthdate" required>

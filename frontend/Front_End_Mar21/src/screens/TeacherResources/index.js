@@ -1,0 +1,1 @@
+export { TeacherResources } from "./TeacherResources";

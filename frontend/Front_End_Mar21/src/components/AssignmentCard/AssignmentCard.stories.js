@@ -9,8 +9,7 @@ export const Default = {
   args: {
     className: {},
     divClassName: {},
-    text: "Due Date",
     lineClassName: {},
-    line: "/img/line-6.svg",
+    text: "Due Date",
   },
 };

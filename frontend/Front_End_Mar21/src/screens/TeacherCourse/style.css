@@ -1,0 +1,121 @@
+.teacher-course {
+  background-color: #ffffff;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  width: 100%;
+}
+
+.teacher-course .div-9 {
+  background-color: #ffffff;
+  height: 1024px;
+  overflow: hidden;
+  position: relative;
+  width: 1440px;
+}
+
+.teacher-course .side-bar-6 {
+  left: 0 !important;
+  position: absolute !important;
+  top: 0 !important;
+}
+
+.teacher-course .course-nav-bar-5 {
+  left: 100px !important;
+  position: absolute !important;
+  top: 0 !important;
+}
+
+.teacher-course .weekly-module-3 {
+  left: 138px !important;
+  position: absolute !important;
+  top: 500px !important;
+}
+
+.teacher-course .weekly-module-4 {
+  left: 139px !important;
+  position: absolute !important;
+  top: 803px !important;
+}
+
+.teacher-course .overlap-11 {
+  height: 786px;
+  left: 1037px;
+  position: absolute;
+  top: 196px;
+  width: 370px;
+}
+
+.teacher-course .rectangle-5 {
+  background-color: #e69a643d;
+  height: 785px;
+  left: 0;
+  position: absolute;
+  top: 1px;
+  width: 370px;
+}
+
+.teacher-course .write-announcement {
+  color: #000000;
+  font-family: "Lexend Exa", Helvetica;
+  font-size: 20px;
+  font-weight: 500;
+  height: 25px;
+  left: 28px;
+  letter-spacing: 0;
+  line-height: normal;
+  position: absolute;
+  text-align: center;
+  top: 699px;
+}
+
+.teacher-course .announcements-2 {
+  color: #000000;
+  font-family: "Lexend Exa", Helvetica;
+  font-size: 25px;
+  font-weight: 500;
+  height: 70px;
+  left: 39px;
+  letter-spacing: 0;
+  line-height: normal;
+  position: absolute;
+  text-align: center;
+  top: 0;
+  width: 292px;
+}
+
+.teacher-course .rectangle-6 {
+  background-color: #ffffff;
+  border: 3px solid;
+  border-color: #000000;
+  height: 39px;
+  left: 16px;
+  position: absolute;
+  top: 735px;
+  width: 331px;
+}
+
+.teacher-course .overlap-12 {
+  background-color: #ada2b8;
+  border: 3px solid;
+  border-color: #000000;
+  height: 52px;
+  left: 145px;
+  position: absolute;
+  top: 195px;
+  width: 451px;
+}
+
+.teacher-course .text-wrapper-15 {
+  color: #000000;
+  font-family: "Lexend Exa", Helvetica;
+  font-size: 25px;
+  font-weight: 400;
+  left: 6px;
+  letter-spacing: 0;
+  line-height: normal;
+  position: absolute;
+  text-align: center;
+  top: 8px;
+  width: 427px;
+}

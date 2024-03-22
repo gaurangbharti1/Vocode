@@ -1,0 +1,163 @@
+.teacher-assignments {
+  background-color: #ffffff;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  width: 100%;
+}
+
+.teacher-assignments .div-10 {
+  background-color: #ffffff;
+  height: 1024px;
+  position: relative;
+  width: 1440px;
+}
+
+.teacher-assignments .side-bar-7 {
+  left: 0 !important;
+  position: absolute !important;
+  top: 0 !important;
+}
+
+.teacher-assignments .course-nav-bar-6 {
+  left: 100px !important;
+  position: absolute !important;
+  top: -1px !important;
+}
+
+.teacher-assignments .assignments-2 {
+  height: 96px;
+  left: 160px;
+  position: absolute;
+  top: 197px;
+  width: 761px;
+}
+
+.teacher-assignments .UPCOMING-assignments-wrapper {
+  background-color: #e69a6473;
+  height: 96px;
+  position: relative;
+  width: 759px;
+}
+
+.teacher-assignments .UPCOMING-assignments {
+  color: #000000;
+  font-family: "Lexend Exa", Helvetica;
+  font-size: 25px;
+  font-weight: 500;
+  height: 70px;
+  left: 109px;
+  letter-spacing: 0;
+  line-height: normal;
+  position: absolute;
+  text-align: center;
+  top: 13px;
+  width: 542px;
+}
+
+.teacher-assignments .past-assignments-4 {
+  height: 96px;
+  left: 1002px;
+  position: absolute;
+  top: 197px;
+  width: 380px;
+}
+
+.teacher-assignments .overlap-13 {
+  background-color: #e69a6473;
+  height: 96px;
+  position: relative;
+  width: 378px;
+}
+
+.teacher-assignments .past-assignments-5 {
+  color: #000000;
+  font-family: "Lexend Exa", Helvetica;
+  font-size: 25px;
+  font-weight: 500;
+  height: 70px;
+  left: 54px;
+  letter-spacing: 0;
+  line-height: normal;
+  position: absolute;
+  text-align: center;
+  top: 13px;
+  width: 270px;
+}
+
+.teacher-assignments .assignment-card-13 {
+  background-image: url(../../../static/img/rectangle-17.svg) !important;
+  left: 161px !important;
+  position: absolute !important;
+  top: 319px !important;
+}
+
+.teacher-assignments .past-assignment-card-10 {
+  left: 1002px !important;
+  position: absolute !important;
+  top: 319px !important;
+}
+
+.teacher-assignments .past-assignment-card-11 {
+  background-image: url(../../../static/img/rectangle-17-1.svg) !important;
+}
+
+.teacher-assignments .past-assignment-card-12 {
+  left: 1002px !important;
+  position: absolute !important;
+  top: 465px !important;
+}
+
+.teacher-assignments .past-assignment-card-13 {
+  left: 1002px !important;
+  position: absolute !important;
+  top: 609px !important;
+}
+
+.teacher-assignments .assignment-card-14 {
+  background-image: url(../../../static/img/rectangle-17-13.svg) !important;
+  left: 163px !important;
+  position: absolute !important;
+  top: 464px !important;
+  width: 759px !important;
+}
+
+.teacher-assignments .assignment-card-15 {
+  left: 621px !important;
+}
+
+.teacher-assignments .assignment-card-16 {
+  width: 758px !important;
+}
+
+.teacher-assignments .assignment-card-17 {
+  background-image: url(../../../static/img/rectangle-17-13.svg) !important;
+  left: 163px !important;
+  position: absolute !important;
+  top: 609px !important;
+  width: 759px !important;
+}
+
+.teacher-assignments .overlap-14 {
+  height: 105px;
+  left: 410px;
+  position: absolute;
+  top: 846px;
+  width: 675px;
+}
+
+.teacher-assignments .vector {
+  height: 94px;
+  left: 5px;
+  position: absolute;
+  top: 9px;
+  width: 665px;
+}
+
+.teacher-assignments .frame-2 {
+  height: 105px;
+  left: 0;
+  position: absolute;
+  top: 0;
+  width: 675px;
+}

@@ -1,0 +1,1 @@
+export { TeacherGrades } from "./TeacherGrades";

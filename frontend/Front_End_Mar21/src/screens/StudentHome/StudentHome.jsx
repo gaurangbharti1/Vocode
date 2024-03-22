@@ -27,7 +27,7 @@ export const StudentHome = () => {
         <Link to="/student-course">
           <img className="course-card-6" alt="Course card" src="/img/course-card-4.svg" />
         </Link>
-        <img className="line-5" alt="Line" src="/img/line-4.svg" />
+        <img className="line-3" alt="Line" src="/img/line-4.svg" />
         <TaskCard className="task-card-instance" />
         <TaskCard className="task-card-2" />
         <TaskCard className="task-card-3" />

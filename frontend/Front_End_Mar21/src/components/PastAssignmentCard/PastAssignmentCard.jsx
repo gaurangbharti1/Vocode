@@ -7,13 +7,13 @@ import PropTypes from "prop-types";
 import React from "react";
 import "./style.css";
 
-export const PastAssignmentCard = ({ className, text = "Description", line = "/img/line-6-1.svg" }) => {
+export const PastAssignmentCard = ({ className, pastAssignmentCardClassName, text = "Description" }) => {
   return (
     <div className={`past-assignment-card ${className}`}>
-      <div className="div-2">
+      <div className={`div-2 ${pastAssignmentCardClassName}`}>
         <div className="assignment-2">ASSIGNMENT</div>
         <div className="description">{text}</div>
-        <img className="img" alt="Line" src={line} />
+        <img className="img" alt="Line" />
       </div>
     </div>
   );
@@ -21,5 +21,4 @@ export const PastAssignmentCard = ({ className, text = "Description", line = "/i
 
 PastAssignmentCard.propTypes = {
   text: PropTypes.string,
-  line: PropTypes.string,
 };

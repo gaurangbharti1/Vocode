@@ -76,6 +76,7 @@
 
 .course-nav-bar .assignments {
   color: #000000;
+  display: block;
   font-family: "Lexend Exa", Helvetica;
   font-size: 30px;
   font-weight: 500;

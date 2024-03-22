@@ -1,4 +1,4 @@
-.student-grades {
+.teacher-grades {
   background-color: #ffffff;
   display: flex;
   flex-direction: row;
@@ -6,26 +6,26 @@
   width: 100%;
 }
 
-.student-grades .div-6 {
+.teacher-grades .div-11 {
   background-color: #ffffff;
   height: 1024px;
   position: relative;
   width: 1440px;
 }
 
-.student-grades .side-bar-4 {
+.teacher-grades .side-bar-8 {
   left: 0 !important;
   position: absolute !important;
   top: 0 !important;
 }
 
-.student-grades .course-nav-bar-3 {
+.teacher-grades .course-nav-bar-7 {
   left: 100px !important;
   position: absolute !important;
   top: -1px !important;
 }
 
-.student-grades .overlap-group-wrapper {
+.teacher-grades .assignments-3 {
   height: 96px;
   left: 160px;
   position: absolute;
@@ -33,20 +33,20 @@
   width: 761px;
 }
 
-.student-grades .graded-assignments-wrapper {
+.teacher-grades .ungraded-assignments-wrapper {
   background-color: #48b896;
   height: 96px;
   position: relative;
   width: 759px;
 }
 
-.student-grades .graded-assignments {
+.teacher-grades .ungraded-assignments {
   color: #000000;
   font-family: "Lexend Exa", Helvetica;
   font-size: 25px;
   font-weight: 500;
   height: 31px;
-  left: 201px;
+  left: 178px;
   letter-spacing: 0;
   line-height: normal;
   position: absolute;
@@ -54,7 +54,7 @@
   top: 33px;
 }
 
-.student-grades .past-assignments-3 {
+.teacher-grades .past-assignments-6 {
   height: 96px;
   left: 1002px;
   position: absolute;
@@ -62,14 +62,14 @@
   width: 380px;
 }
 
-.student-grades .submitted-for-wrapper {
+.teacher-grades .overlap-15 {
   background-color: #e69a6473;
   height: 96px;
   position: relative;
   width: 378px;
 }
 
-.student-grades .submitted-for {
+.teacher-grades .graded-assignments-2 {
   color: #000000;
   font-family: "Lexend Exa", Helvetica;
   font-size: 25px;
@@ -84,7 +84,7 @@
   width: 270px;
 }
 
-.student-grades .assignment-card-7 {
+.teacher-grades .assignment-card-18 {
   background-color: #ffffff;
   height: 120px;
   left: 161px;
@@ -93,14 +93,14 @@
   width: 760px;
 }
 
-.student-grades .overlap-3 {
+.teacher-grades .overlap-16 {
   background-image: url(../../../static/img/rectangle-17-2.svg);
   background-size: 100% 100%;
   height: 120px;
   position: relative;
 }
 
-.student-grades .assignment-3 {
+.teacher-grades .assignment-4 {
   color: #000000;
   font-family: "Lexend Exa", Helvetica;
   font-size: 22px;
@@ -115,7 +115,7 @@
   width: 246px;
 }
 
-.student-grades .due-date-2 {
+.teacher-grades .due-date-4 {
   color: #000000;
   font-family: "News Cycle", Helvetica;
   font-size: 20px;
@@ -128,7 +128,7 @@
   width: 117px;
 }
 
-.student-grades .text-wrapper-8 {
+.teacher-grades .text-wrapper-16 {
   color: #000000;
   font-family: "News Cycle", Helvetica;
   font-size: 22px;
@@ -142,7 +142,7 @@
   width: 495px;
 }
 
-.student-grades .line-4 {
+.teacher-grades .line-6 {
   height: 1px;
   left: 1px;
   object-fit: cover;
@@ -151,35 +151,35 @@
   width: 759px;
 }
 
-.student-grades .past-assignment-card-5 {
+.teacher-grades .past-assignment-card-14 {
   left: 1002px !important;
   position: absolute !important;
   top: 319px !important;
 }
 
-.student-grades .past-assignment-card-6 {
+.teacher-grades .past-assignment-card-15 {
   background-image: url(../../../static/img/rectangle-17-1.svg) !important;
 }
 
-.student-grades .past-assignment-card-7 {
+.teacher-grades .past-assignment-card-16 {
   left: 1002px !important;
   position: absolute !important;
   top: 465px !important;
 }
 
-.student-grades .past-assignment-card-8 {
+.teacher-grades .past-assignment-card-17 {
   left: 1002px !important;
   position: absolute !important;
   top: 609px !important;
 }
 
-.student-grades .past-assignment-card-9 {
+.teacher-grades .past-assignment-card-18 {
   left: 1002px !important;
   position: absolute !important;
   top: 755px !important;
 }
 
-.student-grades .frame {
+.teacher-grades .assignment-card-wrapper {
   height: 120px;
   left: 163px;
   position: absolute;
@@ -187,12 +187,12 @@
   width: 759px;
 }
 
-.student-grades .assignment-card-8 {
+.teacher-grades .assignment-card-19 {
   background-color: #ffffff;
   height: 120px;
 }
 
-.student-grades .overlap-group-4 {
+.teacher-grades .overlap-group-6 {
   background-image: url(../../../static/img/rectangle-17-7.svg);
   background-size: 100% 100%;
   height: 120px;
@@ -200,7 +200,7 @@
   width: 759px;
 }
 
-.student-grades .due-date-3 {
+.teacher-grades .due-date-5 {
   color: #000000;
   font-family: "News Cycle", Helvetica;
   font-size: 20px;
@@ -213,7 +213,7 @@
   width: 117px;
 }
 
-.student-grades .line-5 {
+.teacher-grades .line-7 {
   height: 1px;
   left: 1px;
   object-fit: cover;
@@ -222,7 +222,7 @@
   width: 758px;
 }
 
-.student-grades .assignment-card-9 {
+.teacher-grades .assignment-card-20 {
   background-color: #ffffff;
   height: 120px;
   left: 163px;
@@ -231,14 +231,14 @@
   width: 759px;
 }
 
-.student-grades .overlap-4 {
+.teacher-grades .overlap-17 {
   background-image: url(../../../static/img/rectangle-17-7.svg);
   background-size: 100% 100%;
   height: 120px;
   position: relative;
 }
 
-.student-grades .assignment-card-10 {
+.teacher-grades .assignment-card-21 {
   background-image: url(../../../static/img/rectangle-17-7.svg) !important;
   left: 160px !important;
   position: absolute !important;
@@ -246,12 +246,12 @@
   width: 759px !important;
 }
 
-.student-grades .assignment-card-11 {
+.teacher-grades .assignment-card-22 {
   font-size: 20px !important;
   left: 621px !important;
   white-space: unset !important;
 }
 
-.student-grades .assignment-card-12 {
+.teacher-grades .assignment-card-23 {
   width: 758px !important;
 }

@@ -1,0 +1,153 @@
+.student-assignments {
+  background-color: #ffffff;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  width: 100%;
+}
+
+.student-assignments .div-3 {
+  background-color: #ffffff;
+  height: 1024px;
+  position: relative;
+  width: 1440px;
+}
+
+.student-assignments .side-bar-instance {
+  left: 0 !important;
+  position: absolute !important;
+  top: 0 !important;
+}
+
+.student-assignments .course-nav-bar-instance {
+  left: 100px !important;
+  position: absolute !important;
+  top: -1px !important;
+}
+
+.student-assignments .overlap-wrapper {
+  height: 96px;
+  left: 160px;
+  position: absolute;
+  top: 197px;
+  width: 761px;
+}
+
+.student-assignments .upcoming-assignments-wrapper {
+  background-color: #e69a6473;
+  height: 96px;
+  position: relative;
+  width: 759px;
+}
+
+.student-assignments .upcoming-assignments {
+  color: #000000;
+  font-family: "Lexend Exa", Helvetica;
+  font-size: 25px;
+  font-weight: 500;
+  height: 70px;
+  left: 109px;
+  letter-spacing: 0;
+  line-height: normal;
+  position: absolute;
+  text-align: center;
+  top: 13px;
+  width: 542px;
+}
+
+.student-assignments .past-assignments {
+  height: 96px;
+  left: 1002px;
+  position: absolute;
+  top: 197px;
+  width: 380px;
+}
+
+.student-assignments .past-assignments-wrapper {
+  background-color: #e69a6473;
+  height: 96px;
+  position: relative;
+  width: 378px;
+}
+
+.student-assignments .past-assignments-2 {
+  color: #000000;
+  font-family: "Lexend Exa", Helvetica;
+  font-size: 25px;
+  font-weight: 500;
+  height: 70px;
+  left: 54px;
+  letter-spacing: 0;
+  line-height: normal;
+  position: absolute;
+  text-align: center;
+  top: 13px;
+  width: 270px;
+}
+
+.student-assignments .assignment-card-instance {
+  background-image: url(../../../static/img/rectangle-17.svg) !important;
+  left: 161px !important;
+  position: absolute !important;
+  top: 319px !important;
+}
+
+.student-assignments .past-assignment-card-instance {
+  left: 1002px !important;
+  position: absolute !important;
+  top: 319px !important;
+}
+
+.student-assignments .design-component-instance-node {
+  background-image: url(../../../static/img/rectangle-17-1.svg) !important;
+}
+
+.student-assignments .past-assignment-card-2 {
+  left: 1002px !important;
+  position: absolute !important;
+  top: 465px !important;
+}
+
+.student-assignments .past-assignment-card-3 {
+  left: 1002px !important;
+  position: absolute !important;
+  top: 609px !important;
+}
+
+.student-assignments .past-assignment-card-4 {
+  left: 1002px !important;
+  position: absolute !important;
+  top: 755px !important;
+}
+
+.student-assignments .assignment-card-2 {
+  left: 621px !important;
+}
+
+.student-assignments .assignment-card-3 {
+  width: 758px !important;
+}
+
+.student-assignments .assignment-card-4 {
+  background-image: url(../../../static/img/rectangle-17-13.svg) !important;
+  left: 163px !important;
+  position: absolute !important;
+  top: 464px !important;
+  width: 759px !important;
+}
+
+.student-assignments .assignment-card-5 {
+  background-image: url(../../../static/img/rectangle-17-13.svg) !important;
+  left: 163px !important;
+  position: absolute !important;
+  top: 609px !important;
+  width: 759px !important;
+}
+
+.student-assignments .assignment-card-6 {
+  background-image: url(../../../static/img/rectangle-17-13.svg) !important;
+  left: 160px !important;
+  position: absolute !important;
+  top: 754px !important;
+  width: 759px !important;
+}

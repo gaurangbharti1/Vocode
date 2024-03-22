@@ -8,7 +8,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import "./style.css";
 
-export const CourseNavBar = ({ className, to, to1, to2 }) => {
+export const CourseNavBar = ({ className, to, to1, to2, to3 }) => {
   return (
     <div className={`course-nav-bar ${className}`}>
       <div className="overlap-group">
@@ -21,8 +21,10 @@ export const CourseNavBar = ({ className, to, to1, to2 }) => {
         <Link className="grades" to={to1}>
           GRADES
         </Link>
-        <div className="assignments">ASSIGNMENTS</div>
-        <Link className="text-wrapper" to={to2}>
+        <Link className="assignments" to={to2}>
+          ASSIGNMENTS
+        </Link>
+        <Link className="text-wrapper" to={to3}>
           HOME
         </Link>
       </div>
@@ -34,4 +36,5 @@ CourseNavBar.propTypes = {
   to: PropTypes.string,
   to1: PropTypes.string,
   to2: PropTypes.string,
+  to3: PropTypes.string,
 };

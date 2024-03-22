@@ -6,7 +6,7 @@
   width: 100%;
 }
 
-.teacher-home .div-7 {
+.teacher-home .div-8 {
   background-color: #ffffff;
   height: 1024px;
   position: relative;
@@ -30,6 +30,7 @@
 }
 
 .teacher-home .course-card-7 {
+  display: block;
   height: 237px;
   left: 183px;
   position: absolute;
@@ -38,6 +39,7 @@
 }
 
 .teacher-home .course-card-8 {
+  display: block;
   height: 237px;
   left: 586px;
   position: absolute;
@@ -46,6 +48,7 @@
 }
 
 .teacher-home .course-card-9 {
+  display: block;
   height: 237px;
   left: 989px;
   position: absolute;
@@ -54,6 +57,7 @@
 }
 
 .teacher-home .course-card-10 {
+  display: block;
   height: 237px;
   left: 183px;
   position: absolute;
@@ -62,6 +66,7 @@
 }
 
 .teacher-home .course-card-11 {
+  display: block;
   height: 237px;
   left: 586px;
   position: absolute;
@@ -70,6 +75,7 @@
 }
 
 .teacher-home .course-card-12 {
+  display: block;
   height: 237px;
   left: 989px;
   position: absolute;
@@ -77,8 +83,29 @@
   width: 357px;
 }
 
-.teacher-home .teacher-side-bar-instance {
+.teacher-home .teacher-side-bar {
+  height: 1024px;
+  left: 0;
+  position: absolute;
+  top: 0;
+  width: 100px;
+}
+
+.teacher-home .overlap-group-5 {
+  height: 1024px;
+  position: relative;
+}
+
+.teacher-home .teacher-side-bar-2 {
   left: 0 !important;
   position: absolute !important;
   top: 0 !important;
+}
+
+.teacher-home .add-to-clipboard {
+  height: 50px;
+  left: 25px;
+  position: absolute;
+  top: 535px;
+  width: 50px;
 }

@@ -8,7 +8,7 @@ export default {
 export const Default = {
   args: {
     className: {},
+    pastAssignmentCardClassName: {},
     text: "Description",
-    line: "/img/line-6-1.svg",
   },
 };

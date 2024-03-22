@@ -6,7 +6,7 @@
   width: 100%;
 }
 
-.student-course .div-6 {
+.student-course .div-5 {
   background-color: #ffffff;
   height: 1024px;
   overflow: hidden;
@@ -14,13 +14,13 @@
   width: 1440px;
 }
 
-.student-course .side-bar-4 {
+.student-course .side-bar-3 {
   left: 0 !important;
   position: absolute !important;
   top: 0 !important;
 }
 
-.student-course .course-nav-bar-3 {
+.student-course .course-nav-bar-2 {
   left: 100px !important;
   position: absolute !important;
   top: 0 !important;
@@ -38,7 +38,7 @@
   top: 803px !important;
 }
 
-.student-course .overlap-10 {
+.student-course .overlap-2 {
   height: 786px;
   left: 1037px;
   position: absolute;

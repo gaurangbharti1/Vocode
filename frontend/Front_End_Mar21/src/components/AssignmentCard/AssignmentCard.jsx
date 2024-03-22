@@ -7,24 +7,17 @@ import PropTypes from "prop-types";
 import React from "react";
 import "./style.css";
 
-export const AssignmentCard = ({
-  className,
-  divClassName,
-  text = "Due Date",
-  lineClassName,
-  line = "/img/line-6.svg",
-}) => {
+export const AssignmentCard = ({ className, divClassName, lineClassName, text = "Due Date" }) => {
   return (
     <div className={`assignment-card ${className}`}>
       <div className="assignment">ASSIGNMENT</div>
       <div className={`due-date ${divClassName}`}>{text}</div>
       <div className="text-wrapper-2">Description</div>
-      <img className={`line ${lineClassName}`} alt="Line" src={line} />
+      <img className={`line ${lineClassName}`} alt="Line" />
     </div>
   );
 };
 
 AssignmentCard.propTypes = {
   text: PropTypes.string,
-  line: PropTypes.string,
 };

@@ -1,4 +1,4 @@
-.student-resources {
+.teacher-resources {
   background-color: #ffffff;
   display: flex;
   flex-direction: row;
@@ -6,37 +6,37 @@
   width: 100%;
 }
 
-.student-resources .div-7 {
+.teacher-resources .div-12 {
   background-color: #ffffff;
   height: 1024px;
   position: relative;
   width: 1440px;
 }
 
-.student-resources .side-bar-5 {
+.teacher-resources .side-bar-9 {
   left: 0 !important;
   position: absolute !important;
   top: 0 !important;
 }
 
-.student-resources .course-nav-bar-4 {
+.teacher-resources .course-nav-bar-8 {
   left: 100px !important;
   position: absolute !important;
   top: 0 !important;
 }
 
-.student-resources .overlap-5 {
+.teacher-resources .overlap-18 {
   background-color: #ada2b8;
   border: 3px solid;
   border-color: #000000;
   height: 65px;
-  left: 255px;
+  left: 277px;
   position: absolute;
-  top: 281px;
+  top: 235px;
   width: 948px;
 }
 
-.student-resources .text-wrapper-9 {
+.teacher-resources .text-wrapper-17 {
   color: #000000;
   font-family: "Lexend Exa", Helvetica;
   font-size: 40px;
@@ -51,18 +51,18 @@
   width: 601px;
 }
 
-.student-resources .overlap-6 {
+.teacher-resources .overlap-19 {
   background-color: #ada2b8;
   border: 3px solid;
   border-color: #000000;
   height: 65px;
-  left: 255px;
+  left: 277px;
   position: absolute;
-  top: 622px;
+  top: 576px;
   width: 948px;
 }
 
-.student-resources .text-wrapper-10 {
+.teacher-resources .text-wrapper-18 {
   color: #000000;
   font-family: "Lexend Exa", Helvetica;
   font-size: 40px;
@@ -77,18 +77,18 @@
   width: 469px;
 }
 
-.student-resources .overlap-7 {
+.teacher-resources .overlap-20 {
   background-color: #ada2b8;
   border: 3px solid;
   border-color: #000000;
   height: 65px;
-  left: 255px;
+  left: 277px;
   position: absolute;
-  top: 707px;
+  top: 661px;
   width: 948px;
 }
 
-.student-resources .text-wrapper-11 {
+.teacher-resources .text-wrapper-19 {
   color: #000000;
   font-family: "Lexend Exa", Helvetica;
   font-size: 40px;
@@ -103,44 +103,52 @@
   width: 603px;
 }
 
-.student-resources .overlap-8 {
+.teacher-resources .overlap-21 {
+  height: 66px;
+  left: 242px;
+  position: absolute;
+  top: 405px;
+  width: 983px;
+}
+
+.teacher-resources .rectangle-7 {
   background-color: #ada2b8;
   border: 3px solid;
   border-color: #000000;
   height: 66px;
-  left: 255px;
+  left: 35px;
   position: absolute;
-  top: 451px;
+  top: 0;
   width: 948px;
 }
 
-.student-resources .text-wrapper-12 {
+.teacher-resources .text-wrapper-20 {
   color: #000000;
   font-family: "Lexend Exa", Helvetica;
   font-size: 40px;
   font-weight: 400;
-  left: 11px;
+  left: 0;
   letter-spacing: 0;
   line-height: normal;
   position: absolute;
   text-align: center;
-  top: 10px;
+  top: 13px;
   white-space: nowrap;
-  width: 693px;
+  width: 749px;
 }
 
-.student-resources .overlap-9 {
+.teacher-resources .overlap-22 {
   background-color: #ada2b8;
   border: 3px solid;
   border-color: #000000;
   height: 66px;
-  left: 255px;
+  left: 277px;
   position: absolute;
-  top: 536px;
+  top: 490px;
   width: 948px;
 }
 
-.student-resources .text-wrapper-13 {
+.teacher-resources .text-wrapper-21 {
   color: #000000;
   font-family: "Lexend Exa", Helvetica;
   font-size: 40px;
@@ -155,18 +163,18 @@
   width: 604px;
 }
 
-.student-resources .overlap-10 {
+.teacher-resources .overlap-23 {
   background-color: #ada2b8;
   border: 3px solid;
   border-color: #000000;
   height: 65px;
-  left: 255px;
+  left: 277px;
   position: absolute;
-  top: 366px;
+  top: 320px;
   width: 948px;
 }
 
-.student-resources .text-wrapper-14 {
+.teacher-resources .text-wrapper-22 {
   color: #000000;
   font-family: "Lexend Exa", Helvetica;
   font-size: 40px;
@@ -179,4 +187,43 @@
   top: 9px;
   white-space: nowrap;
   width: 465px;
+}
+
+.teacher-resources .frame-wrapper {
+  align-items: flex-start;
+  display: inline-flex;
+  flex-direction: column;
+  gap: 10px;
+  left: 400px;
+  padding: 10px;
+  position: absolute;
+  top: 836px;
+}
+
+.teacher-resources .frame-3 {
+  align-items: flex-start;
+  display: inline-flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+  gap: 10px;
+  position: relative;
+}
+
+.teacher-resources .frame-4 {
+  flex: 0 0 auto;
+  margin-bottom: -1px;
+  position: relative;
+}
+
+.teacher-resources .text-wrapper-23 {
+  color: #000000;
+  font-family: "Lexend Exa", Helvetica;
+  font-size: 40px;
+  font-weight: 400;
+  left: 56px;
+  letter-spacing: 0;
+  line-height: normal;
+  position: absolute;
+  text-align: center;
+  top: 26px;
 }

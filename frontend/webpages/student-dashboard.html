@@ -24,8 +24,29 @@
     </header>
     
     <section class="content">
-        
         <div id="left">
+            <h2>Dashboard</h2>
+            {% if courses %}
+                <div class="panels">
+                    {% for course in courses %}
+                    <div id="course-card">
+                            <h4>{{ course.title }}</h4>
+                            <p>{{ course.description }}</p>
+                            <!-- You can add more course details here -->
+                        </div>
+                    {% endfor %}
+                </div>
+                
+            {% else %}
+                <div id="noPanelsMessage" class="center-message">
+                    <p>You haven't joined a class yet! Press the button to join one.</p>
+                    <button id="initialAddPanel">Join Class</button>
+                </div>
+            {% endif %}
+            <button id="addPanel" style="display:none;">Join Class</button>
+        </div>
+        
+        <!-- <div id="left">
             <h2>Dashboard</h2>
             <div id="course-card">
                 <h5>Course Image</h5>
@@ -39,7 +60,7 @@
                 <h5>Course Image</h5>
                 <h4>Course Name</h4>
             </div>
-        </div>
+        </div> -->
 
         <div id="right">
             <h2>Upcoming Assignments</h2>

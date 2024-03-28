@@ -104,3 +104,13 @@ header ul li a:hover{
     font-weight: bold;
 }
 
+.announcement{
+    display: inline;
+    width: 30%;
+    padding: 10px;
+    margin: 10px;
+}
+
+.announcement div h4{
+    background-color: #f9e7da;
+}

@@ -64,41 +64,30 @@ header ul li a:hover{
     background-color: #48b896;
 }
 
-.upcoming {
-    float: left;
-    width: 60%;
+.resource{
     padding: 10px;
     margin: 10px;
     margin-left: 65px;
     margin-right: 0;
 }
 
-.upcoming h3, .past h4{
-    font-family: 'Lexend Exa';
-    background-color: #f3d1b9;
-    padding: 15px;
-    margin-bottom: 10px;
+.resource h3{
+    background-color: #bca1a5;
+    padding: 10px;
 }
-.upcoming div, .past div{
-    background-color: #f9e7da;
-    margin-bottom: 10px;
-    padding: 5px;
-}
-.upcoming div a, .past div a{
-    color: #0f1b44;
-    text-decoration: none;
-    padding: 5px;
-    border-bottom: 1px solid;
-}
-.upcoming div p, .past div p{
+
+.resource div{
+    border-bottom: 1px solid #bca1a5;
     margin: 5px;
-    padding-top: 10px;
-}
-.past {
-    margin-top: 20px;
-    width: 20%;
-    float: right;
+    padding: 5px;
 }
 
+.resource div a{
+    text-decoration: none;
+    color: #0f1b44;
+    
+}
 
-
+.resource div a:hover{
+    font-weight: bold;
+}

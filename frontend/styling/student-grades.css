@@ -64,7 +64,7 @@ header ul li a:hover{
     background-color: #48b896;
 }
 
-.upcoming {
+.graded {
     float: left;
     width: 60%;
     padding: 10px;
@@ -73,32 +73,49 @@ header ul li a:hover{
     margin-right: 0;
 }
 
-.upcoming h3, .past h4{
+.graded h3{
+    font-family: 'Lexend Exa';
+    background-color: #48b896;
+    padding: 15px;
+    margin-bottom: 10px;
+}
+
+.ungraded h4{
     font-family: 'Lexend Exa';
     background-color: #f3d1b9;
     padding: 15px;
     margin-bottom: 10px;
 }
-.upcoming div, .past div{
+
+.graded div{
+    background-color: #b7f6e4;
+    margin-bottom: 10px;
+    padding: 5px;
+}
+.ungraded div{
     background-color: #f9e7da;
     margin-bottom: 10px;
     padding: 5px;
 }
-.upcoming div a, .past div a{
+
+.graded div a, .ungraded div a{
     color: #0f1b44;
     text-decoration: none;
     padding: 5px;
     border-bottom: 1px solid;
 }
-.upcoming div p, .past div p{
+
+.graded div a:hover, .ungraded div a:hover{
+    font-weight: bold;
+}
+
+.graded div p, .ungraded div p{
     margin: 5px;
     padding-top: 10px;
 }
-.past {
+.ungraded {
     margin-top: 20px;
     width: 20%;
     float: right;
 }
-
-
 

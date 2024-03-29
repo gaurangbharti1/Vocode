@@ -154,5 +154,23 @@ def student_dashboard():
 
     return render_template('webpages/student-dashboard.html', courses = courses)
 
+@app.route('/create-course', methods=['POST'])
+def create_course():
+    title = request.form['courseTitle']
+    description = request.form['Description']
+    admin_id = session['user_id']
+
+    cur = mysql.connection.cursor()  # Use the connection from the MySQL instance directly
+    try:
+        cur.execute('INSERT INTO Courses (title, description, admin_id) VALUES (%s, %s, %s)', (title, description, admin_id))
+        mysql.connection.commit()  # Commit using mysql.connection.commit()
+    except Exception as e:
+        print(e)
+        mysql.connection.rollback()  # Rollback using mysql.connection.rollback()
+    finally:
+        cur.close()
+
+    return "successful"
+        
 if __name__ == '__main__':
     app.run(debug=True)

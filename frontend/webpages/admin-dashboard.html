@@ -45,10 +45,16 @@
     </div>
     <div class="main-content">
         <div id="noPanelsMessage" class="center-message">
-            <p>You haven't joined a class yet! Press the button to join one.</p>
-            <button id="initialAddPanel">Join Class</button>
+            <form action="/create-course" method="POST">
+                <label for="courseTitle">Course Title:</label>
+                <input type="text" id="courseTitle" name="courseTitle" required> 
+                
+                <label for="Description">Description:</label>
+                <input type="text" id="Description" name="Description" required>
+                <br>
+                <button type="submit">Create Course</button>
+            </form>
         </div>
-        <button id="addPanel" style="display:none;">Join Class</button>
         <div class="panels"></div>
     </div>
     <script src="studentcontentselector.js"></script>

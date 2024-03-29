@@ -5,9 +5,9 @@ from flask_bcrypt import Bcrypt
 app = Flask(__name__, template_folder='../frontend/', static_url_path='', static_folder='../frontend')
 
 app.config['MYSQL_HOST'] = 'sql3.freemysqlhosting.net'
-app.config['MYSQL_USER'] = 'sql3693258'
-app.config['MYSQL_PASSWORD'] = 'nl3aj2W92N'
-app.config['MYSQL_DB'] = 'sql3693258'
+app.config['MYSQL_USER'] = 'sql3694990'
+app.config['MYSQL_PASSWORD'] = 'bV4Nqi1Hiw'
+app.config['MYSQL_DB'] = 'sql3694990'
 app.config['MYSQL_CURSORCLASS'] = 'DictCursor'
 app.config['SECRET_KEY'] = 'test_key'
 
@@ -67,6 +67,15 @@ def initialize_database():
         FOREIGN KEY (assignment_id) REFERENCES Assignments(id)
     )''')
 
+        # Create the TeacherCourses table
+    cur.execute('''CREATE TABLE IF NOT EXISTS TeacherCourses (
+        teacher_id INT,
+        course_id INT,
+        PRIMARY KEY (teacher_id, course_id),
+        FOREIGN KEY (teacher_id) REFERENCES Users(id) ON DELETE CASCADE,
+        FOREIGN KEY (course_id) REFERENCES Courses(id) ON DELETE CASCADE
+    )''')
+
     # Insert dummy users
     cur.execute("INSERT IGNORE INTO Users (first_name, last_name, date_of_birth, email, password, role) VALUES ('John', 'Doe', '1990-01-01', 'john.doe@example.com', 'hashed_password', 'admin')")
     cur.execute("INSERT IGNORE INTO Users (first_name, last_name, date_of_birth, email, password, role) VALUES ('Jane', 'Smith', '1992-02-02', 'jane.smith@example.com', 'hashed_password', 'teacher')")
@@ -78,6 +87,10 @@ def initialize_database():
     cur.execute("INSERT IGNORE INTO Enrollment (student_id, course_id) VALUES (3, 1)")
     cur.execute("INSERT IGNORE INTO Enrollment (student_id, course_id) VALUES (3, 2)")
     cur.execute("INSERT IGNORE INTO Enrollment (student_id, course_id) VALUES (3, 3)")
+    # Insert dummy teacher-course associations
+    cur.execute("INSERT IGNORE INTO TeacherCourses (teacher_id, course_id) VALUES (2, 1)")
+    cur.execute("INSERT IGNORE INTO TeacherCourses (teacher_id, course_id) VALUES (2, 2)")
+
 
     # Commit changes and close the connection
     print('Database initialized')
@@ -106,7 +119,6 @@ def initialize_assignments():
 
     mysql.connection.commit()
     cur.close()
-
 
 @app.route('/')
 def index():
@@ -144,6 +156,23 @@ def assignments():
 
     return render_template('webpages/assignments.html', assignments=assignments)
 
+@app.route('/teacher-classes')
+def teacher_classes():
+    if 'user_id' not in session:
+        return redirect(url_for('login'))
+
+    user_id = session['user_id']
+
+    cur = mysql.connection.cursor()
+    cur.execute('''SELECT Courses.id, Courses.title, Courses.description
+                   FROM TeacherCourses
+                   JOIN Courses ON TeacherCourses.course_id = Courses.id
+                   WHERE TeacherCourses.teacher_id = %s''', (user_id,))
+    classes = cur.fetchall()
+    cur.close()
+
+    return render_template('webpages/teacher-classes.html', classes=classes)
+
 @app.route('/student-classes')
 def student_classes():
     if 'user_id' not in session:
@@ -160,7 +189,6 @@ def student_classes():
     cur.close()
 
     return render_template('webpages/student-classes.html', classes=classes)
-
 
 @app.route('/register', methods=['POST'])
 def register():
@@ -202,11 +230,11 @@ def login():
         session['user_id'] = user_data['id']
         session['role'] = user_data['role']
         if user_data['role'] == 'admin':
-            return render_template("webpages/admin-dashboard.html")
+            return render_template("webpages/admin-dashboard.html"), 200
         elif user_data['role'] == 'teacher':
-            return render_template("webpages/teacher-dashboard.html")
+            return render_template("webpages/teacher-dashboard.html"), 200
         else:
-            return redirect(url_for('student_dashboard'))
+            return redirect(url_for('student_dashboard')), 200
 
     return "unsuccessful"
 
@@ -228,6 +256,23 @@ def student_dashboard():
     cur.close()
 
     return render_template('webpages/student-dashboard.html', courses=courses)
+
+@app.route('/teacher-dashboard')
+def teacher_dashboard():
+    if 'user_id' not in session or session['role'] != 'teacher':
+        return "Unauthorized", 401
+
+    teacher_id = session['user_id']
+
+    cur = mysql.connection.cursor()
+    cur.execute('''SELECT Courses.id, Courses.title, Courses.description
+                   FROM TeacherCourses
+                   JOIN Courses ON TeacherCourses.course_id = Courses.id
+                   WHERE TeacherCourses.teacher_id = %s''', (teacher_id,))
+    courses = cur.fetchall()
+    cur.close()
+
+    return render_template('webpages/teacher-dashboard.html', courses=courses)
 
 
 if __name__ == '__main__':

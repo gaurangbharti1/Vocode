@@ -9,104 +9,114 @@ body, html {
     height: 100vh;
 }
 
-.dashboard h1{
-    position: absolute;
-    padding:10px;
-    left:43.5%;
-}
-
 .sidebar {
     background-color: #0F1B44;
     padding: 10px;
     width: 75px;
-    height: 100%;
-    display: flex;
-    flex-direction: column;
     position: fixed;
     top: 0;
+    bottom: 0;
 }
 
 .sidebar #logo{
-   width: 100%;
-   margin-top: -5px;
-}
-
-a {
-text-decoration: none;
+    width: 100%;
 }
 
 .sidebar button {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
     background-color: #1CB9BE;
-    padding: 7.5px;
-    width: 6.6em;
-    height: 6.6em;
     border: solid;
     border-color: black;
     border-width: 1.5px;
     cursor: pointer;
-    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 7.5px;
+    width: 6.6em;
+    height: 6.6em;
     font-size: 0.7em;
+    margin-bottom: 10px;
 }
 
 .sidebar button img {
     max-width: 75%;
-    height: auto;
-    margin-top: 2.5px;
-    margin-bottom: 2.5px;
+    margin: 5px 0;
 }
 
 .sidebar button:hover{
     background-color: #fff;
 }
 
+.sidebar button.active {
+    background-color: #fff;
+}
+
 .main-content {
-    flex-grow: 1;
-    padding: 20px;
+    margin-left: 200px; /* same as sidebar width */
 }
 
-.main-content button {
-    display: block;
-    margin-bottom: 20px;
-    text-align: center;
-    position: absolute;
-    top: 130%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 10%;
-    height: 75%;
-    background-color: #1CB9BE;
-    border-width: 1px;
-    border-radius: 5px;
-    font-size: 1.1em;
+.container {
+    display: flex;
+    height: 100%;
 }
 
-.main-content button:hover {
-    background-color: #06a3a9;
+.left, .right {
+    flex: 1;
 }
 
-.center-message {
-    text-align: center;
-    position: absolute;
-    top: 45%;
-    left: 50%;
-    transform: translate(-50%, -50%);
+.left {
+    background-color: #fff; 
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 50px;
+}
+
+#dashHeader {
+    margin-bottom: 30px;
+    text-decoration: underline;
+}
+
+.panels {
     width: 100%;
-}
-
-#addPanel {
-    display: block;
-    margin: 20px auto;
 }
 
 .panel {
     border: 1px solid #ddd;
     padding: 20px;
     margin-bottom: 10px;
+    cursor: pointer;
+    transition: background-color 0.3s;
 }
 
-.section {
-    display: none;
+.panel:hover {
+    background-color: #f3f3f3;
+}
+
+.right {
+    background-color: #fff;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 50px;
+}
+
+#taskHeader{
+    margin-bottom: 30px;
+    text-decoration: underline;
+}
+
+#tasksList p {
+    text-align: center;
+}
+
+
+@media screen and (max-width: 768px) {
+    .container::after {
+        display: none;
+    }
+
+    .right {
+        display: none;
+    }
 }

@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Profile</title>
-    <link rel="stylesheet" href="../styling/profile.css">
+    <title>Dashboard</title>
+    <link rel="stylesheet" href="../styling/student-classes.css">
 </head>
 <body>
     <div class="dashboard">
@@ -41,24 +41,22 @@
             </button>
             </a>
         </div>
-        <div class="main-content">
-            <div class="profile-details">
-                <h1>User Profile</h1>
-                <div class="detail">
-                    <strong>Name:</strong> <span>{{ user.first_name }} {{ user.last_name }}</span>
-                </div>
-                <div class="detail">
-                    <strong>Email:</strong> <span>{{ user.email }}</span>
-                </div>
-                <div class="detail">
-                    <strong>Date of Birth:</strong> <span>{{ user.date_of_birth }}</span>
-                </div>
-                <div class="detail">
-                    <strong>Role:</strong> <span>{{ user.role }}</span>
-                </div>
-               
-            </div>
+        <div class="header">
+            <p>test</p>
         </div>
-        <script src="../scripts/profile.js"></script> 
-    </body>
-    </html>
+    <div class="main-content">
+            <h1>My Classes</h1>
+            <div class="classes-list">
+                {% if classes %}
+                    {% for class in classes %}
+                        <div class="class">
+                            <h2>{{ class.title }}</h2>
+                            <p>{{ class.description }}</p>
+                        </div>
+                    {% endfor %}
+                {% else %}
+                    <p>No classes found!</p>
+                {% endif %}
+            </div>
+</div>
+</body>

@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Assignment</title>
+    <link rel="stylesheet" href="../styling/student-classes.css">
+</head>
+<body>
+    <div class="dashboard">
+        <div class="sidebar">
+            <!-- Sidebar content -->
+            ...
+        </div>
+        <div class="header">
+            <h1>Create New Assignment</h1>
+        </div>
+        <div class="main-content">
+            <form action="{{ url_for('submit_assignment') }}" method="POST" class="assignment-form">
+                <div class="form-group">
+                    <label for="assignmentTitle">Assignment Title</label>
+                    <input type="text" id="assignmentTitle" name="title" required>
+                </div>
+                <div class="form-group">
+                    <label for="assignmentDescription">Description</label>
+                    <textarea id="assignmentDescription" name="description" rows="4" required></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="dueDate">Due Date</label>
+                    <input type="date" id="dueDate" name="due_date" required>
+                </div>
+                <div class="form-group">
+                    <label for="classId">Class</label>
+                    <select id="classId" name="class_id" required>
+                        {% for course in courses %}
+                            <option value="{{ course.id }}">{{ course.title }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <button type="submit">Create Assignment</button>
+            </form>
+        </div>
+    </div>
+</body>
+</html>

@@ -9,36 +9,36 @@
 <body>
     <div class="dashboard">
         <div class="sidebar">
-            <img id="logo" src="../images/savnac1transparent.png">
+            <img id="logo" src="../images/savnac1transparent.png" alt="Savnac Logo">
             <a href="{{ url_for('profile') }}">
-            <button id="profile">
-                <img src="../images/profile-user.png" alt="profile picture">
-                <span><b>Profile</b></span>
-            </button>
+                <button id="profile">
+                    <img src="../images/profile-user.png" alt="Profile picture">
+                    <span><b>Profile</b></span>
+                </button>
             </a>
-            <a href="{{ url_for('student_dashboard') }}">
-            <button id="dashboard" class="active">
-                <img src="../images/dashboard.png" alt="dashboard">
-                <span><b>Dashboard</b></span>
-            </button>
+            <a href="{{ url_for('teacher_dashboard') }}">
+                <button id="dashboard" class="active">
+                    <img src="../images/dashboard.png" alt="Dashboard">
+                    <span><b>Dashboard</b></span>
+                </button>
             </a>
             <a href="{{ url_for('assignments') }}">
-            <button id="assignments">
-                <img src="../images/assignment.png" alt="assignment">
-                <span><b>Assignments</b></span>
-            </button>
+                <button id="assignments">
+                    <img src="../images/assignment.png" alt="Assignments">
+                    <span><b>Assignments</b></span>
+                </button>
             </a>
-            <a href="{{ url_for('student_classes') }}">
-            <button id="classes">
-                <img src="../images/homework.png" alt="classes">
-                <span><b>Classes</b></span>
-            </button>
+            <a href="{{ url_for('teacher_classes') }}">
+                <button id="classes">
+                    <img src="../images/homework.png" alt="Classes">
+                    <span><b>Classes</b></span>
+                </button>
             </a>
-            <a href="login.html">
-            <button id="logout">
-                <img src="../images/logout.png" alt="log out">
-                <span><b>Log Out</b></span>
-            </button>
+            <a href="{{ url_for('index') }}">
+                <button id="logout">
+                    <img src="../images/logout.png" alt="Log out">
+                    <span><b>Log Out</b></span>
+                </button>
             </a>
         </div>
         <div class="main-content">

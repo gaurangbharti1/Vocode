@@ -1,4 +1,4 @@
-from flask import Flask, redirect, render_template, request, jsonify, session, url_for
+from flask import Flask, flash, redirect, render_template, request, session, url_for, jsonify
 from flask_mysqldb import MySQL
 from flask_bcrypt import Bcrypt
 
@@ -76,10 +76,11 @@ def initialize_database():
         FOREIGN KEY (course_id) REFERENCES Courses(id) ON DELETE CASCADE
     )''')
 
+    # hashed_password = bcrypt.generate_password_hash("hashed_password").decode('utf-8')
     # Insert dummy users
-    cur.execute("INSERT IGNORE INTO Users (first_name, last_name, date_of_birth, email, password, role) VALUES ('John', 'Doe', '1990-01-01', 'john.doe@example.com', 'hashed_password', 'admin')")
-    cur.execute("INSERT IGNORE INTO Users (first_name, last_name, date_of_birth, email, password, role) VALUES ('Jane', 'Smith', '1992-02-02', 'jane.smith@example.com', 'hashed_password', 'teacher')")
-    cur.execute("INSERT IGNORE INTO Users (first_name, last_name, date_of_birth, email, password, role) VALUES ('Jim', 'Bean', '1994-03-03', 'jim.bean@example.com', 'hashed_password', 'student')")
+    cur.execute(f"INSERT IGNORE INTO Users (first_name, last_name, date_of_birth, email, password, role) VALUES ('John', 'Doe', '1990-01-01', 'john.doe@example.com', 'hashed_password', 'admin')")
+    cur.execute(f"INSERT IGNORE INTO Users (first_name, last_name, date_of_birth, email, password, role) VALUES ('Jane', 'Smith', '1992-02-02', 'jane.smith@example.com', 'hashed_password', 'teacher')")
+    cur.execute(f"INSERT IGNORE INTO Users (first_name, last_name, date_of_birth, email, password, role) VALUES ('Jim', 'Bean', '1994-03-03', 'jim.bean@example.com', 'hashed_password', 'student')")
     # insert dummy courses
     cur.execute("INSERT IGNORE INTO Courses (title, description, admin_id) VALUES ('Basic Programming', 'Learn the fundamentals of programming.', 1)")
     cur.execute("INSERT IGNORE INTO Courses (title, description, admin_id) VALUES ('Database Concepts', 'An introduction to relational databases.', 2)")
@@ -99,12 +100,17 @@ def initialize_database():
     mysql.connection.commit()
     cur.close()
 
+@app.errorhandler(404)
+def page_not_found(e):
+    return render_template('webpages/404.html'), 404
+
+@app.errorhandler(500)
+def internal_server_error(e):
+    return render_template('webpages/500.html'), 500
+
 @app.before_request
 def initialize_assignments():
     cur = mysql.connection.cursor()
-
-    # Clear the Assignments table
-    cur.execute("DELETE FROM Assignments")
 
     # Check if the Assignments table is empty
     cur.execute("SELECT COUNT(*) as count FROM Assignments")
@@ -115,7 +121,7 @@ def initialize_assignments():
         cur.execute("INSERT INTO Assignments (title, type, content, course_id) VALUES ('Database Basics', 'Quiz', 'Take the SQL basics quiz.', 2)")
         print("Assignments inserted.")
     else:
-        print("Assignments table was not empty after clearing.")
+        print("Assignments table was not empty")
 
     mysql.connection.commit()
     cur.close()
@@ -156,6 +162,7 @@ def assignments():
 
     return render_template('webpages/assignments.html', assignments=assignments)
 
+
 @app.route('/teacher-classes')
 def teacher_classes():
     if 'user_id' not in session:
@@ -192,51 +199,86 @@ def student_classes():
 
 @app.route('/register', methods=['POST'])
 def register():
-    first_name = request.form['firstname']
-    last_name = request.form['lastname']
-    birthdate = request.form['birthdate']
-    email = request.form['email']
-    password = request.form['password']
-    confirm_password = request.form['confirm_password']
-    role = request.form['role']
-    print("role", role)
-    if password != confirm_password:
-        return jsonify({'error': 'Passwords do not match'}), 400
-    
-    # hashed_password = bcrypt.generate_password_hash(password).decode('utf-8')
+    cur = None
+    try:
+        first_name = request.form['firstname']
+        last_name = request.form['lastname']
+        birthdate = request.form['birthdate']
+        email = request.form['email']
+        password = request.form['password']
+        confirm_password = request.form['confirm_password']
+        role = request.form['role']
 
-    cur = mysql.connection.cursor()
-    cur.execute("SELECT * FROM Users WHERE email = %s", (email,))
-    existing_user = cur.fetchone()
-    if existing_user:
-        return jsonify({'error': 'Email already exists'}), 400
-    else:
-        cur.execute("INSERT INTO Users (first_name, last_name, date_of_birth, email, password, role) VALUES (%s, %s, %s, %s, %s, %s)", (first_name, last_name, birthdate, email, password, role))
-        mysql.connection.commit()
-    cur.close()
-    return render_template("webpages/login.html")
+        if password != confirm_password:
+            flash('Passwords do not match')
+            return redirect(url_for('index'))  # Assuming a route for the registration page exists
+
+        # hashed_password = bcrypt.generate_password_hash(password).decode('utf-8')
+
+        cur = mysql.connection.cursor()
+        cur.execute("SELECT id FROM Users WHERE email = %s", (email,))
+        if cur.fetchone():
+            flash('Email already exists')
+            return redirect(url_for('index'))
+        else:
+            cur.execute("INSERT INTO Users (first_name, last_name, date_of_birth, email, password, role) VALUES (%s, %s, %s, %s, %s, %s)", 
+                        (first_name, last_name, birthdate, email, password, role))
+            mysql.connection.commit()
+
+            # Fetch the newly registered user's ID for session setup
+            cur.execute("SELECT id, role FROM Users WHERE email = %s", (email,))
+            user_data = cur.fetchone()
+            session['user_id'] = user_data['id']
+            session['role'] = user_data['role']
+
+            flash('Registration successful')
+            if role == 'admin':
+                return redirect(url_for('admin_dashboard'))
+            elif role == 'teacher':
+                return redirect(url_for('teacher_dashboard'))
+            else:
+                return redirect(url_for('student_dashboard'))
+    except Exception as e:
+        # Log the exception and handle it
+        flash('An error occurred during registration. Please try again.')
+        return redirect(url_for('register'))
+    finally:
+        if cur is not None:
+            cur.close()
     
 @app.route('/login', methods=['POST'])
 def login():
-    username = request.form['username']
-    raw_password = request.form['password']
+    cur = None
+    try:
+        username = request.form['username']
+        raw_password = request.form['password']
 
-    cur = mysql.connection.cursor()
-    cur.execute("SELECT * FROM Users WHERE email = %s", (username,))
-    user_data = cur.fetchone()
-    cur.close()
+        cur = mysql.connection.cursor()
+        cur.execute("SELECT id, password, role FROM Users WHERE email = %s", (username,))
+        user_data = cur.fetchone()
 
-    if user_data and user_data['password'] == raw_password:
-        session['user_id'] = user_data['id']
-        session['role'] = user_data['role']
-        if user_data['role'] == 'admin':
-            return render_template("webpages/admin-dashboard.html"), 200
-        elif user_data['role'] == 'teacher':
-            return render_template("webpages/teacher-dashboard.html"), 200
+        if user_data and user_data['password'] == raw_password:
+            session['user_id'] = user_data['id']
+            session['role'] = user_data['role']
+            flash('Login successful')
+
+            # Redirect to the dashboard based on the user's role
+            if user_data['role'] == 'admin':
+                return redirect(url_for('admin_dashboard'))
+            elif user_data['role'] == 'teacher':
+                return redirect(url_for('teacher_dashboard'))
+            else:  # Assume student if not admin or teacher
+                return redirect(url_for('student_dashboard'))
         else:
-            return redirect(url_for('student_dashboard')), 200
-
-    return "unsuccessful"
+            flash('Invalid username or password')
+            return redirect(url_for('index'))  # Assuming you have a route for showing the login page
+    except Exception as e:
+        # Log the exception and handle it
+        flash('An error occurred during login. Please try again.')
+        return redirect(url_for('index'))
+    finally:
+        if cur is not None:
+            cur.close()
 
 @app.route('/student-dashboard')
 def student_dashboard():
@@ -273,7 +315,6 @@ def teacher_dashboard():
     cur.close()
 
     return render_template('webpages/teacher-dashboard.html', courses=courses)
-
 
 if __name__ == '__main__':
     app.run(debug=True)

@@ -201,6 +201,7 @@ def student_classes():
 def register():
     cur = None
     try:
+        
         first_name = request.form['firstname']
         last_name = request.form['lastname']
         birthdate = request.form['birthdate']

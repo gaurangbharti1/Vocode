@@ -1,11 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>Student Dashboard</title>
-    <link rel="stylesheet" href="../styling/student-dashboard.css">
-    <style>
-        /* Add your CSS styles here */
-    </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+    <link rel="stylesheet" href="../styling/student-classes.css">
 </head>
 <body>
     <div class="dashboard">
@@ -42,36 +41,22 @@
                 </button>
             </a>
         </div>
+        <div class="header">
+            <p>test</p>
         </div>
-        <div class="main-content">
-            <div class="container">
-                <div class="left">
-                    <h1 id="dashHeader"><u>DASHBOARD</u></h1>
-                    {% if courses %}
-                        <div class="panels">
-                            {% for course in courses %}
-                                <div class="panel">
-                                    <h3>{{ course.title }}</h3>
-                                    <p>{{ course.description }}</p>
-                                </div>
-                            {% endfor %}
+    <div class="main-content">
+            <h1>My Classes</h1>
+            <div class="classes-list">
+                {% if classes %}
+                    {% for class in classes %}
+                        <div class="class">
+                            <h2>{{ class.title }}</h2>
+                            <p>{{ class.description }}</p>
                         </div>
-                        
-                    {% else %}
-                        <div id="noPanelsMessage" class="center-message">
-                            <p>You haven't joined a class yet! Press the button to join one.</p>
-                            <button id="initialAddPanel">Join Class</button>
-                        </div>
-                    {% endif %}
-                    <button id="addPanel" style="display:none;">Join Class</button>
-                </div>
-                <div class="right">
-                    <h2 id="taskHeader"><u>UPCOMING TASKS</u></h2>
-                        <h3>Nothing to do!</h3>
-                </div>
+                    {% endfor %}
+                {% else %}
+                    <p>No classes found!</p>
+                {% endif %}
             </div>
-        </div>
-    </div>
-    <script src="studentcontentselector.js"></script>
+</div>
 </body>
-</html>

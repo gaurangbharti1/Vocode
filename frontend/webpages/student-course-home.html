@@ -1,12 +1,21 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>Admin Dashboard</title>
-    <link rel="stylesheet" type="text/css" href="../styling/admin-dashboard.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+    <link rel="stylesheet" href="../styling/student-course-home.css">
 </head>
 <body>
     <div class="dashboard">
-        <h1><u>DASHBOARD</u></h1>
+        <header class="site-header">
+            <nav class="navigation">
+                <button class="nav-btn"><b>Home</b></button>
+                <button class="nav-btn"><b>Assignments</b></button>
+                <button class="nav-btn"><b>Resources</b></button>
+                <button class="nav-btn"><b>Grades</b></button>
+            </nav>
+        </header>
         <div class="sidebar">
             <img id="logo" src="../images/savnac1transparent.png">
             <a href="profile.html">
@@ -27,7 +36,7 @@
                 <span><b>Assignments</b></span>
             </button>
             </a>
-            <a href="classes.html">
+            <a href="student-classes.html">
             <button id="classes">
                 <img src="../images/homework.png" alt="classes">
                 <span><b>Classes</b></span>
@@ -40,14 +49,16 @@
             </button>
             </a>
         </div>
-    </div>
     <div class="main-content">
-        <div id="noPanelsMessage" class="center-message">
-            <p>You haven't joined a class yet! Press the button to join one.</p>
-            <button id="initialAddPanel">Join Class</button>
-        </div>
-        <button id="addPanel" style="display:none;">Join Class</button>
-        <div class="panels"></div>
+        <div class="container">
+            <div class="left">
+                <!--  stuff for class modules goes here -->
+                <div class="panels"></div>
+            </div>
+            <div class="right">
+                <h2 id="taskHeader"><u>ANNOUNCEMENTS</u></h2>
+                    <h3>No announcements!</h3>
+            </div>
     </div>
-    <script src="studentcontentselector.js"></script>
+</div>
 </body>

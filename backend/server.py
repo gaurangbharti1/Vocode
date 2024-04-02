@@ -246,6 +246,7 @@ def student_dashboard():
     user_id = session['user_id']
     
     cur = mysql.connection.cursor()
+
     cur.execute('''SELECT Courses.id, Courses.title, Courses.description, COUNT(Assignments.id) as assignment_count
                    FROM Enrollment
                    JOIN Courses ON Enrollment.course_id = Courses.id
@@ -257,6 +258,7 @@ def student_dashboard():
 
     return render_template('webpages/student-dashboard.html', courses=courses)
 
+<<<<<<< HEAD
 @app.route('/teacher-dashboard')
 def teacher_dashboard():
     if 'user_id' not in session or session['role'] != 'teacher':
@@ -275,5 +277,7 @@ def teacher_dashboard():
     return render_template('webpages/teacher-dashboard.html', courses=courses)
 
 
+=======
+>>>>>>> 20d9abebc5b1b06ecb8964d89de8d82ab2317f21
 if __name__ == '__main__':
     app.run(debug=True)

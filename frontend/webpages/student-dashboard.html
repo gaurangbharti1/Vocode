@@ -8,70 +8,67 @@
     </style>
 </head>
 <body>
-    <div class="dashboard">
-        <div class="sidebar">
-            <img id="logo" src="../images/savnac1transparent.png" alt="Savnac Logo">
-            <a href="{{ url_for('profile') }}">
-                <button id="profile">
-                    <img src="../images/profile-user.png" alt="Profile picture">
-                    <span><b>Profile</b></span>
-                </button>
-            </a>
-            <a href="{{ url_for('teacher_dashboard') }}">
-                <button id="dashboard" class="active">
-                    <img src="../images/dashboard.png" alt="Dashboard">
-                    <span><b>Dashboard</b></span>
-                </button>
-            </a>
-            <a href="{{ url_for('assignments') }}">
-                <button id="assignments">
-                    <img src="../images/assignment.png" alt="Assignments">
-                    <span><b>Assignments</b></span>
-                </button>
-            </a>
-            <a href="{{ url_for('teacher_classes') }}">
-                <button id="classes">
-                    <img src="../images/homework.png" alt="Classes">
-                    <span><b>Classes</b></span>
-                </button>
-            </a>
-            <a href="{{ url_for('index') }}">
-                <button id="logout">
-                    <img src="../images/logout.png" alt="Log out">
-                    <span><b>Log Out</b></span>
-                </button>
-            </a>
-        </div>
-        </div>
-        <div class="main-content">
-            <div class="container">
-                <div class="left">
-                    <h1 id="dashHeader"><u>DASHBOARD</u></h1>
-                    {% if courses %}
-                        <div class="panels">
-                            {% for course in courses %}
-                                <div class="panel">
-                                    <h3>{{ course.title }}</h3>
-                                    <p>{{ course.description }}</p>
-                                </div>
-                            {% endfor %}
+    <nav>
+        <ul>
+            <img id="logo" src="../images/savnac1transparent.png" height="75" width="75" style="padding-top: 10px;">
+            <li><a href="student-dashboard.html"><img src="../images/student-dashboard/Home.png" alt="Home" style="height: 95%;"></a></li>
+            <li><a href="student-course.html"><img src="../images/homework.png" alt="Courses" style="height: 95%;"></a></li>
+            <li><a href="profile.html"><img src="../images/student-dashboard/Male User.png" alt="Profile" style="height: 95%;"></a></li>
+            <li><a href="login.html"><img src="../images/student-dashboard/Logout.png" alt="Logout" style="height: 100%;"></a></li>
+        </ul>
+    </nav>
+    
+    <header>
+        <h1>Welcome, Student!</h1>
+    </header>
+    
+    <section class="content">
+        <div id="left">
+            <h2>Dashboard</h2>
+            {% if courses %}
+                <div class="panels">
+                    {% for course in courses %}
+                    <div id="course-card">
+                            <h4>{{ course.title }}</h4>
+                            <p>{{ course.description }}</p>
+                            <!-- You can add more course details here -->
                         </div>
-                        
-                    {% else %}
-                        <div id="noPanelsMessage" class="center-message">
-                            <p>You haven't joined a class yet! Press the button to join one.</p>
-                            <button id="initialAddPanel">Join Class</button>
-                        </div>
-                    {% endif %}
-                    <button id="addPanel" style="display:none;">Join Class</button>
+                    {% endfor %}
                 </div>
-                <div class="right">
-                    <h2 id="taskHeader"><u>UPCOMING TASKS</u></h2>
-                        <h3>Nothing to do!</h3>
+                
+            {% else %}
+                <div id="noPanelsMessage" class="center-message">
+                    <p>You haven't joined a class yet! Press the button to join one.</p>
+                    <button id="initialAddPanel">Join Class</button>
                 </div>
+
+            {% endif %}
+            <button id="addPanel" style="display:none;">Join Class</button>
+        </div>
+        
+        <!-- <div id="left">
+            <h2>Dashboard</h2>
+            <div id="course-card">
+                <h5>Course Image</h5>
+                <h4>Course Name</h4>
             </div>
+            <div id="course-card">
+                <h5>Course Image</h5>
+                <h4>Course Name</h4>
+            </div>
+            <div id="course-card">
+                <h5>Course Image</h5>
+                <h4>Course Name</h4>
+            </div>
+        </div> -->
+
+        <div id="right">
+            <h2>Upcoming Assignments</h2>
+            <ul>
+                <li>Assignment 1 - Due Date: 10/15/2022</li>
+                <li>Assignment 2 - Due Date: 10/22/2022</li>
+                <li>Assignment 3 - Due Date: 10/29/2022</li>
+            </ul>
         </div>
-    </div>
-    <script src="studentcontentselector.js"></script>
+    </section>
 </body>
-</html>

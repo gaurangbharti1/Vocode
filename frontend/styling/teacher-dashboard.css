@@ -1,122 +1,156 @@
-body, html {
-    margin: 0;
-    padding: 0;
+@import url('https://fonts.googleapis.com/css2?family=Lexend+Exa:wght@100..900&display=swap');
+
+*{
+    text-align: center;
     font-family: Arial, sans-serif;
+    margin: 0;
 }
-
-.dashboard {
-    display: flex;
-    height: 100vh;
-}
-
-.sidebar {
-    background-color: #0F1B44;
-    padding: 10px;
-    width: 75px;
-    position: fixed;
-    top: 0;
-    bottom: 0;
-}
-
-.sidebar #logo{
-    width: 100%;
-}
-
-.sidebar button {
-    background-color: #1CB9BE;
-    border: solid;
-    border-color: black;
-    border-width: 1.5px;
-    cursor: pointer;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: 7.5px;
-    width: 6.6em;
-    height: 6.6em;
-    font-size: 0.7em;
-    margin-bottom: 10px;
-}
-
-.sidebar button img {
-    max-width: 75%;
-    margin: 5px 0;
-}
-
-.sidebar button:hover{
-    background-color: #fff;
-}
-
-.sidebar button.active {
-    background-color: #fff;
-}
-
-.main-content {
-    margin-left: 200px; /* same as sidebar width */
-}
-
-.container {
-    display: flex;
-    height: 100%;
-}
-
-.left, .right {
-    flex: 1;
-}
-
-.left {
-    background-color: #fff; 
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding-top: 50px;
-}
-
-#dashHeader {
-    margin-bottom: 30px;
-    text-decoration: underline;
-}
-
-.panels {
-    width: 100%;
-}
-
-.panel {
-    border: 1px solid #ddd;
-    padding: 20px;
-    margin-bottom: 10px;
-    cursor: pointer;
-    transition: background-color 0.3s;
-}
-
-.panel:hover {
-    background-color: #f3f3f3;
-}
-
-.right {
-    background-color: #fff;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding-top: 50px;
-}
-
-#taskHeader{
-    margin-bottom: 30px;
-    text-decoration: underline;
-}
-
-#tasksList p {
+header, h1,h2, h3{
+    font-family: 'Lexend Exa';
     text-align: center;
 }
 
+body{
+    top: 0;
+    margin: 0;
+}
 
-@media screen and (max-width: 768px) {
-    .container::after {
-        display: none;
-    }
+nav ul{
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    width: 105px;
+    background-color: #0f1b44;
+    height: 100%;
+    position: fixed;
+    overflow: auto;
+}
 
-    .right {
-        display: none;
-    }
+nav ul li a{
+    display: block;
+    height: 50px;
+    padding: 15px;
+}
+
+nav li:hover{
+    background-color:#1f2f64 
+}
+
+#course-card{
+    margin: 5px;
+    text-align: center;
+    padding: 5px;
+}
+
+#course-card h4{
+    border: 1px solid #0f1b44;
+    background-color: #48b896;
+    padding: 15px;
+    width: 170px;
+    
+}
+
+#course-card h5{
+    border: 1px solid #0f1b44;
+    background-color: #d8f8f1;
+    padding: 15px;
+    height: 50px;
+    width: 170px;
+    text-align: center;
+    vertical-align: middle;
+    border-bottom: none;
+    top: 50%
+   
+}
+
+.courses-container {
+    display: flex;
+    flex-direction: column;
+    padding-left: 150px;
+  }
+
+  .courses-row {
+    width: 100%;
+    padding: 0 20px;
+  }
+
+  .course-cards {
+    display: flex;
+    gap: 20px;
+  }
+
+  .course-card {
+    display: flex;
+    flex-direction: column;
+    width: 30%;
+    margin-left: 0;
+  }
+
+  .course-card-content {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    box-shadow: -2px 4px 4px 0 rgba(0, 0, 0, 0.25);
+    font-size: 20px;
+    color: #000;
+    font-weight: 400;
+    text-align: center;
+    justify-content: center;
+  }
+
+  .course-card-inner {
+    display: flex;
+    flex-direction: column;
+    border: 2px solid rgba(15, 27, 68, 1);
+    background-color: #fff;
+  }
+
+  .course-image {
+    padding: 75px 60px 47px;
+    font-family: Inter, sans-serif;
+    background-color: rgba(114, 237, 202, 0.51);
+    align-items: center;
+  }
+
+  .course-name {
+    padding: 34px 60px;
+    font-family: Inter, sans-serif;
+    background-color: #48b896;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .courses-row-2 {
+    margin-top: 84px;
+    width: 100%;
+    padding: 0 20px;
+  }
+
+#left{
+    width: 60%;
+    float: left;
+    left: 60px;
+    margin: 5%;
+    padding: 0;
+    position: relative;
+    text-align: center;
+    border-right: 1px solid;
+}
+
+#right{
+    width: 40%;
+    margin: 5%;
+}
+
+.content{
+    display: -webkit-inline-box;
+    margin: 5px;
+    padding: 2px;
+}
+
+#right ul li{
+    list-style-type: none;
+    background-color: #f9e7da;
+    padding: 10px;
+    margin: 5px;
 }

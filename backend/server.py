@@ -218,6 +218,7 @@ def student_dashboard():
     user_id = session['user_id']
     
     cur = mysql.connection.cursor()
+
     cur.execute('''SELECT Courses.id, Courses.title, Courses.description, COUNT(Assignments.id) as assignment_count
                    FROM Enrollment
                    JOIN Courses ON Enrollment.course_id = Courses.id
@@ -228,7 +229,6 @@ def student_dashboard():
     cur.close()
 
     return render_template('webpages/student-dashboard.html', courses=courses)
-
 
 if __name__ == '__main__':
     app.run(debug=True)

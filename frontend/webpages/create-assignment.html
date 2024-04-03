@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Assignment</title>
+    <link rel="stylesheet" href="../styling/create-assignment.css">
+</head>
+<body>
+    <div class="dashboard">
+        <nav>
+            <ul>
+                <img id="logo" src="../images/savnac1transparent.png" height="75" width="75" style="padding-top: 10px;">
+                <li><a href="teacher-dashboard.html"><img src="../images/student-dashboard/Home.png" alt="Home" style="height: 95%;"></a></li>
+                <li><a href="teacher-course.html"><img src="../images/homework.png" alt="Courses" style="height: 95%;"></a></li>
+                <li><a href="profile.html"><img src="../images/student-dashboard/Male User.png" alt="Profile" style="height: 95%;"></a></li>
+                <li><a href="login.html"><img src="../images/student-dashboard/Logout.png" alt="Logout" style="height: 100%;"></a></li>
+            </ul>
+        </nav>
+
+        <header>
+            <h2>Course Name</h2>
+            <ul>
+                <li><a href="teacher-course.html">Home</a></li>
+                <li><a href="teacher-assignment.html">Assignments</a></li>
+                <li><a href="teacher-resource.html">Resources</a></li>
+                <li><a href="teacher-grades.html">Grades</a></li>
+            </ul>
+        </header>
+
+        <div class="main-content">
+            <h1 style="margin:20px;">New Assignment</h1>
+            <form action="{{ url_for('submit_assignment') }}" method="POST" class="assignment-form">
+                <div class="form-group" id="title">
+                    <label for="assignmentTitle">Assignment Title</label>
+                    <input type="text" id="assignmentTitle" name="title" required>
+                </div>
+                <div class="form-group" id="desc">
+                    <label for="assignmentDescription">Description</label>
+                    <textarea id="assignmentDescription" name="description" rows="4" required></textarea>
+                </div>
+                <div class="form-group" id="due">
+                    <label for="dueDate">Due Date</label>
+                    <input type="date" id="dueDate" name="due_date" required>
+                </div>
+                <div class="form-group" id="class">
+                    <label for="classId">Class</label>
+                    <select id="classId" name="class_id" required>
+                        {% for course in courses %}
+                            <option value="{{ course.id }}">{{ course.title }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <button type="submit">Create Assignment</button>
+            </form>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,120 @@
+@import url('https://fonts.googleapis.com/css2?family=Lexend+Exa:wght@100..900&display=swap');
+
+*{
+    text-align: center;
+    font-family: Arial, sans-serif;
+    margin: 0;
+}
+header, h1, h2, h3{
+    font-family: 'Lexend Exa';
+    text-align: center;
+}
+
+body{
+    top: 0;
+    margin: 0;
+}
+
+nav ul{
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    width: 90px;
+    background-color: #0f1b44;
+    height: 100%;
+    position: fixed;
+    overflow: auto;
+}
+
+nav ul li a{
+    display: block;
+    height: 50px;
+    padding: 15px;
+}
+
+nav li:hover{
+    background-color:#1f2f64 
+}
+
+header h2{
+    background-color: #48b896;
+    padding: 5px;
+    width: 100%;
+}
+
+header ul{
+    width: 100%;
+    background-color: #acdfcf;
+    padding: 5px;
+}
+header ul li{
+    display: inline-block;
+    list-style-type: none;
+    width: 20%;
+    padding: 0;
+    margin: 2px;
+    
+}
+
+header ul li a{
+    text-decoration: none;
+    color: black;
+    position: relative;
+    font-family: 'Lexend Exa';
+    padding: 7px;
+    margin: 0;
+    width: 20%;
+}
+
+header ul li a:hover{
+    background-color: #48b896;
+}
+
+.form-group{
+    margin:20px;
+}
+
+label{
+    margin:10px;
+    font-family: 'Lexend Exa';
+    display: block;
+    font-size:1.3em;
+}
+
+#assignmentDescription{
+    height:400px;
+    width:1000px;
+}
+
+#assignmentTitle{
+    font-size:1.5em;
+    height:25px;
+    width:500px;
+}
+
+#dueDate{
+    height:25px;
+    width:200px;
+    font-size:1.2em;
+}
+
+select{
+    height:25px;
+    width:200px;
+    font-size:1.2em;
+}
+
+textarea{
+    font-size: 1.2em;
+    text-align: left;
+}
+
+button{
+    background-color: #48b896;
+    text-decoration: none;
+    border-radius: 5px;
+    margin-top: 10px;
+    width:25%;
+    padding:5px;
+    font-size:1.2em;
+}

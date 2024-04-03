@@ -1,0 +1,93 @@
+@import url('https://fonts.googleapis.com/css2?family=Lexend+Exa:wght@100..900&display=swap');
+
+*{
+    text-align: center;
+    font-family: Arial, sans-serif;
+    margin: 0;
+}
+header, h1,h2, h3{
+    font-family: 'Lexend Exa';
+    text-align: center;
+}
+
+body{
+    top: 0;
+    margin: 0;
+}
+nav ul{
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    width: 60px;
+    background-color: #0f1b44;
+    height: 100%;
+    position: fixed;
+    overflow: auto;
+
+}
+
+nav ul li a{
+    display: block;
+    height: 50px;
+}
+
+header h2{
+    background-color: #48b896;
+    padding: 5px;
+    width: 100%;
+}
+header ul{
+    width: 100%;
+    background-color: #acdfcf;
+    padding: 5px;
+}
+header ul li{
+    display: inline-block;
+    list-style-type: none;
+    width: 20%;
+    padding: 0;
+    margin: 2px;
+    
+}
+
+header ul li a{
+    text-decoration: none;
+    color: black;
+    position: relative;
+    font-family: 'Lexend Exa';
+    padding: 7px;
+    margin: 0;
+    width: 20%;
+}
+
+header ul li a:hover{
+    background-color: #48b896;
+}
+
+.resource{
+    padding: 10px;
+    margin: 10px;
+    margin-left: 65px;
+    margin-right: 0;
+}
+
+.resource h3{
+    background-color: #bca1a5;
+    padding: 10px;
+}
+
+.resource div{
+    border-bottom: 1px solid #bca1a5;
+    margin: 5px;
+    padding: 5px;
+}
+
+.resource div a{
+    text-decoration: none;
+    color: #0f1b44;
+    
+}
+
+.resource div a:hover{
+    font-weight: bold;
+}

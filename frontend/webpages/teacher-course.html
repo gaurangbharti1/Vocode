@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8" />
+    <title>Course Home</title>
+    <link rel="stylesheet" href="../styling/teacher-course.css">
+</head>
+<body>
+    <nav>
+        <ul>
+            <img id="logo" src="../images/savnac1transparent.png" height="75" width="75" style="padding-top: 10px;">
+            <li><a href="teacher-dashboard.html"><img src="../images/student-dashboard/Home.png" alt="Home" style="height: 95%;"></a></li>
+            <li><a href="teacher-course.html"><img src="../images/homework.png" alt="Courses" style="height: 95%;"></a></li>
+            <li><a href="profile.html"><img src="../images/student-dashboard/Male User.png" alt="Profile" style="height: 95%;"></a></li>
+            <li><a href="login.html"><img src="../images/student-dashboard/Logout.png" alt="Logout" style="height: 100%;"></a></li>
+        </ul>
+    </nav>
+
+    <header>
+        <h2>Course Name</h2>
+        <ul>
+            <li><a href="teacher-course.html">Home</a></li>
+            <li><a href="{{ url_for('teacher_assignment') }}">Assignments</a></li>
+            <li><a href="teacher-resource.html">Resources</a></li>
+            <li><a href="{{ url_for('teacher_grades') }}">Grades</a></li>
+        </ul>
+    </header>
+
+    <section class="weekly-module">
+        <div>
+            <h3>Week 1</h3>
+            <ul>
+                <li><a href="#">Resource</a></li>
+                <li><a href="#">Assignment</a></li>
+                <li><a href="#">Instructions</a></li>
+            </ul>
+        </div>
+        <div>
+            <h3>Week 2</h3>
+            <ul>
+                <li><a href="#">Resource</a></li>
+                <li><a href="#">Assignment</a></li>
+                <li><a href="#">Instructions</a></li>
+            </ul>
+        </div>
+        <div>
+            <h3>Week 3</h3>
+            <ul>
+                <li><a href="#">Resource</a></li>
+                <li><a href="#">Assignment</a></li>
+                <li><a href="#">Instructions</a></li>
+            </ul>
+        </div>
+    </section>
+
+    <section class="announcement">
+        <div>
+            <h4>Announcements</h4>
+            <p>Content</p>
+        </div>
+        <button>Create New Announcement</button>
+    </section>
+</body>
+</html>

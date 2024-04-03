@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8" />
+    <title>Course Assignments</title>
+    <link rel="stylesheet" href="../styling/teacher-assignment.css">
+</head>
+<body>
+    <nav>
+        <ul>
+            <img id="logo" src="../images/savnac1transparent.png" height="75" width="75" style="padding-top: 10px;">
+            <li><a href="teacher-dashboard.html"><img src="../images/student-dashboard/Home.png" alt="Home" style="height: 95%;"></a></li>
+            <li><a href="teacher-course.html"><img src="../images/homework.png" alt="Courses" style="height: 95%;"></a></li>
+            <li><a href="profile.html"><img src="../images/student-dashboard/Male User.png" alt="Profile" style="height: 95%;"></a></li>
+            <li><a href="login.html"><img src="../images/student-dashboard/Logout.png" alt="Logout" style="height: 100%;"></a></li>
+        </ul>
+    </nav>
+
+    <header>
+        <h2>Course Name</h2>
+        <ul>
+            <li><a href="teacher-course.html">Home</a></li>
+            <li><a href="teacher-assignment.html">Assignments</a></li>
+            <li><a href="teacher-resource.html">Resources</a></li>
+            <li><a href="teacher-grades.html">Grades</a></li>
+        </ul>
+    </header>
+
+   <section class="upcoming">
+        <h3>Upcoming Assignments</h3>
+        {% for assignment in assignments %}
+        <div>
+            <a href="#">{{ assignment.title }}</a>
+            <p>{{ assignment.description }}</p>
+            <p>Due Date: {{ assignment.dueDate }}</p>
+        </div>
+        {% else %}
+            <p>No assignments found.</p>
+        {% endfor %}
+        <button>
+            <a href="{{ url_for('create_assignment') }}">Create New Assignment</a>
+        </button>
+   </section>
+   <section class="past">
+        <h4>Past Assignments</h4>
+        <div>
+            <a href="#">Assignment Name </a>
+            <p>Grade: </p>
+        </div>
+        <div>
+            <a href="#">Assignment Name </a>
+            <p>Grade: </p>
+        </div>
+        <div>
+            <a href="#">Assignment Name </a>
+            <p>Grade: </p>
+        </div>
+   </section>
+</body>
+</html>

@@ -3,53 +3,53 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard</title>
+    <title>Teacher Dashboard</title>
     <link rel="stylesheet" href="../styling/teacher-dashboard.css">
 </head>
 <body>
     <div class="dashboard">
-        <h1><u>DASHBOARD</u></h1>
-        <div class="sidebar">
-            <img id="logo" src="../images/savnac1transparent.png">
-            <a href="profile.html">
-            <button id="profile">
-                <img src="../images/profile-user.png" alt="profile picture">
-                <span><b>Profile</b></span>
-            </button>
-            </a>
-            <a href="student-dashboard.html">
-            <button id="dashboard" class="active">
-                <img src="../images/dashboard.png" alt="dashboard">
-                <span><b>Dashboard</b></span>
-            </button>
-            </a>
-            <a href="assignments.html">
-            <button id="assignments">
-                <img src="../images/assignment.png" alt="assignment">
-                <span><b>Assignments</b></span>
-            </button>
-            </a>
-            <a href="classes.html">
-            <button id="classes">
-                <img src="../images/homework.png" alt="classes">
-                <span><b>Classes</b></span>
-            </button>
-            </a>
-            <a href="login.html">
-            <button id="logout">
-                <img src="../images/logout.png" alt="log out">
-                <span><b>Log Out</b></span>
-            </button>
-            </a>
-        </div>
+        <nav>
+            <ul>
+                <img id="logo" src="../images/savnac1transparent.png" height="75" width="75" style="padding-top: 10px;">
+                <li><a href="webpages/teacher-dashboard.html"><img src="../images/student-dashboard/Home.png" alt="Home" style="height: 95%;"></a></li>
+                <li><a href="{{ url_for('teacher_course') }}"><img src="../images/homework.png" alt="Courses" style="height: 95%;"></a></li>
+                <li><a href="webpages/profile.html"><img src="../images/student-dashboard/Male User.png" alt="Profile" style="height: 95%;"></a></li>
+                <li><a href="webpages/login.html"><img src="../images/student-dashboard/Logout.png" alt="Logout" style="height: 100%;"></a></li>
+            </ul>
+        </nav>
+                    <h1 id="dashHeader">DASHBOARD</h1>
+                    {% if courses %}
+                        <div class="panels">
+                            {% for course in courses %}
+                                <div class="panel">
+                                    <h3>{{ course.title }}</h3>
+                                    <p>{{ course.description }}</p>
+                                    <!-- Additional options for managing course could be added here -->
+                                </div>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        <div id="noPanelsMessage" class="center-message">
+                            <p>No courses to display. Add a course to get started!</p>
+                        </div>
+                    {% endif %}
+                </div>
+                <div class="main-content">
+                    <main class="courses-container">
+                        <section class="courses-row">
+                          <div class="course-cards">
+                            <div class="course-card">
+                              <div class="course-card-content">
+                                <div class="course-card-inner">
+                                  <div class="course-image">Course Image</div>
+                                  <div class="course-name">Course Name</div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </section>
+                      </main>
     </div>
-    <div class="main-content">
-        <div id="noPanelsMessage" class="center-message">
-            <p>You haven't joined a class yet! Press the button to join one.</p>
-            <button id="initialAddPanel">Join Class</button>
-        </div>
-        <button id="addPanel" style="display:none;">Join Class</button>
-        <div class="panels"></div>
-    </div>
-    <script src="studentcontentselector.js"></script>
+    <script src="../js/teachercontentselector.js"></script>
 </body>
+</html>

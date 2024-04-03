@@ -1,112 +1,156 @@
-body, html {
+@import url('https://fonts.googleapis.com/css2?family=Lexend+Exa:wght@100..900&display=swap');
+
+*{
+    text-align: center;
+    font-family: Arial, sans-serif;
+    margin: 0;
+}
+header, h1,h2, h3{
+    font-family: 'Lexend Exa';
+    text-align: center;
+}
+
+body{
+    top: 0;
+    margin: 0;
+}
+
+nav ul{
+    list-style-type: none;
     margin: 0;
     padding: 0;
-    font-family: Arial, sans-serif;
-}
-
-.dashboard {
-    display: flex;
-    height: 100vh;
-}
-
-.dashboard h1{
-    position: absolute;
-    padding:10px;
-    left:43.5%;
-}
-
-.sidebar {
-    background-color: #0F1B44;
-    padding: 10px;
-    width: 75px;
+    width: 105px;
+    background-color: #0f1b44;
     height: 100%;
-    display: flex;
-    flex-direction: column;
     position: fixed;
-    top: 0;
+    overflow: auto;
 }
 
-.sidebar #logo{
-   width: 100%;
-   margin-top: -5px;
+nav ul li a{
+    display: block;
+    height: 50px;
+    padding: 15px;
 }
 
-a {
-text-decoration: none;
+nav li:hover{
+    background-color:#1f2f64 
 }
 
-.sidebar button {
+#course-card{
+    margin: 5px;
+    text-align: center;
+    padding: 5px;
+}
+
+#course-card h4{
+    border: 1px solid #0f1b44;
+    background-color: #48b896;
+    padding: 15px;
+    width: 170px;
+    
+}
+
+#course-card h5{
+    border: 1px solid #0f1b44;
+    background-color: #d8f8f1;
+    padding: 15px;
+    height: 50px;
+    width: 170px;
+    text-align: center;
+    vertical-align: middle;
+    border-bottom: none;
+    top: 50%
+   
+}
+
+.courses-container {
     display: flex;
     flex-direction: column;
-    align-items: center;
-    background-color: #1CB9BE;
-    padding: 7.5px;
-    width: 6.6em;
-    height: 6.6em;
-    border: solid;
-    border-color: black;
-    border-width: 1.5px;
-    cursor: pointer;
-    text-align: center;
-    font-size: 0.7em;
-}
+    padding-left: 150px;
+  }
 
-.sidebar button img {
-    max-width: 75%;
-    height: auto;
-    margin-top: 2.5px;
-    margin-bottom: 2.5px;
-}
-
-.sidebar button:hover{
-    background-color: #fff;
-}
-
-.main-content {
-    flex-grow: 1;
-    padding: 20px;
-}
-
-.main-content button {
-    display: block;
-    margin-bottom: 20px;
-    text-align: center;
-    position: absolute;
-    top: 130%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 10%;
-    height: 75%;
-    background-color: #1CB9BE;
-    border-width: 1px;
-    border-radius: 5px;
-    font-size: 1.1em;
-}
-
-.main-content button:hover {
-    background-color: #06a3a9;
-}
-
-.center-message {
-    text-align: center;
-    position: absolute;
-    top: 45%;
-    left: 50%;
-    transform: translate(-50%, -50%);
+  .courses-row {
     width: 100%;
+    padding: 0 20px;
+  }
+
+  .course-cards {
+    display: flex;
+    gap: 20px;
+  }
+
+  .course-card {
+    display: flex;
+    flex-direction: column;
+    width: 30%;
+    margin-left: 0;
+  }
+
+  .course-card-content {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    box-shadow: -2px 4px 4px 0 rgba(0, 0, 0, 0.25);
+    font-size: 20px;
+    color: #000;
+    font-weight: 400;
+    text-align: center;
+    justify-content: center;
+  }
+
+  .course-card-inner {
+    display: flex;
+    flex-direction: column;
+    border: 2px solid rgba(15, 27, 68, 1);
+    background-color: #fff;
+  }
+
+  .course-image {
+    padding: 75px 60px 47px;
+    font-family: Inter, sans-serif;
+    background-color: rgba(114, 237, 202, 0.51);
+    align-items: center;
+  }
+
+  .course-name {
+    padding: 34px 60px;
+    font-family: Inter, sans-serif;
+    background-color: #48b896;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .courses-row-2 {
+    margin-top: 84px;
+    width: 100%;
+    padding: 0 20px;
+  }
+
+#left{
+    width: 60%;
+    float: left;
+    left: 60px;
+    margin: 5%;
+    padding: 0;
+    position: relative;
+    text-align: center;
+    border-right: 1px solid;
 }
 
-#addPanel {
-    display: block;
-    margin: 20px auto;
+#right{
+    width: 40%;
+    margin: 5%;
 }
 
-.panel {
-    border: 1px solid #ddd;
-    padding: 20px;
-    margin-bottom: 10px;
+.content{
+    display: -webkit-inline-box;
+    margin: 5px;
+    padding: 2px;
 }
 
-.section {
-    display: none;
+#right ul li{
+    list-style-type: none;
+    background-color: #f9e7da;
+    padding: 10px;
+    margin: 5px;
 }

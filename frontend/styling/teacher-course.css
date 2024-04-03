@@ -1,0 +1,151 @@
+@import url('https://fonts.googleapis.com/css2?family=Lexend+Exa:wght@100..900&display=swap');
+
+*{
+    text-align: center;
+    font-family: Arial, sans-serif;
+    margin: 0;
+}
+header, h1,h2, h3{
+    font-family: 'Lexend Exa';
+    text-align: center;
+}
+
+body{
+    top: 0;
+    margin: 0;
+}
+
+nav ul{
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    width: 90px;
+    background-color: #0f1b44;
+    height: 100%;
+    position: fixed;
+    overflow: auto;
+}
+
+nav ul li a{
+    display: block;
+    height: 50px;
+    padding: 15px;
+}
+
+nav li:hover{
+    background-color:#1f2f64 
+}
+
+header h2{
+    background-color: #48b896;
+    padding: 5px;
+    width: 100%;
+}
+
+header ul{
+    width: 100%;
+    background-color: #acdfcf;
+    padding: 5px;
+}
+
+header ul li{
+    display: inline-block;
+    list-style-type: none;
+    width: 20%;
+    padding: 0;
+    margin: 2px;
+}
+
+header ul li a{
+    text-decoration: none;
+    color: black;
+    position: relative;
+    font-family: 'Lexend Exa';
+    padding: 7px;
+    margin: 0;
+    width: 20%;
+}
+
+header ul li a:hover{
+    background-color: #48b896;
+}
+
+.weekly-module{
+    float: left;
+    width: 55%;
+    padding: 10px;
+    margin: 10px;
+    margin-left: 125px;
+    margin-right: 0;
+}
+
+.weekly-module div{
+    background-color: #d8faf1;
+    margin-bottom: 10px;
+}
+.weekly-module div h3{
+    text-align: center;
+    background-color: #acdfcf;
+    padding: 5px;
+}
+
+.weekly-module div ul{    
+    margin-left: 15px;
+    text-align: left;
+}
+
+.weekly-module div ul li{
+    text-align: left;
+    list-style-type: none;
+   
+    padding: 7px;
+}
+
+.weekly-module div ul li a{
+    text-decoration: none;
+    color: #000;
+    text-align: left;
+}
+
+.weekly-module div ul li a:hover{
+    font-weight: bold;
+}
+
+.announcement{
+    display: inline-block;
+    margin: 10px;
+    margin-right: 250px;
+    padding-left: 0;
+}
+
+.announcement div{
+    width: 225%;
+    margin: 0;
+    padding: 5px;
+}
+
+.announcement div h4{
+    background-color: #f7d8c2;
+    font-family: 'Lexend Exa';
+    padding: 5px;
+}
+
+.announcement div p{
+    margin-bottom: 10px;
+    overflow: hidden;
+    background-color: #f9e7da;
+    padding: 20px;
+    text-align: left;
+    padding-bottom: 125%;
+}
+
+button {
+    background-color: #e69a64;
+    text-decoration: none;
+    border-radius: 5px;
+    margin-top: 10px;
+    margin-left: 75%;
+    width:100%;
+    padding:5px;
+    font-size:1.2em;
+}

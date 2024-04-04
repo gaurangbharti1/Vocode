@@ -5,9 +5,9 @@ from flask_bcrypt import Bcrypt
 app = Flask(__name__, template_folder='../frontend/', static_url_path='', static_folder='../frontend')
 
 app.config['MYSQL_HOST'] = 'sql3.freemysqlhosting.net'
-app.config['MYSQL_USER'] = 'sql3694990'
-app.config['MYSQL_PASSWORD'] = 'bV4Nqi1Hiw'
-app.config['MYSQL_DB'] = 'sql3694990'
+app.config['MYSQL_USER'] = 'sql3696835'
+app.config['MYSQL_PASSWORD'] = 'WHCD2VSeGB'
+app.config['MYSQL_DB'] = 'sql3696835'
 app.config['MYSQL_CURSORCLASS'] = 'DictCursor'
 app.config['SECRET_KEY'] = 'test_key'
 

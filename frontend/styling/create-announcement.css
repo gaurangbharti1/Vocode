@@ -5,7 +5,7 @@
     font-family: Arial, sans-serif;
     margin: 0;
 }
-header, h1,h2, h3{
+header, h1, h2, h3{
     font-family: 'Lexend Exa';
     text-align: center;
 }
@@ -19,7 +19,7 @@ nav ul{
     list-style-type: none;
     margin: 0;
     padding: 0;
-    width: 105px;
+    width: 90px;
     background-color: #0f1b44;
     height: 100%;
     position: fixed;
@@ -47,13 +47,13 @@ header ul{
     background-color: #acdfcf;
     padding: 5px;
 }
-
 header ul li{
     display: inline-block;
     list-style-type: none;
     width: 20%;
     padding: 0;
     margin: 2px;
+    
 }
 
 header ul li a{
@@ -70,82 +70,51 @@ header ul li a:hover{
     background-color: #48b896;
 }
 
-.weekly-module{
-    float: left;
-    width: 55%;
-    padding: 10px;
-    margin: 10px;
-    margin-left: 125px;
-    margin-right: 0;
+.form-group{
+    margin:20px;
 }
 
-.weekly-module div{
-    background-color: #d8faf1;
-    margin-bottom: 10px;
-}
-.weekly-module div h3{
-    text-align: center;
-    background-color: #acdfcf;
-    padding: 5px;
-}
-
-.weekly-module div ul{    
-    margin-left: 15px;
-    text-align: left;
-}
-
-.weekly-module div ul li{
-    text-align: left;
-    list-style-type: none;
-   
-    padding: 7px;
-}
-
-.weekly-module div ul li a{
-    text-decoration: none;
-    color: #000;
-    text-align: left;
-}
-
-.weekly-module div ul li a:hover{
-    font-weight: bold;
-}
-
-.announcement{
-    display: inline-block;
-    margin: 10px;
-    margin-right: 250px;
-    padding-left: 0;
-}
-
-.announcement div{
-    width: 225%;
-    margin: 0;
-    padding: 5px;
-}
-
-.announcement div h4{
-    background-color: #f7d8c2;
+label{
+    margin:10px;
     font-family: 'Lexend Exa';
-    padding: 5px;
+    display: block;
+    font-size:1.3em;
 }
 
-.announcement div p{
-    margin-bottom: 10px;
-    overflow: hidden;
-    background-color: #f9e7da;
-    padding: 20px;
+#assignmentDescription{
+    height:400px;
+    width:1000px;
+}
+
+#assignmentTitle{
+    font-size:1.5em;
+    height:25px;
+    width:500px;
+}
+
+#dueDate{
+    height:25px;
+    width:200px;
+    font-size:1.2em;
+}
+
+select{
+    height:25px;
+    width:200px;
+    font-size:1.2em;
+}
+
+textarea{
+    font-size: 1.2em;
     text-align: left;
-    padding-bottom: 125%;
 }
 
-button {
-    background-color: #e69a64;
+button{
+    background-color: #48b896;
     text-decoration: none;
     border-radius: 5px;
     margin-top: 10px;
-    margin-left: 75%;
-    width:100%;
+    width:25%;
     padding:5px;
     font-size:1.2em;
 }

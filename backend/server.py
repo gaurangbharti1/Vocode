@@ -307,9 +307,14 @@ def student_dashboard():
                    WHERE Enrollment.student_id = %s
                    GROUP BY Courses.id''', (user_id,))
     courses = cur.fetchall()
+    cur.execute('''SELECT Assignment.title, Assignment.dueDate
+                    FROM Assignment
+                    JOIN Enrollment ON Enrollment.course_id = Assignment.course_id
+                    WHERE Enrollment.student_id = %s''', (user_id,))
+    assignments = cur.fetchall()
     cur.close()
 
-    return render_template('webpages/student-dashboard.html', courses=courses)
+    return render_template('webpages/student-dashboard.html', courses=courses, assignments = assignments)
 
 @app.route('/teacher-dashboard')
 def teacher_dashboard():

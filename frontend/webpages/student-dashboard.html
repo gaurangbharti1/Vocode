@@ -65,9 +65,11 @@
         <div id="right">
             <h2>Upcoming Assignments</h2>
             <ul>
-                <li>Assignment 1 - Due Date: 10/15/2022</li>
-                <li>Assignment 2 - Due Date: 10/22/2022</li>
-                <li>Assignment 3 - Due Date: 10/29/2022</li>
+                {% for assignment in assignments %}
+                    <li>{{ assignment.title }} - Due Date: {{ assignment.dueDate }}</li>
+                {% else %}
+                    <li>No Assignments due!</li>
+                {% endfor %}
             </ul>
         </div>
     </section>

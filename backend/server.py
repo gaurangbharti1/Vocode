@@ -140,7 +140,7 @@ def index():
     return render_template("webpages/login.html")
 
 
-@app.route('/profile')
+@app.route('/`profil`e')
 def profile():
     if 'user_id' not in session:
         return redirect(url_for('login'))
@@ -343,6 +343,10 @@ def teacher_grades():
 def teacher_assignment():
     assignments = get_assignments()
     return render_template('webpages/teacher-assignment.html', assignments = assignments)
+
+@app.route('/teacher-resource')
+def teacher_resource():
+    return render_template('webpages/teacher-resource.html')
 
 def get_assignments():
     teacher_id = session.get('user_id')

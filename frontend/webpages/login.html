@@ -20,7 +20,11 @@
                 
                 <label for="password">Password</label>
                 <input type="password" id="password" name="password" required>
-                
+
+                {% if error %}
+                    <p class="error-message" style="font-size: 10px; font-weight: bold; text-align: center;">{{ error }}</p>
+                {% endif %}
+
                 <button type="submit">Login</button>
 
                 <p><h3>New to savnac? <a href="../webpages/signup.html" class="signup-button">Sign up here</a></h3></p>

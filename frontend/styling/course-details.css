@@ -1,0 +1,60 @@
+@import url('https://fonts.googleapis.com/css2?family=Lexend+Exa:wght@100..900&display=swap');
+
+nav ul{
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    width: 60px;
+    background-color: #0f1b44;
+    height: 100%;
+    position: fixed;
+    overflow: auto;
+
+}
+
+nav ul li a{
+    display: block;
+    height: 50px;
+}
+
+.details-container {
+    margin-left: 105px; /* Same as nav width */
+    padding: 20px;
+    width: calc(100% - 105px); /* Adjust width as necessary */
+}
+
+.details-container h1 {
+    margin-bottom: 20px;
+}
+
+.details-container p {
+    margin: 10px 0;
+}
+
+.grade-distribution {
+    margin: 20px 0;
+    background-color: #f0f0f0;
+    padding: 20px;
+    /* Placeholder styles, replace with actual graph */
+    text-align: center;
+}
+
+.action-buttons {
+    margin-top: 30px;
+    display: flex;
+    justify-content: space-evenly;
+}
+
+.action-buttons button {
+    padding: 10px 15px;
+    background-color: #0f1b44;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.action-buttons button:hover {
+    background-color: #1f2f64;
+}

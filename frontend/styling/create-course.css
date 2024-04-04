@@ -1,0 +1,59 @@
+@import url('https://fonts.googleapis.com/css2?family=Lexend+Exa:wght@100..900&display=swap');
+
+/* Same reset styles as before */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Lexend Exa', Arial, sans-serif;
+}
+
+/* Reusing nav styles */
+nav ul{
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    width: 60px;
+    background-color: #0f1b44;
+    height: 100%;
+    position: fixed;
+    overflow: auto;
+
+}
+
+nav ul li a{
+    display: block;
+    height: 50px;
+}
+
+.form-container {
+    margin-left: 105px; /* Same as nav width */
+    padding: 20px;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    width: calc(100% - 210px); /* Adjust width as necessary */
+    margin-top: 1em;
+}
+
+form label, form input, form button {
+    margin: 10px 0;
+}
+
+form input, form button {
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #ddd;
+}
+
+form button {
+    background-color: #4CAF50; /* Green */
+    color: white;
+    cursor: pointer;
+}
+
+form button:hover {
+    background-color: #45a049;
+}

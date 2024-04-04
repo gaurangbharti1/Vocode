@@ -45,5 +45,20 @@
             </a>
         </div>
     </div>
+
+    <div class="main-content">
+        <div id="noPanelsMessage" class="center-message">
+            <form action="/create-course" method="POST">
+                <label for="courseTitle">Course Title:</label>
+                <input type="text" id="courseTitle" name="courseTitle" required> 
+                
+                <label for="Description">Description:</label>
+                <input type="text" id="Description" name="Description" required>
+                <br>
+                <button type="submit">Create Course</button>
+            </form>
+        </div>
+        <div class="panels"></div>
+    </div>
     <script src="studentcontentselector.js"></script>
 </body>

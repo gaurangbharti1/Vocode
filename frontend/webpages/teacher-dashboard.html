@@ -17,39 +17,26 @@
                 <li><a href="{{ url_for('index') }}"><img src="../images/student-dashboard/Logout.png" alt="Logout" style="height: 100%;"></a></li>
             </ul>
         </nav>
+        <section id=content>
                     <h1 id="dashHeader">DASHBOARD</h1>
                     {% if courses %}
                         <div class="panels">
                             {% for course in courses %}
-                                <div class="panel">
-                                    <h3>{{ course.title }}</h3>
+                                <div id="course-card">
+                                    <h2>{{ course.title }}</h2>
                                     <p>{{ course.description }}</p>
                                     <!-- Additional options for managing course could be added here -->
                                 </div>
                             {% endfor %}
                         </div>
+
                     {% else %}
                         <div id="noPanelsMessage" class="center-message">
-                            <p>No courses to display. Add a course to get started!</p>
+                            <p>No courses to display. Please contact an admin if you're missing courses.</p>
                         </div>
                     {% endif %}
                 </div>
-                <div class="main-content">
-                    <main class="courses-container">
-                        <section class="courses-row">
-                          <div class="course-cards">
-                            <div class="course-card">
-                              <div class="course-card-content">
-                                <div class="course-card-inner">
-                                  <div class="course-image">Course Image</div>
-                                  <div class="course-name">Course Name</div>
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-                        </section>
-                      </main>
-    </div>
+            </section>
     <script src="../js/teachercontentselector.js"></script>
 </body>
 </html>

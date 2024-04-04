@@ -140,7 +140,7 @@ def index():
     return render_template("webpages/login.html")
 
 
-@app.route('/`profil`e')
+@app.route('/profile')
 def profile():
     if 'user_id' not in session:
         return redirect(url_for('login'))
@@ -204,7 +204,7 @@ def student_classes():
     classes = cur.fetchall()
     cur.close()
 
-    return render_template('webpages/student-classes.html', classes=classes)
+    return render_template('webpages/student-course.html', classes=classes)
 
 @app.route('/register', methods=['POST'])
 def register():

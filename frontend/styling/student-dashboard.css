@@ -37,6 +37,7 @@ nav li:hover{
 }
 
 #course-card{
+    position: relative;
     margin: 5px;
     text-align: center;
     padding: 5px;
@@ -50,7 +51,7 @@ nav li:hover{
     
 }
 
-#course-card h5{
+#course-card p{
     border: 1px solid #0f1b44;
     background-color: #d8f8f1;
     padding: 15px;
@@ -58,7 +59,6 @@ nav li:hover{
     width: 170px;
     text-align: center;
     vertical-align: middle;
-    border-bottom: none;
     top: 50%
    
 }

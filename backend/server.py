@@ -86,7 +86,6 @@ def initialize_database():
         FOREIGN KEY (course_id) REFERENCES Courses(id) ON DELETE CASCADE
     )''')
 
-    # hashed_password = bcrypt.generate_password_hash("hashed_password").decode('utf-8')
     # Insert dummy users
     cur.execute(f"INSERT IGNORE INTO Users (first_name, last_name, date_of_birth, email, password, role) VALUES ('John', 'Doe', '1990-01-01', 'john.doe@example.com', 'hashed_password', 'admin')")
     cur.execute(f"INSERT IGNORE INTO Users (first_name, last_name, date_of_birth, email, password, role) VALUES ('Jane', 'Smith', '1992-02-02', 'jane.smith@example.com', 'hashed_password', 'teacher')")
@@ -172,8 +171,7 @@ def assignments():
     cur.close()
 
     return render_template('webpages/assignments.html', assignments=assignments)
-
-
+  
 @app.route('/teacher-classes')
 def teacher_classes():
     if 'user_id' not in session:

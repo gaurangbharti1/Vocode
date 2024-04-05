@@ -314,6 +314,31 @@ def student_dashboard():
 
     return render_template('webpages/student-dashboard.html', courses=courses, assignments = assignments)
 
+@app.route('/student-course')
+def student_course():
+    return render_template('webpages/student-course.html')
+
+@app.route('/student-grades')
+def student_grades():
+    return render_template('webpages/student-grades.html')
+
+@app.route('/student-assignment')
+def student_assignment():
+    assignments = get_assignments()
+    return render_template('webpages/student-assignment.html', assignments = assignments)
+
+@app.route('/student-resource')
+def student_resource():
+    return render_template('webpages/student-resource.html')
+
+@app.route('/quiz')
+def quiz():
+    return render_template('webpages/quiz.html')
+
+@app.route('/written_assignment')
+def written_assignment():
+    return render_template('webpages/written-assignment.html')
+
 @app.route('/teacher-dashboard')
 def teacher_dashboard():
     if 'user_id' not in session or session['role'] != 'teacher':

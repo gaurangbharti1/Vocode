@@ -1,3 +1,4 @@
+
 from flask import Flask, flash, redirect, render_template, request, session, url_for, jsonify
 from flask_mysqldb import MySQL
 from flask_bcrypt import Bcrypt
@@ -5,9 +6,9 @@ from flask_bcrypt import Bcrypt
 app = Flask(__name__, template_folder='../frontend/', static_url_path='', static_folder='../frontend')
 
 app.config['MYSQL_HOST'] = 'sql3.freemysqlhosting.net'
-app.config['MYSQL_USER'] = 'sql3694990'
-app.config['MYSQL_PASSWORD'] = 'bV4Nqi1Hiw'
-app.config['MYSQL_DB'] = 'sql3694990'
+app.config['MYSQL_USER'] = 'sql3696835'
+app.config['MYSQL_PASSWORD'] = 'WHCD2VSeGB'
+app.config['MYSQL_DB'] = 'sql3696835'
 app.config['MYSQL_CURSORCLASS'] = 'DictCursor'
 app.config['SECRET_KEY'] = 'test_key'
 
@@ -38,12 +39,21 @@ def initialize_database():
         FOREIGN KEY (admin_id) REFERENCES Users(id)
     )''')
 
-    # Create the Assignments table
     cur.execute('''CREATE TABLE IF NOT EXISTS Assignments (
         id INT AUTO_INCREMENT PRIMARY KEY,
         title VARCHAR(255),
         type VARCHAR(255),
         content TEXT,
+        course_id INT,
+        FOREIGN KEY (course_id) REFERENCES Courses(id)
+    )''')
+
+    # Create the Assignments table
+    cur.execute('''CREATE TABLE IF NOT EXISTS Assignment (
+        id INT AUTO_INCREMENT PRIMARY KEY,
+        title VARCHAR(255),
+        description VARCHAR(255),
+        dueDate DATE,
         course_id INT,
         FOREIGN KEY (course_id) REFERENCES Courses(id)
     )''')
@@ -112,12 +122,12 @@ def initialize_assignments():
     cur = mysql.connection.cursor()
 
     # Check if the Assignments table is empty
-    cur.execute("SELECT COUNT(*) as count FROM Assignments")
+    cur.execute("SELECT COUNT(*) as count FROM Assignment")
     result = cur.fetchone()
     if result['count'] == 0:
         # The table is empty, safe to insert dummy data
-        cur.execute("INSERT INTO Assignments (title, type, content, course_id) VALUES ('Introduction to Programming', 'Homework', 'Complete the Python exercise.', 1)")
-        cur.execute("INSERT INTO Assignments (title, type, content, course_id) VALUES ('Database Basics', 'Quiz', 'Take the SQL basics quiz.', 2)")
+        cur.execute("INSERT INTO Assignment (title, description, dueDate, course_id) VALUES ('Introduction to Web Development', 'Complete the HTML and CSS exercise.', '2024-05-01', 1)")
+        cur.execute("INSERT INTO Assignment (title, description, dueDate, course_id) VALUES ('Advanced Database Management', 'Read chapter 4 of the database textbook and answer questions 1-10.', '2024-06-15', 2)")
         print("Assignments inserted.")
     else:
         print("Assignments table was not empty")
@@ -128,6 +138,7 @@ def initialize_assignments():
 @app.route('/')
 def index():
     return render_template("webpages/login.html")
+
 
 @app.route('/profile')
 def profile():
@@ -151,9 +162,9 @@ def assignments():
     user_id = session['user_id']
 
     cur = mysql.connection.cursor()
-    cur.execute('''SELECT Assignments.id, Assignments.title, Assignments.type, Assignments.content, Courses.title AS course_title
-                   FROM Assignments
-                   JOIN Courses ON Assignments.course_id = Courses.id
+    cur.execute('''SELECT Assignment.id, Assignment.title, Assignment.description, Courses.title AS course_title
+                   FROM Assignment
+                   JOIN Courses ON Assignment.course_id = Courses.id
                    JOIN Enrollment ON Courses.id = Enrollment.course_id
                    WHERE Enrollment.student_id = %s''', (user_id,))
     assignments = cur.fetchall()
@@ -193,7 +204,7 @@ def student_classes():
     classes = cur.fetchall()
     cur.close()
 
-    return render_template('webpages/student-classes.html', classes=classes)
+    return render_template('webpages/student-course.html', classes=classes)
 
 @app.route('/register', methods=['POST'])
 def register():
@@ -287,16 +298,46 @@ def student_dashboard():
     user_id = session['user_id']
     
     cur = mysql.connection.cursor()
-    cur.execute('''SELECT Courses.id, Courses.title, Courses.description, COUNT(Assignments.id) as assignment_count
+    cur.execute('''SELECT Courses.id, Courses.title, Courses.description, COUNT(Assignment.id) as assignment_count
                    FROM Enrollment
                    JOIN Courses ON Enrollment.course_id = Courses.id
-                   LEFT JOIN Assignments ON Courses.id = Assignments.course_id
+                   LEFT JOIN Assignment ON Courses.id = Assignment.course_id
                    WHERE Enrollment.student_id = %s
                    GROUP BY Courses.id''', (user_id,))
     courses = cur.fetchall()
+    cur.execute('''SELECT Assignment.title, Assignment.dueDate
+                    FROM Assignment
+                    JOIN Enrollment ON Enrollment.course_id = Assignment.course_id
+                    WHERE Enrollment.student_id = %s''', (user_id,))
+    assignments = cur.fetchall()
     cur.close()
 
-    return render_template('webpages/student-dashboard.html', courses=courses)
+    return render_template('webpages/student-dashboard.html', courses=courses, assignments = assignments)
+
+@app.route('/student-course')
+def student_course():
+    return render_template('webpages/student-course.html')
+
+@app.route('/student-grades')
+def student_grades():
+    return render_template('webpages/student-grades.html')
+
+@app.route('/student-assignment')
+def student_assignment():
+    assignments = get_assignments()
+    return render_template('webpages/student-assignment.html', assignments = assignments)
+
+@app.route('/student-resource')
+def student_resource():
+    return render_template('webpages/student-resource.html')
+
+@app.route('/quiz')
+def quiz():
+    return render_template('webpages/quiz.html')
+
+@app.route('/written_assignment')
+def written_assignment():
+    return render_template('webpages/written-assignment.html')
 
 @app.route('/teacher-dashboard')
 def teacher_dashboard():
@@ -314,6 +355,84 @@ def teacher_dashboard():
     cur.close()
 
     return render_template('webpages/teacher-dashboard.html', courses=courses)
+
+@app.route('/teacher-course')
+def teacher_course():
+    return render_template('webpages/teacher-course.html')
+
+@app.route('/teacher-grades')
+def teacher_grades():
+    return render_template('webpages/teacher-grades.html')
+
+@app.route('/teacher-assignment')
+def teacher_assignment():
+    assignments = get_assignments()
+    return render_template('webpages/teacher-assignment.html', assignments = assignments)
+
+@app.route('/teacher-resource')
+def teacher_resource():
+    return render_template('webpages/teacher-resource.html')
+
+def get_assignments():
+    teacher_id = session.get('user_id')
+    if not teacher_id:
+        print("User ID not found in session")
+        return []
+
+    try:
+        cur = mysql.connection.cursor()
+        cur.execute('''SELECT Assignment.title, Assignment.description, Assignment.dueDate
+                       FROM Assignment
+                       JOIN TeacherCourses ON Assignment.course_id = TeacherCourses.course_id
+                       WHERE TeacherCourses.teacher_id = %s''', (teacher_id,))
+        assignments = cur.fetchall() or []  # Ensure assignments is not None
+        cur.close()
+        return assignments
+    except Exception as e:
+        print(f"An error occurred: {e}")
+        return []  # Return an empty list on error
+
+
+@app.route('/create-assignment')
+def create_assignment():
+    courses = get_teacher_courses()
+    return render_template('webpages/create-assignment.html', courses = courses)
+
+def get_teacher_courses():
+    teacher_id = session['user_id']
+    cur = mysql.connection.cursor()
+    cur.execute('''SELECT Courses.title, Courses.id
+                   FROM TeacherCourses
+                   JOIN Courses ON TeacherCourses.course_id = Courses.id
+                   WHERE TeacherCourses.teacher_id = %s''', (teacher_id,))
+    courses = cur.fetchall()
+    cur.close()
+
+    return courses
+
+@app.route('/submit-assignment', methods=['POST'])
+def submit_assignment():
+    title = request.form['title']
+    description = request.form['description']
+    due_date = request.form['due_date']
+    class_id = request.form['class_id']
+
+    try:
+        cur = mysql.connection.cursor()
+        cur.execute('''
+            INSERT INTO Assignment (title, description, dueDate, course_id)
+            VALUES (%s, %s, %s, %s)
+        ''', (title, description, due_date, class_id))
+        mysql.connection.commit()
+        assignments = get_assignments()
+        return render_template('webpages/teacher-assignment.html', assignments = assignments)
+    except Exception as e:
+        # Log the detailed error message and traceback
+        print("An error occurred:", str(e))
+        return render_template('webpages/500.html'), 500
+
+
+
 
 if __name__ == '__main__':
     app.run(debug=True)

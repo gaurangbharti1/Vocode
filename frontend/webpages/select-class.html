@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Select Class</title>
+    <link rel="stylesheet" href="../styling/class-select.css"> <!-- Update the path as necessary -->
+</head>
+<body>
+    <div class="content">
+        <h1>Select a Class to Join</h1>
+        {% if courses %}
+            <ul class="course-list">
+                {% for course in courses %}
+                    <li class="course-item">
+                        <h3>{{ course.title }}</h3>
+                        <p>{{ course.description }}</p>
+                        <form action="{{ url_for('join_class') }}" method="post">
+                            <input type="hidden" name="course_id" value="{{ course.id }}">
+                            <button type="submit" class="join-btn">Join</button>
+                        </form>
+                    </li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p>No classes available to join at the moment.</p>
+        {% endif %}
+    </div>
+</body>
+</html>

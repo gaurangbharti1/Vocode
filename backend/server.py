@@ -6,9 +6,9 @@ from flask_bcrypt import Bcrypt
 app = Flask(__name__, template_folder='../frontend/', static_url_path='', static_folder='../frontend')
 
 app.config['MYSQL_HOST'] = 'sql3.freemysqlhosting.net'
-app.config['MYSQL_USER'] = 'sql3696835'
-app.config['MYSQL_PASSWORD'] = 'WHCD2VSeGB'
-app.config['MYSQL_DB'] = 'sql3696835'
+app.config['MYSQL_USER'] = 'sql3697454'
+app.config['MYSQL_PASSWORD'] = 'NIHBljF31P'
+app.config['MYSQL_DB'] = 'sql3697454'
 app.config['MYSQL_CURSORCLASS'] = 'DictCursor'
 app.config['SECRET_KEY'] = 'test_key'
 
@@ -86,22 +86,26 @@ def initialize_database():
         FOREIGN KEY (course_id) REFERENCES Courses(id) ON DELETE CASCADE
     )''')
 
-    # Insert dummy users
-    cur.execute(f"INSERT IGNORE INTO Users (first_name, last_name, date_of_birth, email, password, role) VALUES ('John', 'Doe', '1990-01-01', 'john.doe@example.com', 'hashed_password', 'admin')")
-    cur.execute(f"INSERT IGNORE INTO Users (first_name, last_name, date_of_birth, email, password, role) VALUES ('Jane', 'Smith', '1992-02-02', 'jane.smith@example.com', 'hashed_password', 'teacher')")
-    cur.execute(f"INSERT IGNORE INTO Users (first_name, last_name, date_of_birth, email, password, role) VALUES ('Jim', 'Bean', '1994-03-03', 'jim.bean@example.com', 'hashed_password', 'student')")
-    # insert dummy courses
-    cur.execute("INSERT IGNORE INTO Courses (title, description, admin_id) VALUES ('Basic Programming', 'Learn the fundamentals of programming.', 1)")
-    cur.execute("INSERT IGNORE INTO Courses (title, description, admin_id) VALUES ('Database Concepts', 'An introduction to relational databases.', 2)")
-    cur.execute("INSERT IGNORE INTO Courses (title, description, admin_id) VALUES ('Web Development', 'Design and develop interactive websites.', 1)")
-    cur.execute("INSERT IGNORE INTO Enrollment (student_id, course_id) VALUES (3, 1)")
-    cur.execute("INSERT IGNORE INTO Enrollment (student_id, course_id) VALUES (3, 2)")
-    cur.execute("INSERT IGNORE INTO Enrollment (student_id, course_id) VALUES (3, 3)")
-    # Insert dummy teacher-course associations
-    cur.execute("INSERT IGNORE INTO TeacherCourses (teacher_id, course_id) VALUES (2, 1)")
-    cur.execute("INSERT IGNORE INTO TeacherCourses (teacher_id, course_id) VALUES (2, 2)")
+    if cur.execute('SELECT * FROM Users') == 0:
+        # Insert dummy users
+        cur.execute(f"INSERT INTO Users (first_name, last_name, date_of_birth, email, password, role) VALUES ('John', 'Doe', '1990-01-01', 'john.doe@example.com', 'hashed_password', 'admin')")
+        cur.execute(f"INSERT INTO Users (first_name, last_name, date_of_birth, email, password, role) VALUES ('Jane', 'Smith', '1992-02-02', 'jane.smith@example.com', 'hashed_password', 'teacher')")
+        cur.execute(f"INSERT INTO Users (first_name, last_name, date_of_birth, email, password, role) VALUES ('Jim', 'Bean', '1994-03-03', 'jim.bean@example.com', 'hashed_password', 'student')")
 
+    if cur.execute('SELECT * FROM Courses') == 0:
+        # insert dummy courses
+        cur.execute("INSERT INTO Courses (title, description, admin_id) VALUES ('Basic Programming', 'Learn the fundamentals of programming.', 1)")
+        cur.execute("INSERT INTO Courses (title, description, admin_id) VALUES ('Database Concepts', 'An introduction to relational databases.', 2)")
+        cur.execute("INSERT INTO Courses (title, description, admin_id) VALUES ('Web Development', 'Design and develop interactive websites.', 1)")
+        cur.execute("INSERT INTO Enrollment (student_id, course_id) VALUES (3, 1)")
+        cur.execute("INSERT INTO Enrollment (student_id, course_id) VALUES (3, 2)")
+        cur.execute("INSERT INTO Enrollment (student_id, course_id) VALUES (3, 3)")
 
+    if cur.execute('SELECT * FROM TeacherCourses') == 0:
+        # Insert dummy teacher-course associations
+        cur.execute("INSERT INTO TeacherCourses (teacher_id, course_id) VALUES (2, 1)")
+        cur.execute("INSERT INTO TeacherCourses (teacher_id, course_id) VALUES (2, 2)")
+    
     # Commit changes and close the connection
     print('Database initialized')
     print('Users:', cur.execute('SELECT * FROM Users'))
@@ -146,14 +150,18 @@ def profile():
         return redirect(url_for('login'))
 
     user_id = session['user_id']
+    role = session['role']
     
     cur = mysql.connection.cursor()
     cur.execute('SELECT * FROM Users WHERE id = %s', (user_id,))
     user_details = cur.fetchone()
     cur.close()
 
-    return render_template('webpages/profile.html', user=user_details)
-
+    if role == 'teacher':
+        return render_template('webpages/profile-teacher.html', user=user_details)
+    elif role == 'student':
+        return render_template('webpages/profile.html', user=user_details)
+    
 @app.route('/assignments')
 def assignments():
     if 'user_id' not in session:
@@ -314,6 +322,46 @@ def student_dashboard():
 
     return render_template('webpages/student-dashboard.html', courses=courses, assignments = assignments)
 
+@app.route('/join-class', methods=['POST'])
+def join_class():
+    if 'user_id' not in session:
+        return "Unauthorized", 401
+
+    user_id = session['user_id']
+    course_id = request.form['course_id']
+    
+    try:
+        cur = mysql.connection.cursor()
+        cur.execute('INSERT INTO Enrollment (student_id, course_id) VALUES (%s, %s)', (user_id, course_id))
+        mysql.connection.commit()
+        flash('Successfully joined the class!')
+    except Exception as e:
+        flash('An error occurred while joining the class.')
+        print(e)
+    finally:
+        cur.close()
+    
+    return redirect(url_for('student_dashboard'))
+
+@app.route('/select-class')
+def select_class():
+    if 'user_id' not in session:
+        # Redirect to login if not logged in
+        return redirect(url_for('login'))
+
+    user_id = session['user_id']
+    cur = mysql.connection.cursor()
+    # Retrieve distinct courses not yet enrolled by the user
+    cur.execute('''
+        SELECT DISTINCT Courses.* FROM Courses WHERE id NOT IN (
+            SELECT DISTINCT course_id FROM Enrollment WHERE student_id = %s
+        )
+    ''', (user_id,))
+    available_courses = cur.fetchall()
+    cur.close()
+    print(available_courses)
+    return render_template('webpages/select-class.html', courses=available_courses)
+
 @app.route('/student-course')
 def student_course():
     return render_template('webpages/student-course.html')
@@ -373,6 +421,39 @@ def teacher_assignment():
 def teacher_resource():
     return render_template('webpages/teacher-resource.html')
 
+@app.route('/admin-dashboard')
+def admin_dashboard():
+    if 'user_id' not in session or session['role'] != 'admin':
+        return "Unauthorized", 401
+
+    cur = mysql.connection.cursor()
+    cur.execute('SELECT * FROM Users')
+    users = cur.fetchall()
+    cur.execute('SELECT * FROM Courses')
+    courses = cur.fetchall()
+    cur.close()
+
+    return render_template('webpages/admin-dashboard.html', users=users, courses=courses)
+
+@app.route('/admin-course')
+def admin_courses():
+    return render_template('webpages/admin-courses.html')
+
+# Course details
+@app.route('/course-details')
+def course_details():
+    return render_template('webpages/course-details.html')
+
+# Create course
+@app.route('/create-course')
+def create_course():
+    return render_template('webpages/create-course.html')
+
+# assign teacher
+@app.route('/assign-teacher')
+def assign_teacher():
+    return render_template('webpages/assign-teacher.html')
+
 def get_assignments():
     teacher_id = session.get('user_id')
     if not teacher_id:
@@ -430,8 +511,6 @@ def submit_assignment():
         # Log the detailed error message and traceback
         print("An error occurred:", str(e))
         return render_template('webpages/500.html'), 500
-
-
 
 
 if __name__ == '__main__':

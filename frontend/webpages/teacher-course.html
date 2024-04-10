@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta charset="UTF-8" />
-    <title>Course Home</title>
+    <title>{{ course.title }}</title>
     <link rel="stylesheet" href="../styling/teacher-course.css">
 </head>
 <body>
@@ -17,12 +17,12 @@
     </nav>
 
     <header>
-        <h2>Course Name</h2>
+        <h2>{{ course.title }}</h2>
         <ul>
-            <li><a href="{{ url_for('teacher_course') }}">Home</a></li>
-            <li><a href="{{ url_for('teacher_assignment') }}">Assignments</a></li>
+            <li>Home</li>
+            <li><a href="{{ url_for('teacher_assignment', courseid=course.id) }}">Assignments</a></li>
             <li><a href="{{ url_for('teacher_resource') }}">Resources</a></li>
-            <li><a href="{{ url_for('teacher_grades') }}">Grades</a></li>
+            <li><a href="{{ url_for('teacher_grades', courseid=course.id) }}">Grades</a></li>
         </ul>
     </header>
 

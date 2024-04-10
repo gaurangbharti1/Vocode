@@ -1,4 +1,5 @@
 
+
 from flask import Flask, flash, redirect, render_template, request, session, url_for, jsonify
 from flask_mysqldb import MySQL
 from flask_bcrypt import Bcrypt
@@ -360,14 +361,23 @@ def teacher_dashboard():
 def teacher_course():
     return render_template('webpages/teacher-course.html')
 
-@app.route('/teacher-grades')
-def teacher_grades():
-    return render_template('webpages/teacher-grades.html')
+@app.route('/teacher-grades/<int:courseid>')
+def teacher_grades(courseid):
+    course = get_course(courseid)
+    return render_template('webpages/teacher-grades.html', course=course)
 
-@app.route('/teacher-assignment')
-def teacher_assignment():
-    assignments = get_assignments()
-    return render_template('webpages/teacher-assignment.html', assignments = assignments)
+@app.route('/teacher-assignment/<int:courseid>')
+def teacher_assignment(courseid):
+    if 'user_id' not in session:
+        return redirect(url_for('login'))
+    
+    cur = mysql.connection.cursor()
+    cur.execute("SELECT * FROM Assignment WHERE course_id = %s", [courseid])
+    assignments = cur.fetchall()
+    cur.close()
+    
+    course = get_course(courseid)
+    return render_template('webpages/teacher-assignment.html', assignments = assignments, course=course)
 
 @app.route('/teacher-resource')
 def teacher_resource():
@@ -392,11 +402,24 @@ def get_assignments():
         print(f"An error occurred: {e}")
         return []  # Return an empty list on error
 
+def get_course(courseid):
+    cur = mysql.connection.cursor()
+    cur.execute("SELECT * FROM Courses WHERE id = %s", [courseid])
+    course = cur.fetchone()
+    cur.close()
 
-@app.route('/create-assignment')
-def create_assignment():
+    return course
+
+@app.route('/course-details/<int:courseid>')
+def course_details(courseid):
+    course = get_course(courseid)
+    return render_template('webpages/teacher-course.html', course=course)
+
+@app.route('/create-assignment/<int:courseid>')
+def create_assignment(courseid):
     courses = get_teacher_courses()
-    return render_template('webpages/create-assignment.html', courses = courses)
+    course = get_course(courseid)
+    return render_template('webpages/create-assignment.html', courses = courses, course=course)
 
 def get_teacher_courses():
     teacher_id = session['user_id']
@@ -424,8 +447,7 @@ def submit_assignment():
             VALUES (%s, %s, %s, %s)
         ''', (title, description, due_date, class_id))
         mysql.connection.commit()
-        assignments = get_assignments()
-        return render_template('webpages/teacher-assignment.html', assignments = assignments)
+        return redirect(url_for('teacher_assignment', courseid=class_id))
     except Exception as e:
         # Log the detailed error message and traceback
         print("An error occurred:", str(e))

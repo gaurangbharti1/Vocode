@@ -19,10 +19,10 @@
     <header>
         <h2>Course Name</h2>
         <ul>
-            <li><a href="{{ url_for('teacher_course') }}">Home</a></li>
-            <li><a href="{{ url_for('teacher_assignment') }}">Assignments</a></li>
+            <li><a href="{{ url_for('course_details', courseid=course.id) }}">Home</a></li>
+            <li><a href="{{ url_for('teacher_assignment', courseid=course.id) }}">Assignments</a></li>
             <li><a href="{{ url_for('teacher_resource') }}">Resources</a></li>
-            <li><a href="{{ url_for('teacher_grades') }}">Grades</a></li>
+            <li>Grades</li>
         </ul>
     </header>
 

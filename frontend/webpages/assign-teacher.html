@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Assign Teacher</title>
+    <link rel="stylesheet" href="../styling/assign-teacher.css">
+</head>
+<body>
+    <nav>
+        <!-- Make sure the paths to images and pages are correct -->
+        <ul>
+            <li><a href="admin-dashboard.html"><img src="../images/logo.png" alt="Dashboard" height="75" width="75"></a></li>
+            <li><a href="profile.html"><img src="../images/profile-icon.png" alt="Profile"></a></li>
+            <li><a href="admin-courses.html"><img src="../images/courses-icon.png" alt="Courses"></a></li>
+            <li><a href="logout.html"><img src="../images/logout-icon.png" alt="Logout"></a></li>
+        </ul>
+    </nav>
+
+    <header class="page-header">
+        <h1>Assign Teacher</h1>
+    </header>
+
+    <main class="teacher-list-container">
+        <section class="teacher-list">
+            <!-- Repeat this block for each teacher -->
+            <div class="teacher-card">
+                <span>Dr. Jane Smith - Computer Science</span>
+                <button onclick="assignTeacher('Dr. Jane Smith')">Assign</button>
+            </div>
+            <!-- Repeat for other teachers -->
+            <div class="teacher-card">
+                <span>Prof. John Doe - Mathematics</span>
+                <button onclick="assignTeacher('Prof. John Doe')">Assign</button>
+            </div>
+            <!-- Continue adding teacher cards as needed -->
+        </section>
+    </main>
+
+    <script>
+        function assignTeacher(teacherName) {
+            // Implementation placeholder
+            alert(teacherName + " has been assigned.");
+            window.location.href = "{{ url_for('course_detailss') }}"; // Ensure this is the correct path
+        }
+    </script>
+</body>
+</html>

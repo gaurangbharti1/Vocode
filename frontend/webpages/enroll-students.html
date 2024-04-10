@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Enroll Students</title>
+    <link rel="stylesheet" href="../styling/enroll-students.css">
+</head>
+<body>
+    <nav>
+        <ul>
+            <li><a href="{{ url_for('admin_dashboard') }}"><img src="../images/student-dashboard/Home.png" alt="Home" style="height: 50%; margin:20%;"></a></li>
+            <li><a href="{{ url_for('admin_courses') }}"><img src="../images/student-dashboard/Literature.png" alt="Courses" style="height: 50%; margin:10%;"></a></li>
+            <li><a href="#"><img src="../images/student-dashboard/Calendar 7.png" alt="Calendar" style="height: 50%; margin:10%;"></a></li>
+            <li><a href="#"><img src="../images/student-dashboard/Letter.png" alt="Inbox" style="height: 50%; margin:10%;"></a></li>
+            <li><a href="{{ url_for('profile') }}"><img src="../images/student-dashboard/Male User.png" alt="Profile" style="height: 50%; margin:10%;"></a></li>
+            <li><a href="{{ url_for('login') }}"><img src="../images/student-dashboard/Logout.png" alt="Logout" style="height: 60%; margin:10%;"></a></li>
+        </ul>
+    </nav>
+
+    <header class="page-header">
+        <h1>Enroll Students</h1>
+    </header>
+
+    <main class="student-list-container">
+        <section class="student-list">
+            <!-- Example student entry -->
+            <div class="student-card">
+                <span>Alice Johnson - aljohnson@example.com</span>
+                <button onclick="enrollStudent('Alice Johnson')">Enroll</button>
+            </div>
+            <!-- Repeat for other example students -->
+            <div class="student-card">
+                <span>Bob Smith - bsmith@example.com</span>
+                <button onclick="enrollStudent('Bob Smith')">Enroll</button>
+            </div>
+            <!-- Continue adding student cards as needed -->
+        </section>
+    </main>
+
+    <script>
+        function enrollStudent(studentName) {
+            // Placeholder for enrollment logic
+            alert(studentName + " has been enrolled.");
+            // Redirect to the course details page (You'll need to replace 'course-details.html' with the actual path)
+            window.location.href = "{{ url_for('course_details') }}";
+        }
+    </script>
+</body>
+</html>

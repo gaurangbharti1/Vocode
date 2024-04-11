@@ -1,42 +1,56 @@
+
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta charset="UTF-8"/>
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link rel="stylesheet" href="../styling/quiz.css">
-        <title>Quiz</title>
-    </head>
-    <body>
-        <nav>
-            <ul>
-                <img id="logo" src="../images/savnac1transparent.png" height="75" width="75" style="padding-top: 10px;">
-                <li><a href="{{ url_for('student_dashboard') }}"><img src="../images/student-dashboard/Home.png" alt="Home" style="height: 95%;"></a></li>
-                <li><a href="{{ url_for('profile') }}"><img src="../images/student-dashboard/Male User.png" alt="Profile" style="height: 95%;"></a></li>
-                <li><a href="{{ url_for('index') }}"><img src="../images/student-dashboard/Logout.png" alt="Logout" style="height: 100%;"></a></li>
-            </ul>
-        </nav>
 
-        <header>
-            <h2>Course Name</h2>
-            <ul>
-                <li><a href="{{ url_for('student_course') }}">Home</a></li>
-                <li><a href="{{ url_for('student_assignment') }}">Assignments</a></li>
-                <li><a href="{{ url_for('student_resource') }}">Resources</a></li>
-                <li><a href="{{ url_for('student_grades') }}">Grades</a></li>
-            </ul>
-        </header>
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../styling/quiz.css">
+    <title>Written Assignment</title>
+</head>
 
-        <div>
-            <h2>Write a small response to this question:</h2>
-            <p>What is the purpose of life?</p>
+<body>
+    <nav>
+        <ul>
+            <img id="logo" src="../images/savnac1transparent.png" height="75" width="75" style="padding-top: 10px;">
+            <li><a href="{{ url_for('student_dashboard') }}"><img src="../images/student-dashboard/Home.png" alt="Home"
+                        style="height: 95%;"></a></li>
+            <li><a href="{{ url_for('student_course') }}"><img src="../images/homework.png" alt="Courses"
+                        style="height: 95%;"></a></li>
+            <li><a href="{{ url_for('profile') }}"><img src="../images/student-dashboard/Male User.png" alt="Profile"
+                        style="height: 95%;"></a></li>
+            <li><a href="{{ url_for('index') }}"><img src="../images/student-dashboard/Logout.png" alt="Logout"
+                        style="height: 100%;"></a></li>
+        </ul>
+    </nav>
 
-            <form action="">
-                <label for="response">Write your response below:</label>
-                <br>
-                <textarea name="response" id="response" cols="60" rows="10"></textarea>
-                <br>
-                <input type="submit" value="Submit">
-            </form>
-        </div>
-    </body>
+    <header>
+        <h2>Course Name</h2>
+        <ul>
+            <li><a href="{{ url_for('student_course') }}">Home</a></li>
+            <li><a href="{{ url_for('student_assignment') }}">Assignments</a></li>
+            <li><a href="{{ url_for('student_resource') }}">Resources</a></li>
+            <li><a href="{{ url_for('student_grades') }}">Grades</a></li>
+        </ul>
+    </header>
+    <!-- TODO: Make sure if either is submitted then assignment is marked complete -->
+    <div>
+        <h2>Write a small response to this question:</h2>
+        <p>What is the purpose of life?</p>
+        <!-- TODO: Add action location for storing text input to db -->
+        <form action="" method="POST">
+            <textarea name="response" id="response" cols="60" rows="10" placeholder="Start Writing"></textarea>
+            <br>
+            <input type="submit" value="Submit">
+        </form>
+        <!-- TODO: connect to backend to store file for grading -->
+        <br>
+        <h4>Upload File</h4>
+        <form action="http://localhost:5000/uploader" method="POST" enctype="multipart/form-data">
+            <input type="file" name="file" />
+            <input type="submit" />
+        </form>
+    </div>
+</body>
+
 </html>

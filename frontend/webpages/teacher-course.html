@@ -55,9 +55,15 @@
     <section class="announcement">
         <div>
             <h4>Announcements</h4>
-            <p>Content</p>
+            {% for announcement in announcements %}
+                    <h5>{{ announcement.title }}</h5>
+                    <p>{{ announcement.description }}</p>
+                    <p>Posted on: {{ announcement.date.strftime('%Y-%m-%d %H:%M') }}</p>
+                {% else %}
+                <p>No announcements</p>
+                {% endfor %}
         </div>
-        <button><a href="../webpages/create-announcement.html">Create New Announcement</a></button>
+        <button><a href="{{url_for('create_announcement', courseid=course.id)}}">Create New Announcement</a></button>
     </section>
 </body>
 </html>

@@ -18,7 +18,7 @@
     <header>
         <h2>{{course.title}}</h2>
         <ul>
-            <li><a href="{{ url_for('teacher_course', courseid=course.id) }}">Home</a></li>
+            <li><a href="{{ url_for('course_details', courseid=course.id) }}">Home</a></li>
             <li><a href="{{ url_for('teacher_assignment', courseid=course.id) }}">Assignments</a></li>
             <li>Resources</li>
             <li><a href="{{ url_for('teacher_grades', courseid=course.id) }}">Grades</a></li>

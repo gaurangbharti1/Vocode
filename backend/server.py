@@ -1,8 +1,7 @@
-
-
 from flask import Flask, flash, redirect, render_template, request, session, url_for, jsonify
 from flask_mysqldb import MySQL
 from flask_bcrypt import Bcrypt
+import datetime
 
 app = Flask(__name__, template_folder='../frontend/', static_url_path='', static_folder='../frontend')
 
@@ -59,6 +58,14 @@ def initialize_database():
         FOREIGN KEY (course_id) REFERENCES Courses(id)
     )''')
 
+    cur.execute('''CREATE TABLE IF NOT EXISTS Announcements (
+        AID INT AUTO_INCREMENT PRIMARY KEY,
+        title VARCHAR(255),
+        description VARCHAR(255),
+        date DATETIME,
+        course_id INT,
+        FOREIGN KEY (course_id) REFERENCES Courses(id)
+    )''')
     # Create the Enrollment table
     cur.execute('''CREATE TABLE IF NOT EXISTS Enrollment (
         student_id INT,
@@ -414,7 +421,23 @@ def get_course(courseid):
 @app.route('/course-details/<int:courseid>')
 def course_details(courseid):
     course = get_course(courseid)
-    return render_template('webpages/teacher-course.html', course=course)
+    try:
+        cur = mysql.connection.cursor()
+        cur.execute("SELECT * FROM Announcements WHERE course_id = %s ORDER BY date DESC", [courseid])
+        announcements = cur.fetchall()
+    except Exception as e:
+        print("Failed to fetch announcements:", str(e))
+        announcements = []
+    finally:
+        if cur:
+            cur.close()
+            
+    return render_template('webpages/teacher-course.html', course=course, announcements=announcements)
+
+@app.route('/create-announcement/<int:courseid>')
+def create_announcement(courseid):
+    course = get_course(courseid)
+    return render_template('webpages/create-announcement.html', course=course)
 
 @app.route('/create-assignment/<int:courseid>')
 def create_assignment(courseid):
@@ -449,6 +472,28 @@ def submit_assignment():
         ''', (title, description, due_date, class_id))
         mysql.connection.commit()
         return redirect(url_for('teacher_assignment', courseid=class_id))
+    except Exception as e:
+        # Log the detailed error message and traceback
+        print("An error occurred:", str(e))
+        return render_template('webpages/500.html'), 500
+    
+
+@app.route('/submit-announcement', methods=['POST'])
+def submit_announcement():
+    title = request.form['title']
+    description = request.form['description']
+    class_id = request.form['courseId']
+    course = get_course(class_id)
+    current_datetime = datetime.datetime.now()
+    
+    try:
+        cur = mysql.connection.cursor()
+        cur.execute('''
+            INSERT INTO Announcements (title, description, date, course_id)
+            VALUES (%s, %s, %s, %s)
+        ''', (title, description, current_datetime, class_id))
+        mysql.connection.commit()
+        return redirect(url_for('course_details', courseid=class_id))
     except Exception as e:
         # Log the detailed error message and traceback
         print("An error occurred:", str(e))

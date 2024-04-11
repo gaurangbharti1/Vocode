@@ -20,7 +20,7 @@
 
     <div class="form-container">
         <h1>Create a New Course</h1>
-        <form id="create-course-form" onsubmit="return validateForm()">
+        <form id="create-course-form" action="{{ url_for('create_course') }}" method="POST" onsubmit="return validateForm()">
             <label for="course-name">Course Name:</label>
             <input type="text" id="course-name" name="course-name" required>
 
@@ -52,9 +52,9 @@
                 alert("All fields are required!");
                 return false;
             }
-            // Redirect to admin-courses page after submission
-            window.location.href = '{{ url_for('admin_courses') }}';
-            return false; // This will prevent actual form submission
+            // Comment or adjust this part as needed
+            // window.location.href = '{{ url_for('admin_courses') }}';
+            return true; // Allow the form to be submitted if validation passes
         }
     </script>
 </body>

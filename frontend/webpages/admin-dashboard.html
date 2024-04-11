@@ -31,10 +31,14 @@
                 <img src="../images/homework.png" alt="Manage Courses">
                 <h2>Manage Courses</h2>
             </div>
+            <!-- Added dashboard card for Create Course -->
+            <div class="dashboard-card" onclick="window.location.href='{{ url_for('create_course') }}';">
+                <img src="../images/add-course.png" alt="Create Course"> <!-- Ensure you have an appropriate icon/image -->
+                <h2>Create Course</h2>
+            </div>
         </section>
     </main>
 
     <script src="studentcontentselector.js"></script>
 </body>
 </html>
-

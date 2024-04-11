@@ -13,7 +13,7 @@
             <li><a href="{{ url_for('admin_dashboard') }}"><img src="../images/student-dashboard/Home.png" alt="Home" style="height: 95%;"></a></li>
             <li><a href="{{ url_for('admin_courses') }}"><img src="../images/homework.png" alt="Courses" style="height: 95%;"></a></li>
             <li><a href="{{ url_for('profile') }}"><img src="../images/student-dashboard/Male User.png" alt="Profile" style="height: 95%;"></a></li>
-            <li><a href="{{ url_for('login') }}"><img src="../images/student-dashboard/Logout.png" alt="Logout" style="height: 100%;"></a></li>
+            <li><a href="{{ url_for('index') }}"><img src="../images/student-dashboard/Logout.png" alt="Logout" style="height: 100%;"></a></li>
         </ul>
     </nav>
 
@@ -30,11 +30,6 @@
             <div class="dashboard-card" onclick="window.location.href='{{ url_for('admin_courses') }}';">
                 <img src="../images/homework.png" alt="Manage Courses">
                 <h2>Manage Courses</h2>
-            </div>
-            <!-- Added dashboard card for Create Course -->
-            <div class="dashboard-card" onclick="window.location.href='{{ url_for('create_course') }}';">
-                <img src="../images/add-course.png" alt="Create Course"> <!-- Ensure you have an appropriate icon/image -->
-                <h2>Create Course</h2>
             </div>
         </section>
     </main>

@@ -301,7 +301,6 @@ def student_classes():
 def register():
     cur = None
     try:
-        
         first_name = request.form['firstname']
         last_name = request.form['lastname']
         birthdate = request.form['birthdate']
@@ -311,16 +310,13 @@ def register():
         role = request.form['role']
 
         if password != confirm_password:
-            flash('Passwords do not match')
-            return redirect(url_for('index'))  # Assuming a route for the registration page exists
-
+            return render_template('webpages/error.html', error_message='Passwords do not match.', return_url=url_for('index'))
         # hashed_password = bcrypt.generate_password_hash(password).decode('utf-8')
 
         cur = mysql.connection.cursor()
         cur.execute("SELECT id FROM Users WHERE email = %s", (email,))
         if cur.fetchone():
-            flash('Email already exists')
-            return redirect(url_for('index'))
+            return render_template('webpages/error.html', error_message='Email already exists.', return_url=url_for('index'))
         else:
             cur.execute("INSERT INTO Users (first_name, last_name, date_of_birth, email, password, role) VALUES (%s, %s, %s, %s, %s, %s)", 
                         (first_name, last_name, birthdate, email, password, role))
@@ -341,8 +337,7 @@ def register():
                 return redirect(url_for('student_dashboard'))
     except Exception as e:
         # Log the exception and handle it
-        flash('An error occurred during registration. Please try again.')
-        return redirect(url_for('register'))
+        return render_template('webpages/error.html', error_message='An error occurred during registration. Please try again.', return_url=url_for('index'))
     finally:
         if cur is not None:
             cur.close()
@@ -371,12 +366,10 @@ def login():
             else:  # Assume student if not admin or teacher
                 return redirect(url_for('student_dashboard'))
         else:
-            flash('Invalid username or password')
-            return redirect(url_for('index'))  # Assuming you have a route for showing the login page
+            return render_template('webpages/error.html', error_message='Invalid username or password.', return_url=url_for('index'))
     except Exception as e:
         # Log the exception and handle it
-        flash('An error occurred during login. Please try again.')
-        return redirect(url_for('index'))
+        return render_template('webpages/error.html', error_message='An error occurred during login. Please try again.', return_url=url_for('index'))
     finally:
         if cur is not None:
             cur.close()

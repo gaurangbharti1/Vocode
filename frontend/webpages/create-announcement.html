@@ -12,7 +12,6 @@
             <ul>
                 <img id="logo" src="../images/savnac1transparent.png" height="75" width="75" style="padding-top: 10px;">
                 <li><a href="{{ url_for('teacher_dashboard') }}"><img src="../images/student-dashboard/Home.png" alt="Home" style="height: 95%;"></a></li>
-                <li><a href="{{ url_for('teacher_course') }}"><img src="../images/homework.png" alt="Courses" style="height: 95%;"></a></li>
                 <li><a href="{{ url_for('profile') }}"><img src="../images/student-dashboard/Male User.png" alt="Profile" style="height: 95%;"></a></li>
                 <li><a href="{{ url_for('index') }}"><img src="../images/student-dashboard/Logout.png" alt="Logout" style="height: 100%;"></a></li>
             </ul>
@@ -20,19 +19,18 @@
         </nav>
 
         <header>
-            <h2>Course Name</h2>
+            <h2>{{course.title}}</h2>
             <ul>
-                <li><a href="{{ url_for('teacher_course') }}">Home</a></li>
-                <li><a href="{{ url_for('teacher_assignment') }}">Assignments</a></li>
-                <li><a href="{{ url_for('teacher_resource') }}">Resources</a></li>
-                <li><a href="{{ url_for('teacher_grades') }}">Grades</a></li>
+                <li><a href="{{ url_for('course_details', courseid=course.id) }}">Home</a></li>
+                <li><a href="{{ url_for('teacher_assignment', courseid=course.id) }}">Assignments</a></li>
+                <li><a href="{{ url_for('teacher_resource', courseid=course.id) }}">Resources</a></li>
+                <li><a href="{{ url_for('teacher_grades', courseid=course.id) }}">Grades</a></li>
             </ul>
         </header>
 
         <div class="main-content">
             <h1 style="margin:20px;">New Announcement</h1>
-            <!--change this later-->
-            <form action="/submit-assignment" method="POST" class="assignment-form">
+            <form action="/submit-announcement" method="POST" class="assignment-form">
                 <div class="form-group" id="title">
                     <label for="assignmentTitle">Announcement Title</label>
                     <input type="text" id="assignmentTitle" name="title" required>
@@ -40,6 +38,7 @@
                 <div class="form-group" id="desc">
                     <label for="assignmentDescription">Announcement Text</label>
                     <textarea id="assignmentDescription" name="description" rows="4" required></textarea>
+                    <input type="hidden" value="{{course.id}}" name="courseId" />
                 </div>
                 <button type="submit">Create Announcement</button>
             </form>

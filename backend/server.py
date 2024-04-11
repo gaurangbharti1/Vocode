@@ -1,14 +1,14 @@
-
 from flask import Flask, flash, redirect, render_template, request, session, url_for, jsonify
 from flask_mysqldb import MySQL
 from flask_bcrypt import Bcrypt
+import datetime
 
 app = Flask(__name__, template_folder='../frontend/', static_url_path='', static_folder='../frontend')
 
 app.config['MYSQL_HOST'] = 'sql3.freemysqlhosting.net'
-app.config['MYSQL_USER'] = 'sql3696835'
-app.config['MYSQL_PASSWORD'] = 'WHCD2VSeGB'
-app.config['MYSQL_DB'] = 'sql3696835'
+app.config['MYSQL_USER'] = 'sql3697454'
+app.config['MYSQL_PASSWORD'] = 'NIHBljF31P'
+app.config['MYSQL_DB'] = 'sql3697454'
 app.config['MYSQL_CURSORCLASS'] = 'DictCursor'
 app.config['SECRET_KEY'] = 'test_key'
 
@@ -18,8 +18,8 @@ mysql = MySQL(app)
 @app.before_request
 def initialize_database():
     cur = mysql.connection.cursor()
-    
     # Create the Users table
+
     cur.execute('''CREATE TABLE IF NOT EXISTS Users (
         id INT AUTO_INCREMENT PRIMARY KEY,
         first_name VARCHAR(255),
@@ -39,25 +39,42 @@ def initialize_database():
         FOREIGN KEY (admin_id) REFERENCES Users(id)
     )''')
 
-    cur.execute('''CREATE TABLE IF NOT EXISTS Assignments (
-        id INT AUTO_INCREMENT PRIMARY KEY,
-        title VARCHAR(255),
-        type VARCHAR(255),
-        content TEXT,
-        course_id INT,
-        FOREIGN KEY (course_id) REFERENCES Courses(id)
-    )''')
-
     # Create the Assignments table
     cur.execute('''CREATE TABLE IF NOT EXISTS Assignment (
         id INT AUTO_INCREMENT PRIMARY KEY,
         title VARCHAR(255),
         description VARCHAR(255),
         dueDate DATE,
+        isEssay BOOLEAN,
         course_id INT,
         FOREIGN KEY (course_id) REFERENCES Courses(id)
     )''')
 
+    cur.execute('''CREATE TABLE IF NOT EXISTS Questions (
+        id INT AUTO_INCREMENT PRIMARY KEY,
+        name VARCHAR(255),
+        IsEssay BOOLEAN,
+        AssignmentID INT,
+        FOREIGN KEY (AssignmentID) REFERENCES Assignment(id)
+    )''')
+
+    cur.execute('''CREATE TABLE IF NOT EXISTS Answers (
+        id INT AUTO_INCREMENT PRIMARY KEY,
+        name VARCHAR(255),
+        IsCorrect BOOLEAN,
+        QuestionID INT,
+        FOREIGN KEY (QuestionID) REFERENCES Questions(id)
+    )''')
+
+
+    cur.execute('''CREATE TABLE IF NOT EXISTS Announcements (
+        AID INT AUTO_INCREMENT PRIMARY KEY,
+        title VARCHAR(255),
+        description VARCHAR(255),
+        date DATETIME,
+        course_id INT,
+        FOREIGN KEY (course_id) REFERENCES Courses(id)
+    )''')
     # Create the Enrollment table
     cur.execute('''CREATE TABLE IF NOT EXISTS Enrollment (
         student_id INT,
@@ -100,6 +117,12 @@ def initialize_database():
     # Insert dummy teacher-course associations
     cur.execute("INSERT IGNORE INTO TeacherCourses (teacher_id, course_id) VALUES (2, 1)")
     cur.execute("INSERT IGNORE INTO TeacherCourses (teacher_id, course_id) VALUES (2, 2)")
+    #insert dummy questions and answers
+    cur.execute("INSERT INTO Questions (name, IsEssay, AssignmentID) VALUES ('What is HTML?', 1, 1)")
+    cur.execute("INSERT INTO Questions (name, IsEssay, AssignmentID) VALUES ('What is SQL?', 0, 2)")
+    cur.execute("INSERT INTO Answers (name, isCorrect, QuestionID) VALUES ('banana', 0, 2)")
+    cur.execute("INSERT INTO Answers (name, isCorrect, QuestionID) VALUES ('Structured Query Language', 1, 2)")
+    cur.execute("INSERT INTO Answers (name, isCorrect, QuestionID) VALUES ('apple', 0, 2)")
 
 
     # Commit changes and close the connection
@@ -126,8 +149,9 @@ def initialize_assignments():
     result = cur.fetchone()
     if result['count'] == 0:
         # The table is empty, safe to insert dummy data
-        cur.execute("INSERT INTO Assignment (title, description, dueDate, course_id) VALUES ('Introduction to Web Development', 'Complete the HTML and CSS exercise.', '2024-05-01', 1)")
-        cur.execute("INSERT INTO Assignment (title, description, dueDate, course_id) VALUES ('Advanced Database Management', 'Read chapter 4 of the database textbook and answer questions 1-10.', '2024-06-15', 2)")
+        cur.execute("INSERT INTO Assignment (title, description, dueDate, isEssay, course_id) VALUES ('Introduction to Web Development', 'Complete the HTML and CSS exercise.', '2024-05-01', 1, 1)")
+        cur.execute("INSERT INTO Assignment (title, description, dueDate, isEssay, course_id) VALUES ('Advanced Database Management', 'Read chapter 4 of the database textbook and answer questions 1-10.', '2024-06-30', 0, 2)")
+
         print("Assignments inserted.")
     else:
         print("Assignments table was not empty")
@@ -360,18 +384,28 @@ def teacher_dashboard():
 def teacher_course():
     return render_template('webpages/teacher-course.html')
 
-@app.route('/teacher-grades')
-def teacher_grades():
-    return render_template('webpages/teacher-grades.html')
+@app.route('/teacher-grades/<int:courseid>')
+def teacher_grades(courseid):
+    course = get_course(courseid)
+    return render_template('webpages/teacher-grades.html', course=course)
 
-@app.route('/teacher-assignment')
-def teacher_assignment():
-    assignments = get_assignments()
-    return render_template('webpages/teacher-assignment.html', assignments = assignments)
+@app.route('/teacher-assignment/<int:courseid>')
+def teacher_assignment(courseid):
+    if 'user_id' not in session:
+        return redirect(url_for('login'))
+    
+    cur = mysql.connection.cursor()
+    cur.execute("SELECT * FROM Assignment WHERE course_id = %s", [courseid])
+    assignments = cur.fetchall()
+    cur.close()
+    
+    course = get_course(courseid)
+    return render_template('webpages/teacher-assignment.html', assignments = assignments, course=course)
 
-@app.route('/teacher-resource')
-def teacher_resource():
-    return render_template('webpages/teacher-resource.html')
+@app.route('/teacher-resource/<int:courseid>')
+def teacher_resource(courseid):
+    course = get_course(courseid)
+    return render_template('webpages/teacher-resource.html', course=course)
 
 def get_assignments():
     teacher_id = session.get('user_id')
@@ -392,11 +426,40 @@ def get_assignments():
         print(f"An error occurred: {e}")
         return []  # Return an empty list on error
 
+def get_course(courseid):
+    cur = mysql.connection.cursor()
+    cur.execute("SELECT * FROM Courses WHERE id = %s", [courseid])
+    course = cur.fetchone()
+    cur.close()
 
-@app.route('/create-assignment')
-def create_assignment():
+    return course
+
+@app.route('/course-details/<int:courseid>')
+def course_details(courseid):
+    course = get_course(courseid)
+    try:
+        cur = mysql.connection.cursor()
+        cur.execute("SELECT * FROM Announcements WHERE course_id = %s ORDER BY date DESC", [courseid])
+        announcements = cur.fetchall()
+    except Exception as e:
+        print("Failed to fetch announcements:", str(e))
+        announcements = []
+    finally:
+        if cur:
+            cur.close()
+            
+    return render_template('webpages/teacher-course.html', course=course, announcements=announcements)
+
+@app.route('/create-announcement/<int:courseid>')
+def create_announcement(courseid):
+    course = get_course(courseid)
+    return render_template('webpages/create-announcement.html', course=course)
+
+@app.route('/create-assignment/<int:courseid>')
+def create_assignment(courseid):
     courses = get_teacher_courses()
-    return render_template('webpages/create-assignment.html', courses = courses)
+    course = get_course(courseid)
+    return render_template('webpages/create-assignment.html', courses = courses, course=course)
 
 def get_teacher_courses():
     teacher_id = session['user_id']
@@ -416,16 +479,38 @@ def submit_assignment():
     description = request.form['description']
     due_date = request.form['due_date']
     class_id = request.form['class_id']
+    isEssay = request.form['assignment_type']
 
     try:
         cur = mysql.connection.cursor()
         cur.execute('''
-            INSERT INTO Assignment (title, description, dueDate, course_id)
-            VALUES (%s, %s, %s, %s)
-        ''', (title, description, due_date, class_id))
+            INSERT INTO Assignment (title, description, dueDate, isEssay, course_id)
+            VALUES (%s, %s, %s, %s, %s)
+        ''', (title, description, due_date, isEssay, class_id))
         mysql.connection.commit()
-        assignments = get_assignments()
-        return render_template('webpages/teacher-assignment.html', assignments = assignments)
+        return redirect(url_for('teacher_assignment', courseid=class_id))
+    except Exception as e:
+        # Log the detailed error message and traceback
+        print("An error occurred:", str(e))
+        return render_template('webpages/500.html'), 500
+    
+
+@app.route('/submit-announcement', methods=['POST'])
+def submit_announcement():
+    title = request.form['title']
+    description = request.form['description']
+    class_id = request.form['courseId']
+    course = get_course(class_id)
+    current_datetime = datetime.datetime.now()
+    
+    try:
+        cur = mysql.connection.cursor()
+        cur.execute('''
+            INSERT INTO Announcements (title, description, date, course_id)
+            VALUES (%s, %s, %s, %s)
+        ''', (title, description, current_datetime, class_id))
+        mysql.connection.commit()
+        return redirect(url_for('course_details', courseid=class_id))
     except Exception as e:
         # Log the detailed error message and traceback
         print("An error occurred:", str(e))

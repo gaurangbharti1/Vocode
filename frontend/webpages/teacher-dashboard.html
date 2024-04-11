@@ -12,7 +12,6 @@
             <ul>
                 <img id="logo" src="../images/savnac1transparent.png" height="75" width="75" style="padding-top: 10px;">
                 <li><a href="{{ url_for('teacher_dashboard') }}"><img src="../images/student-dashboard/Home.png" alt="Home" style="height: 95%;"></a></li>
-                <li><a href="{{ url_for('teacher_course') }}"><img src="../images/homework.png" alt="Courses" style="height: 95%;"></a></li>
                 <li><a href="{{ url_for('profile') }}"><img src="../images/student-dashboard/Male User.png" alt="Profile" style="height: 95%;"></a></li>
                 <li><a href="{{ url_for('index') }}"><img src="../images/student-dashboard/Logout.png" alt="Logout" style="height: 100%;"></a></li>
             </ul>
@@ -22,11 +21,12 @@
                     {% if courses %}
                         <div class="panels">
                             {% for course in courses %}
+                            <a href="{{  url_for('course_details', courseid=course.id) }}">
                                 <div id="course-card">
                                     <h2>{{ course.title }}</h2>
                                     <p>{{ course.description }}</p>
-                                    <!-- Additional options for managing course could be added here -->
                                 </div>
+                            </a>
                             {% endfor %}
                         </div>
 

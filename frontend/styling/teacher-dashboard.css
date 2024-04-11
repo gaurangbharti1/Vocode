@@ -49,6 +49,11 @@ nav li:hover{
   padding: 5px;
 }
 
+a {
+  text-decoration: none;
+  color: black;
+}
+
 #course-card h2{
   border: 1px solid #0f1b44;
   background-color: #48b896;

@@ -1,58 +1,152 @@
-const questionElement = document.getElementById('question');
-const optionsContainer = document.getElementById('options');
-const nextButton = document.getElementById('next-button');
+(function () {
+  var questions = [{
+    question: "What is 2*5?",
+    choices: [2, 5, 10, 15, 20],
+    correctAnswer: 2
+  }, {
+    question: "What is 3*6?",
+    choices: [3, 6, 9, 12, 18],
+    correctAnswer: 4
+  }, {
+    question: "What is 8*9?",
+    choices: [72, 99, 108, 134, 156],
+    correctAnswer: 0
+  }, {
+    question: "What is 1*7?",
+    choices: [4, 5, 6, 7, 8],
+    correctAnswer: 3
+  }, {
+    question: "What is 8*8?",
+    choices: [20, 30, 40, 50, 64],
+    correctAnswer: 4
+  }];
 
-let currentQuestionIndex = 0;
-let userScore = 0;
+  var questionCounter = 0;
+  var selections = [];
+  var quiz = $('#quiz');
+  totalquestions = questions.length;
+  displayNext();
 
-const questions = [
-  {
-    question: 'What is the capital of France?',
-    options: ['Paris', 'London', 'Berlin', 'Madrid'],
-    correctIndex: 0
-  },
-  {
-    question: 'What is the capital of Spain?',
-    options: ['Paris', 'London', 'Berlin', 'Madrid'],
-    correctIndex: 3
-  },
-  // Add more questions
-];
+  $('#next').on('click', function (e) {
+    e.preventDefault();
+    if (quiz.is(':animated')) {
+      return false;
+    }
+    choose();
+    questionCounter++;
+    displayNext();
 
-function showQuestion() {
-  const question = questions[currentQuestionIndex];
-  questionElement.textContent = question.question;
-
-  optionsContainer.innerHTML = '';
-  question.options.forEach((option, index) => {
-    const button = document.createElement('button');
-    button.textContent = option;
-    button.classList.add('option');
-    button.addEventListener('click', () => checkAnswer(index));
-    optionsContainer.appendChild(button);
   });
 
-  nextButton.style.display = 'none';
-}
+  $('#prev').on('click', function (e) {
+    e.preventDefault();
+    if (quiz.is(':animated')) {
+      return false;
+    }
+    choose();
+    questionCounter--;
+    displayNext();
+  });
 
-function checkAnswer(selectedIndex) {
-  const question = questions[currentQuestionIndex];
-  if (selectedIndex === question.correctIndex) {
-    userScore++;
+
+  $('#start').on('click', function (e) {
+    e.preventDefault();
+    if (quiz.is(':animated')) {
+      return false;
+    }
+    questionCounter = 0;
+    selections = [];
+    displayNext();
+    $('#start').hide();
+  });
+
+
+  $('.button').on('mouseenter', function () {
+    $(this).addClass('active');
+  });
+  $('.button').on('mouseleave', function () {
+    $(this).removeClass('active');
+  });
+
+function createQuestionElement(index) {
+    var qElement = $('<div>', {
+      id: 'question'
+    });
+
+    var header = $('<h2>Question ' + (index + 1) + ':</h2>');
+    qElement.append(header);
+
+    var question = $('<p>').append(questions[index].question);
+    qElement.append(question);
+
+    var radioButtons = createRadios(index);
+    qElement.append(radioButtons);
+
+    return qElement;
   }
 
-  currentQuestionIndex++;
-  if (currentQuestionIndex < questions.length) {
-    showQuestion();
-  } else {
-    showResults();
+function createRadios(index) {
+    var radioList = $('<ul>');
+    var item;
+    var input = '';
+    for (var i = 0; i < questions[index].choices.length; i++) {
+      item = $('<li>');
+      input = '<input type="radio" name="answer" value=' + i + ' />';
+      input += questions[index].choices[i];
+      item.append(input);
+      radioList.append(item);
+    }
+    return radioList;
   }
-}
 
-function showResults() {
-  questionElement.textContent = `You scored ${userScore} out of ${questions.length}!`;
-  optionsContainer.innerHTML = '';
-  nextButton.style.display = 'none';
-}
+function choose() {
+    selections[questionCounter] = +$('input[name="answer"]:checked').val();
+  }
 
-showQuestion(); // Initial question display
+  function displayNext() {
+    quiz.fadeOut(function () {
+      $('#question').remove();
+
+      if (questionCounter < questions.length) {
+        var nextQuestion = createQuestionElement(questionCounter);
+        quiz.append(nextQuestion).fadeIn();
+        if (!(isNaN(selections[questionCounter]))) {
+          $('input[value=' + selections[questionCounter] + ']').prop('checked', true);
+        }
+
+        if (questionCounter === 1) {
+          $('#prev').show();
+        } else if (questionCounter === 0) {
+          $('#prev').hide();
+          $('#next').show();
+          $('#submit').hide();
+        }
+      } else if (questionCounter == questions.length-1) {
+        $('#prev').show();
+        $('#next').hide();
+        $('#sumbit').show();
+      } else {
+        var scoreElem = displayScore();
+        quiz.append(scoreElem).fadeIn();
+        $('#next').hide();
+        $('#prev').hide();
+        $('#submit').hide();
+      }
+    });
+  }
+
+  function displayScore() {
+    var score = $('<p>', { id: 'question' });
+
+    var numCorrect = 0;
+    for (var i = 0; i < selections.length; i++) {
+      if (selections[i] === questions[i].correctAnswer) {
+        numCorrect++;
+      }
+    }
+
+    score.append('You got ' + numCorrect + ' questions out of ' +
+      questions.length + ' right!!!');
+    return score;
+  }
+})();

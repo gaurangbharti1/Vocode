@@ -17,7 +17,7 @@
             </ul>
         </nav>
         <div class="edit-form">
-            <form action="{{ url_for('change_profile')}}" method="POST">
+            <form action="{{ url_for('edit_profile')}}" method="POST">
                 <label for="first_name"><strong>Current First Name: </strong><span>{{ user.first_name }}</span></label>
                 <br>
                 <input type="text" name="first_name" id="first_name" aria-placeholder="Enter new firstname" placeholder="Enter new firstname">

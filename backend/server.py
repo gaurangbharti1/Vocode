@@ -6,9 +6,9 @@ from flask_bcrypt import Bcrypt
 app = Flask(__name__, template_folder='../frontend/', static_url_path='', static_folder='../frontend')
 
 app.config['MYSQL_HOST'] = 'sql3.freemysqlhosting.net'
-app.config['MYSQL_USER'] = 'sql3696835'
-app.config['MYSQL_PASSWORD'] = 'WHCD2VSeGB'
-app.config['MYSQL_DB'] = 'sql3696835'
+app.config['MYSQL_USER'] = 'sql3697454'
+app.config['MYSQL_PASSWORD'] = 'NIHBljF31P'
+app.config['MYSQL_DB'] = 'sql3697454'
 app.config['MYSQL_CURSORCLASS'] = 'DictCursor'
 app.config['SECRET_KEY'] = 'test_key'
 
@@ -154,40 +154,43 @@ def profile():
 
     return render_template('webpages/profile.html', user=user_details)
 
-@app.route('/edit_profile')
-def change_profile():
+@app.route('/edit_profile', methods=['GET', 'POST'])
+def edit_profile():
     if 'user_id' not in session:
         return redirect(url_for('login'))
 
     user_id = session['user_id']
-    
     cur = mysql.connection.cursor()
+
+    if request.method == 'POST':
+        new_first_name = request.form.get('first_name')
+        new_last_name = request.form.get('last_name')
+        new_email = request.form.get('new_email')
+        curr_password = request.form.get('curr_password')
+        new_password = request.form.get('new_password')
+
+        cur.execute('SELECT password FROM Users WHERE id = %s', (user_id,))
+        user_data = cur.fetchone()
+
+        if new_first_name:
+            cur.execute('UPDATE Users SET first_name = %s WHERE id = %s', (new_first_name, user_id))
+        if new_last_name:
+            cur.execute('UPDATE Users SET last_name = %s WHERE id = %s', (new_last_name, user_id))
+        if new_email:
+            cur.execute('UPDATE Users SET email = %s WHERE id = %s', (new_email, user_id))
+        if new_password:
+            hashed_password = bcrypt.generate_password_hash(new_password).decode('utf-8')
+            cur.execute('UPDATE Users SET password = %s WHERE id = %s', (hashed_password, user_id))
+        mysql.connection.commit()
+        flash('Profile updated successfully.')
+        return redirect(url_for('profile'))
+    
+    # Always fetch the user details to display in the form, for both GET and POST
     cur.execute('SELECT * FROM Users WHERE id = %s', (user_id,))
     user_details = cur.fetchone()
-    
-    if request.method== 'POST':
-        new_first_name= request.form.get('first_name')
-        cur.execute('UPDATE Users SET first_name= %s where id= %s', (new_first_name, user_id))
-        
-        new_last_name= request.form.get('last_name')
-        cur.execute('UPDATE Users SET last_name= %s where id= %s', (new_last_name, user_id))
-        
-        new_email= request.form.get('new_email')
-        cur.execute('UPDATE Users SET email= %s where id= %s', (new_email, user_id))
-        
-        curr_password= request.form.get('curr_password')
-        new_password= request.form.get('new_password')
-        cur.execute('SELECT password FROM Users WHERE id= %s where id= %s', (user_id, user_id))
-        password= cur.fetchone()
-        if curr_password== password:
-            cur.execute('UPDATE Users SET password= %s where id= %s', (new_password, user_id))
-        else:
-            flash("Passwords do not match! Please try again")
-        
     cur.close()
 
     return render_template('webpages/edit-profile.html', user=user_details)
-
 
 @app.route('/assignments')
 def assignments():
@@ -374,9 +377,9 @@ def quiz():
 def written_assignment():
     return render_template('webpages/written-assignment.html')
 
-@app.route('/edit_profile')
-def edit_profile():
-    return render_template('webpages/edit-profile.html')
+# @app.route('/edit_profile')
+# def edit_profile():
+#     return render_template('webpages/edit-profile.html')
 
 @app.route('/teacher-dashboard')
 def teacher_dashboard():

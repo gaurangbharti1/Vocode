@@ -118,11 +118,11 @@ def initialize_database():
     cur.execute("INSERT IGNORE INTO TeacherCourses (teacher_id, course_id) VALUES (2, 1)")
     cur.execute("INSERT IGNORE INTO TeacherCourses (teacher_id, course_id) VALUES (2, 2)")
     #insert dummy questions and answers
-    cur.execute("INSERT INTO Questions (name, IsEssay, AssignmentID) VALUES ('What is HTML?', 1, 1)")
-    cur.execute("INSERT INTO Questions (name, IsEssay, AssignmentID) VALUES ('What is SQL?', 0, 2)")
-    cur.execute("INSERT INTO Answers (name, isCorrect, QuestionID) VALUES ('banana', 0, 2)")
-    cur.execute("INSERT INTO Answers (name, isCorrect, QuestionID) VALUES ('Structured Query Language', 1, 2)")
-    cur.execute("INSERT INTO Answers (name, isCorrect, QuestionID) VALUES ('apple', 0, 2)")
+    cur.execute("INSERT IGNORE INTO Questions (name, IsEssay, AssignmentID) VALUES ('What is HTML?', 1, 1)")
+    cur.execute("INSERT IGNORE INTO Questions (name, IsEssay, AssignmentID) VALUES ('What is SQL?', 0, 2)")
+    cur.execute("INSERT IGNORE INTO Answers (name, isCorrect, QuestionID) VALUES ('banana', 0, 2)")
+    cur.execute("INSERT IGNORE INTO Answers (name, isCorrect, QuestionID) VALUES ('Structured Query Language', 1, 2)")
+    cur.execute("INSERT IGNORE INTO Answers (name, isCorrect, QuestionID) VALUES ('apple', 0, 2)")
 
 
     # Commit changes and close the connection

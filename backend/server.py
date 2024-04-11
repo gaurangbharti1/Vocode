@@ -7,9 +7,9 @@ from flask_bcrypt import Bcrypt
 app = Flask(__name__, template_folder='../frontend/', static_url_path='', static_folder='../frontend')
 
 app.config['MYSQL_HOST'] = 'sql3.freemysqlhosting.net'
-app.config['MYSQL_USER'] = 'sql3696835'
-app.config['MYSQL_PASSWORD'] = 'WHCD2VSeGB'
-app.config['MYSQL_DB'] = 'sql3696835'
+app.config['MYSQL_USER'] = 'sql3697454'
+app.config['MYSQL_PASSWORD'] = 'NIHBljF31P'
+app.config['MYSQL_DB'] = 'sql3697454'
 app.config['MYSQL_CURSORCLASS'] = 'DictCursor'
 app.config['SECRET_KEY'] = 'test_key'
 
@@ -379,9 +379,10 @@ def teacher_assignment(courseid):
     course = get_course(courseid)
     return render_template('webpages/teacher-assignment.html', assignments = assignments, course=course)
 
-@app.route('/teacher-resource')
-def teacher_resource():
-    return render_template('webpages/teacher-resource.html')
+@app.route('/teacher-resource/<int:courseid>')
+def teacher_resource(courseid):
+    course = get_course(courseid)
+    return render_template('webpages/teacher-resource.html', course=course)
 
 def get_assignments():
     teacher_id = session.get('user_id')

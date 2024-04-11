@@ -31,20 +31,41 @@ nav li:hover{
     background-color:#1f2f64 
 }
 
-.main-content {
-    margin-left: 105px;
+.main-content, .edit-form {
+    margin-left: 90px;
     padding: 20px;
-    width: calc(100% - 85px); /* Adjust width to fill space */
+    width: calc(100% - 120px); /* Adjust width to fill space */
     display: flex;
     flex-direction: column;
     align-items: center;
 }
 
-.profile-details, .right {
-    background-color: #fff;
-    padding: 20px;
+.profile-details, .right, .edit-form {
+    background-color: #d8faf1;
+    padding: 15px;
     border-radius: 8px;
     box-shadow: 0 2px 4px rgba(0,0,0,0.1); 
     width: 80%; 
     max-width: 800px; /* Keep content from stretching too wide */
+}
+.profile-details h1{
+    margin-top: 0;
+}
+.edit{
+    float: right;
+    position: relative;
+}
+
+.edit a{
+    text-decoration: none;
+    font-weight: bold;
+    padding: 7px;
+    border-radius: 7px;
+    background-color: #6de4c1;
+    color: #000;
+}
+
+.edit a:hover{
+    background-color: #0f1b44;
+    color: #d8faf1;
 }

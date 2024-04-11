@@ -154,6 +154,41 @@ def profile():
 
     return render_template('webpages/profile.html', user=user_details)
 
+@app.route('/edit_profile')
+def change_profile():
+    if 'user_id' not in session:
+        return redirect(url_for('login'))
+
+    user_id = session['user_id']
+    
+    cur = mysql.connection.cursor()
+    cur.execute('SELECT * FROM Users WHERE id = %s', (user_id,))
+    user_details = cur.fetchone()
+    
+    if request.method== 'POST':
+        new_first_name= request.form.get('first_name')
+        cur.execute('UPDATE Users SET first_name= %s where id= %s', (new_first_name, user_id))
+        
+        new_last_name= request.form.get('last_name')
+        cur.execute('UPDATE Users SET last_name= %s where id= %s', (new_last_name, user_id))
+        
+        new_email= request.form.get('new_email')
+        cur.execute('UPDATE Users SET email= %s where id= %s', (new_email, user_id))
+        
+        curr_password= request.form.get('curr_password')
+        new_password= request.form.get('new_password')
+        cur.execute('SELECT password FROM Users WHERE id= %s where id= %s', (user_id, user_id))
+        password= cur.fetchone()
+        if curr_password== password:
+            cur.execute('UPDATE Users SET password= %s where id= %s', (new_password, user_id))
+        else:
+            flash("Passwords do not match! Please try again")
+        
+    cur.close()
+
+    return render_template('webpages/edit-profile.html', user=user_details)
+
+
 @app.route('/assignments')
 def assignments():
     if 'user_id' not in session:
@@ -338,6 +373,10 @@ def quiz():
 @app.route('/written_assignment')
 def written_assignment():
     return render_template('webpages/written-assignment.html')
+
+@app.route('/edit_profile')
+def edit_profile():
+    return render_template('webpages/edit-profile.html')
 
 @app.route('/teacher-dashboard')
 def teacher_dashboard():

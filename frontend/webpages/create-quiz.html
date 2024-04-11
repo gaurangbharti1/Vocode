@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Quiz</title>
+    <link rel="stylesheet" href="../styling/create-quiz.css">
+</head>
+<body>
+    <nav>
+        <ul>
+            <img id="logo" src="../images/savnac1transparent.png" height="75" width="75" style="padding-top: 10px;">
+            <li><a href="{{ url_for('student_dashboard') }}"><img src="../images/student-dashboard/Home.png" alt="Home" style="height: 95%;"></a></li>
+            <li><a href="{{ url_for('student_classes') }}"><img src="../images/homework.png" alt="Courses" style="height: 95%;"></a></li>
+            <li><a href="{{ url_for('profile') }}"><img src="../images/student-dashboard/Male User.png" alt="Profile" style="height: 95%;"></a></li>
+            <li><a href="{{ url_for('index') }}"><img src="../images/student-dashboard/Logout.png" alt="Logout" style="height: 100%;"></a></li>
+        </ul>
+    </nav>
+
+    <header class="page-header">
+        <h1>Create a Quiz</h1>
+    </header>
+
+    <main class="quiz-creation-container">
+        <form id="quiz-form">
+            <!-- Question Block -->
+            <div class="quiz-question" data-question-number="1">
+                <label for="question-1">Question 1:</label>
+                <input type="text" id="question-1" name="question-1" required placeholder="Enter question text">
+
+                <!-- Choices Block -->
+                <div class="mcq-options" id="mcq-options-1">
+                    <!-- Choices will be added dynamically here -->
+                </div>
+                <button type="button" class="add-choice" onclick="addChoice(1)">Add Choice</button>
+            </div>
+            <!-- Container for Additional Questions -->
+            <div id="additional-questions"></div>
+            <!-- Add Question Button -->
+            <button type="button" id="add-question">Add Another Question</button>
+            <button type="submit">Submit Quiz</button>
+        </form>
+    </main>
+
+    <script src="../create-quiz.js"></script>
+</body>
+</html>

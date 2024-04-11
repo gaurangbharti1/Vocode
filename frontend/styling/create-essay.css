@@ -1,0 +1,76 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4;
+}
+
+nav ul{
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    width: 105px;
+    background-color: #0f1b44;
+    height: 100%;
+    position: fixed;
+    overflow: auto;
+}
+
+nav ul li a{
+    display: block;
+    height: 50px;
+    padding: 15px;
+}
+
+nav li:hover{
+    background-color:#1f2f64 
+}
+
+.page-header {
+    background-color: #333;
+    color: white;
+    text-align: center;
+    padding: 20px;
+    margin-bottom: 30px;
+}
+
+.essay-creation-container {
+    margin: 0 auto;
+    width: 80%;
+    max-width: 600px;
+}
+
+.essay-question-block {
+    margin-bottom: 20px;
+}
+
+.essay-question-block label {
+    display: block;
+    margin-bottom: 10px;
+}
+
+.essay-question-block textarea {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    border: 1px solid #ddd;
+    height: 150px; /* Adjust height as needed */
+}
+
+.submit-essay {
+    background-color: #5cb85c;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+.submit-essay:hover {
+    background-color: #4cae4c;
+}
+
+.submit-essay:focus {
+    outline: none;
+}

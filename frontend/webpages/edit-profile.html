@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Profile</title>
+        <link rel="stylesheet" href="../styling/profile.css">
+    </head>
+    <body>
+        <nav>
+            <ul>
+                <img id="logo" src="../images/savnac1transparent.png" height="75" width="75" style="padding-top: 10px;">
+                <li><a href="{{ url_for('student_dashboard') }}"><img src="../images/student-dashboard/Home.png" alt="Home" style="height: 95%;"></a></li>
+                <li><a href="{{ url_for('student_classes') }}"><img src="../images/homework.png" alt="Courses" style="height: 95%;"></a></li>
+                <li><a href="{{ url_for('profile') }}"><img src="../images/student-dashboard/Male User.png" alt="Profile" style="height: 95%;"></a></li>
+                <li><a href="{{ url_for('index') }}"><img src="../images/student-dashboard/Logout.png" alt="Logout" style="height: 100%;"></a></li>
+            </ul>
+        </nav>
+        <div class="edit-form">
+            <form action="{{ url_for('edit_profile')}}" method="POST">
+                <label for="first_name"><strong>Current First Name: </strong><span>{{ user.first_name }}</span></label>
+                <br>
+                <input type="text" name="first_name" id="first_name" aria-placeholder="Enter new firstname" placeholder="Enter new firstname">
+                <br>
+                <label for="last_name"><strong>Current Last Name: </strong>{{ user.last_name }}</label>
+                <br>
+                <input type="text" name="last_name" id="last_name" aria-placeholder="Enter new lastname" placeholder="Enter new lastname">
+                <br>
+                <label for="date_of_birth"><strong>Date of Birth:</strong><span>{{ user.date_of_birth }}</span></label>
+                <br>
+                <label for="role"><span><strong>Role: </strong>{{ user.role }}</span></label>
+                <br>
+                <label for="email"><strong>Current Email: </strong><span>{{ user.email }}</span></label>
+                <br>
+                <label for="new_email"><strong>Enter New Email:</strong></label>
+                <br>
+                <input type="email" name="new_email" id="new_email" aria-placeholder="Enter new email" placeholder="Enter new email">
+                <br>
+                <label for="curr_password"><strong>Enter Current Password:</strong></label>
+                <br>
+                <input type="text" name="curr_password" id="curr_password" aria-placeholder="Enter current password" placeholder="Enter current password">
+                <br>
+                <label for="new_password"><strong>Enter New Password:</strong></label>
+                <br>
+                <input type="text" name="new_password" id="new_password" aria-placeholder="Enter new password" placeholder="Enter new password">
+                <br>
+                <button type="submit">Update Information</button>
+            </form>
+        </div>
+        
+    </body>
+</html>

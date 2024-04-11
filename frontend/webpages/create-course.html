@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Course</title>
+    <link rel="stylesheet" href="../styling/create-course.css">
+</head>
+<body>
+    <nav>
+        <ul>
+            <li><a href="{{ url_for('admin_dashboard') }}"><img src="../images/student-dashboard/Home.png" alt="Home" style="height: 50%; margin:20%;"></a></li>
+            <li><a href="{{ url_for('admin_courses') }}"><img src="../images/student-dashboard/Literature.png" alt="Courses" style="height: 50%; margin:10%;"></a></li>
+            <li><a href="#"><img src="../images/student-dashboard/Calendar 7.png" alt="Calendar" style="height: 50%; margin:10%;"></a></li>
+            <li><a href="#"><img src="../images/student-dashboard/Letter.png" alt="Inbox" style="height: 50%; margin:10%;"></a></li>
+            <li><a href="{{ url_for('profile') }}"><img src="../images/student-dashboard/Male User.png" alt="Profile" style="height: 50%; margin:10%;"></a></li>
+            <li><a href="{{ url_for('login') }}"><img src="../images/student-dashboard/Logout.png" alt="Logout" style="height: 60%; margin:10%;"></a></li>
+        </ul>
+    </nav>
+
+    <div class="form-container">
+        <h1>Create a New Course</h1>
+        <form id="create-course-form" onsubmit="return validateForm()">
+            <label for="course-name">Course Name:</label>
+            <input type="text" id="course-name" name="course-name" required>
+
+            <label for="course-code">Course Code:</label>
+            <input type="text" id="course-code" name="course-code" required>
+
+            <label for="start-date">Start Date:</label>
+            <input type="date" id="start-date" name="start-date" required>
+
+            <label for="end-date">End Date:</label>
+            <input type="date" id="end-date" name="end-date" required>
+
+            <label for="seats">Number of Seats:</label>
+            <input type="number" id="seats" name="seats" required>
+
+            <button type="submit">Submit</button>
+        </form>
+    </div>
+
+    <script>
+        function validateForm() {
+            let courseName = document.getElementById("course-name").value;
+            let courseCode = document.getElementById("course-code").value;
+            let startDate = document.getElementById("start-date").value;
+            let endDate = document.getElementById("end-date").value;
+            let seats = document.getElementById("seats").value;
+
+            if (!courseName || !courseCode || !startDate || !endDate || !seats) {
+                alert("All fields are required!");
+                return false;
+            }
+            // Redirect to admin-courses page after submission
+            window.location.href = '{{ url_for('admin_courses') }}';
+            return false; // This will prevent actual form submission
+        }
+    </script>
+</body>
+</html>

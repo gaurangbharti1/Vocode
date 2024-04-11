@@ -1,53 +1,40 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Dashboard</title>
-    <link rel="stylesheet" type="text/css" href="../styling/admin-dashboard.css">
+    <link rel="stylesheet" href="../styling/admin-dashboard.css">
 </head>
 <body>
-    <div class="dashboard">
-        <h1><u>DASHBOARD</u></h1>
-        <div class="sidebar">
-            <img id="logo" src="../images/savnac1transparent.png">
-            <a href="profile.html">
-            <button id="profile">
-                <img src="../images/profile-user.png" alt="profile picture">
-                <span><b>Profile</b></span>
-            </button>
-            </a>
-            <a href="student-dashboard.html">
-            <button id="dashboard" class="active">
-                <img src="../images/dashboard.png" alt="dashboard">
-                <span><b>Dashboard</b></span>
-            </button>
-            </a>
-            <a href="assignments.html">
-            <button id="assignments">
-                <img src="../images/assignment.png" alt="assignment">
-                <span><b>Assignments</b></span>
-            </button>
-            </a>
-            <a href="classes.html">
-            <button id="classes">
-                <img src="../images/homework.png" alt="classes">
-                <span><b>Classes</b></span>
-            </button>
-            </a>
-            <a href="login.html">
-            <button id="logout">
-                <img src="../images/logout.png" alt="log out">
-                <span><b>Log Out</b></span>
-            </button>
-            </a>
-        </div>
-    </div>
-    <div class="main-content">
-        <div id="noPanelsMessage" class="center-message">
-            <p>You haven't joined a class yet! Press the button to join one.</p>
-            <button id="initialAddPanel">Join Class</button>
-        </div>
-        <button id="addPanel" style="display:none;">Join Class</button>
-        <div class="panels"></div>
-    </div>
+    <nav>
+        <ul>
+            <img id="logo" src="../images/savnac1transparent.png" height="75" width="75" style="padding-top: 10px;">
+            <li><a href="{{ url_for('admin_dashboard') }}"><img src="../images/student-dashboard/Home.png" alt="Home" style="height: 95%;"></a></li>
+            <li><a href="{{ url_for('admin_courses') }}"><img src="../images/homework.png" alt="Courses" style="height: 95%;"></a></li>
+            <li><a href="{{ url_for('profile') }}"><img src="../images/student-dashboard/Male User.png" alt="Profile" style="height: 95%;"></a></li>
+            <li><a href="{{ url_for('login') }}"><img src="../images/student-dashboard/Logout.png" alt="Logout" style="height: 100%;"></a></li>
+        </ul>
+    </nav>
+
+    <header class="dashboard-header">
+        <h1>Welcome, Admin!</h1>
+    </header>
+
+    <main class="dashboard-main">
+        <section class="dashboard-section">
+            <div class="dashboard-card" onclick="window.location.href='{{ url_for('profile') }}';">
+                <img src="../images/profile-user.png" alt="Profile">
+                <h2>Profile</h2>
+            </div>
+            <div class="dashboard-card" onclick="window.location.href='{{ url_for('admin_courses') }}';">
+                <img src="../images/homework.png" alt="Manage Courses">
+                <h2>Manage Courses</h2>
+            </div>
+        </section>
+    </main>
+
     <script src="studentcontentselector.js"></script>
 </body>
+</html>
+

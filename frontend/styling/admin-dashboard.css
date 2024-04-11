@@ -1,29 +1,80 @@
 @import url('https://fonts.googleapis.com/css2?family=Lexend+Exa:wght@100..900&display=swap');
 
-*{
-    text-align: center;
-    font-family: Arial, sans-serif;
-    margin: 0;
-}
-header, h1,h2, h3{
-    font-family: 'Lexend Exa';
-    text-align: center;
-}
+/* Add your existing CSS imports and resets */
 
-body{
-    top: 0;
-    margin: 0;
-}
-nav {
-    overflow: hidden;
+body {
+    font-family: 'Lexend Exa', Arial, sans-serif;
     margin: 0;
     padding: 0;
-    width: 100%;
+    background-color: #f4f4f4;
+}
+
+nav ul{
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    width: 105px;
     background-color: #0f1b44;
-   
+    height: 100%;
+    position: fixed;
+    overflow: auto;
 }
 
 nav ul li a{
     display: block;
     height: 50px;
+    padding: 15px;
 }
+
+nav li:hover{
+    background-color:#1f2f64 
+}
+
+.dashboard-header {
+    margin-left: 105px; /* Same width as the nav */
+    padding: 2rem;
+    background-color: #0f1b44;
+    color: white;
+}
+
+.dashboard-main {
+    margin-left: 105px; /* Same width as the nav */
+    padding: 1rem;
+    display: flex;
+    justify-content: center;
+}
+
+.dashboard-section {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+    width: 100%;
+}
+
+.dashboard-card {
+    background-color: white;
+    padding: 1rem;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+}
+
+.dashboard-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+.dashboard-card img {
+    width: 50px;
+    height: auto;
+}
+
+.dashboard-card h2 {
+    margin-top: 0.5rem;
+    font-size: 1.5rem;
+    color: #333;
+}
+
+/* Adjust button styles as needed */

@@ -18,8 +18,8 @@ mysql = MySQL(app)
 @app.before_request
 def initialize_database():
     cur = mysql.connection.cursor()
-    
     # Create the Users table
+
     cur.execute('''CREATE TABLE IF NOT EXISTS Users (
         id INT AUTO_INCREMENT PRIMARY KEY,
         first_name VARCHAR(255),
@@ -39,24 +39,33 @@ def initialize_database():
         FOREIGN KEY (admin_id) REFERENCES Users(id)
     )''')
 
-    cur.execute('''CREATE TABLE IF NOT EXISTS Assignments (
-        id INT AUTO_INCREMENT PRIMARY KEY,
-        title VARCHAR(255),
-        type VARCHAR(255),
-        content TEXT,
-        course_id INT,
-        FOREIGN KEY (course_id) REFERENCES Courses(id)
-    )''')
-
     # Create the Assignments table
     cur.execute('''CREATE TABLE IF NOT EXISTS Assignment (
         id INT AUTO_INCREMENT PRIMARY KEY,
         title VARCHAR(255),
         description VARCHAR(255),
         dueDate DATE,
+        isEssay BOOLEAN,
         course_id INT,
         FOREIGN KEY (course_id) REFERENCES Courses(id)
     )''')
+
+    cur.execute('''CREATE TABLE IF NOT EXISTS Questions (
+        id INT AUTO_INCREMENT PRIMARY KEY,
+        name VARCHAR(255),
+        IsEssay BOOLEAN,
+        AssignmentID INT,
+        FOREIGN KEY (AssignmentID) REFERENCES Assignment(id)
+    )''')
+
+    cur.execute('''CREATE TABLE IF NOT EXISTS Answers (
+        id INT AUTO_INCREMENT PRIMARY KEY,
+        name VARCHAR(255),
+        IsCorrect BOOLEAN,
+        QuestionID INT,
+        FOREIGN KEY (QuestionID) REFERENCES Questions(id)
+    )''')
+
 
     cur.execute('''CREATE TABLE IF NOT EXISTS Announcements (
         AID INT AUTO_INCREMENT PRIMARY KEY,
@@ -108,6 +117,12 @@ def initialize_database():
     # Insert dummy teacher-course associations
     cur.execute("INSERT IGNORE INTO TeacherCourses (teacher_id, course_id) VALUES (2, 1)")
     cur.execute("INSERT IGNORE INTO TeacherCourses (teacher_id, course_id) VALUES (2, 2)")
+    #insert dummy questions and answers
+    cur.execute("INSERT INTO Questions (name, IsEssay, AssignmentID) VALUES ('What is HTML?', 1, 1)")
+    cur.execute("INSERT INTO Questions (name, IsEssay, AssignmentID) VALUES ('What is SQL?', 0, 2)")
+    cur.execute("INSERT INTO Answers (name, isCorrect, QuestionID) VALUES ('banana', 0, 2)")
+    cur.execute("INSERT INTO Answers (name, isCorrect, QuestionID) VALUES ('Structured Query Language', 1, 2)")
+    cur.execute("INSERT INTO Answers (name, isCorrect, QuestionID) VALUES ('apple', 0, 2)")
 
 
     # Commit changes and close the connection
@@ -134,8 +149,9 @@ def initialize_assignments():
     result = cur.fetchone()
     if result['count'] == 0:
         # The table is empty, safe to insert dummy data
-        cur.execute("INSERT INTO Assignment (title, description, dueDate, course_id) VALUES ('Introduction to Web Development', 'Complete the HTML and CSS exercise.', '2024-05-01', 1)")
-        cur.execute("INSERT INTO Assignment (title, description, dueDate, course_id) VALUES ('Advanced Database Management', 'Read chapter 4 of the database textbook and answer questions 1-10.', '2024-06-15', 2)")
+        cur.execute("INSERT INTO Assignment (title, description, dueDate, isEssay, course_id) VALUES ('Introduction to Web Development', 'Complete the HTML and CSS exercise.', '2024-05-01', 1, 1)")
+        cur.execute("INSERT INTO Assignment (title, description, dueDate, isEssay, course_id) VALUES ('Advanced Database Management', 'Read chapter 4 of the database textbook and answer questions 1-10.', '2024-06-30', 0, 2)")
+
         print("Assignments inserted.")
     else:
         print("Assignments table was not empty")
@@ -463,13 +479,14 @@ def submit_assignment():
     description = request.form['description']
     due_date = request.form['due_date']
     class_id = request.form['class_id']
+    isEssay = request.form['assignment_type']
 
     try:
         cur = mysql.connection.cursor()
         cur.execute('''
-            INSERT INTO Assignment (title, description, dueDate, course_id)
-            VALUES (%s, %s, %s, %s)
-        ''', (title, description, due_date, class_id))
+            INSERT INTO Assignment (title, description, dueDate, isEssay, course_id)
+            VALUES (%s, %s, %s, %s, %s)
+        ''', (title, description, due_date, isEssay, class_id))
         mysql.connection.commit()
         return redirect(url_for('teacher_assignment', courseid=class_id))
     except Exception as e:

@@ -10,21 +10,24 @@
 <body>
     <nav>
         <ul>
-            <img id="logo" src="../images/savnac1transparent.png" height="75" width="75" style="padding-top: 10px;">
-            <li><a href="{{ url_for('student_dashboard') }}"><img src="../images/student-dashboard/Home.png" alt="Home" style="height: 95%;"></a></li>
-            <li><a href="{{ url_for('student_course') }}"><img src="../images/homework.png" alt="Courses" style="height: 95%;"></a></li>
-            <li><a href="{{ url_for('profile') }}"><img src="../images/student-dashboard/Male User.png" alt="Profile" style="height: 95%;"></a></li>
-            <li><a href="{{ url_for('index') }}"><img src="../images/student-dashboard/Logout.png" alt="Logout" style="height: 100%;"></a></li>
+            <img id="logo" src="../images/savnac1transparent.png" height="50" width="50" style="padding-top: 10px;">
+            <li><a href="{{ url_for('student_dashboard') }}"><img src="../images/student-dashboard/Home.png" alt="Home" style="height: 70%;"></a></li>
+            <li><a href="{{ url_for('student_course') }}"><img src="../images/homework.png" alt="Courses" style="height: 70%;"></a></li>
+            <li><a href="{{ url_for('profile') }}"><img src="../images/student-dashboard/Male User.png" alt="Profile" style="height: 70%;"></a></li>
+            <li><a href="{{ url_for('index') }}"><img src="../images/student-dashboard/Logout.png" alt="Logout" style="height: 80%;"></a></li>
         </ul>
     </nav>
-
-    <h3>View Courses</h3>
-    <div class="course">
+    <br>
+    <div class="enroll">
+        <h3>Enroll in a Course</h3>
+        <br>
+        <hr>
+        <br>
         <form action="" method="POST">
-            <label for="course-name">Course Name</label>
+            <label for="course-name">Enter Course Id Below:</label>
             <br>
-            <label for="description">Description</label>
-            <br>
+            <input type="text" placeholder="">
+            
             <button type="submit">Enroll</button>
         </form>
     </div>

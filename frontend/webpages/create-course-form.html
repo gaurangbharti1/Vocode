@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Create Course</title>
+    <link rel="stylesheet" href="../styling/admin-courses.css"> <!-- Update path as needed -->
+</head>
+<body>
+
+<div class="form-container">
+    <h1>Create a New Course</h1>
+    <form action="{{ url_for('create_course') }}" method="post">
+        <div class="form-group">
+            <label for="course-name">Course Name:</label>
+            <input type="text" id="course-name" name="course-name" required>
+        </div>
+        
+        <!-- Consider commenting out or handling the course code in your Flask app if needed -->
+        <!-- <div class="form-group">
+            <label for="course-code">Course Code:</label>
+            <input type="text" id="course-code" name="course-code" required>
+        </div> -->
+        
+        <div class="form-group">
+            <label for="course-description">Course Description:</label>
+            <textarea id="course-description" name="course-description" rows="4" required></textarea>
+        </div>
+        
+        <div class="form-group">
+            <label for="start-date">Start Date:</label>
+            <input type="date" id="start-date" name="start-date" required>
+        </div>
+        
+        <div class="form-group">
+            <label for="end-date">End Date:</label>
+            <input type="date" id="end-date" name="end-date" required>
+        </div>
+        
+        <div class="form-group">
+            <label for="seats">Number of Seats:</label>
+            <input type="number" id="seats" name="seats" min="1" required>
+        </div>
+        
+        <button type="submit" class="submit-btn">Create Course</button>
+    </form>
+</div>
+
+<script src="../js/adminscripts.js"></script> <!-- Update path as needed -->
+
+</body>
+</html>

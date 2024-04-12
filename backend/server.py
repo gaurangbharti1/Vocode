@@ -106,7 +106,7 @@ def initialize_database():
     # Insert dummy users
     cur.execute(f"INSERT IGNORE INTO Users (first_name, last_name, date_of_birth, email, password, role) VALUES ('John', 'Doe', '1990-01-01', 'john.doe@example.com', 'hashed_password', 'admin')")
     cur.execute(f"INSERT IGNORE INTO Users (first_name, last_name, date_of_birth, email, password, role) VALUES ('Jane', 'Smith', '1992-02-02', 'jane.smith@example.com', 'hashed_password', 'teacher')")
-    cur.execute(f"INSERT IGNORE INTO Users (first_name, last_name, date_of_birth, email, password, role) VALUES ('Jim', 'Bean', '1994-03-03', 'jim.bean@example.com', 'hashed_password', 'student')")
+    cur.execute(f"INSERT IGNORE INTO Users (first_name, last_name, date_of_birth, email, password, role) VALUES ('Jim', 'Bean', '1994-03-03', 'w', 'hashed_password', 'student')")
     # insert dummy courses
     cur.execute("INSERT IGNORE INTO Courses (title, description, admin_id) VALUES ('Basic Programming', 'Learn the fundamentals of programming.', 1)")
     cur.execute("INSERT IGNORE INTO Courses (title, description, admin_id) VALUES ('Database Concepts', 'An introduction to relational databases.', 2)")
@@ -522,6 +522,7 @@ def submit_assignment():
     due_date = request.form['due_date']
     class_id = request.form['class_id']
     isEssay = request.form['assignment_type']
+    session['courseid'] = class_id
 
     try:
         cur = mysql.connection.cursor()
@@ -529,12 +530,25 @@ def submit_assignment():
             INSERT INTO Assignment (title, description, dueDate, isEssay, course_id)
             VALUES (%s, %s, %s, %s, %s)
         ''', (title, description, due_date, isEssay, class_id))
+        assignment_id = cur.lastrowid
         mysql.connection.commit()
-        return redirect(url_for('teacher_assignment', courseid=class_id))
+
+        if isEssay == "0":
+            return redirect(url_for('create_quiz', assignment_id=assignment_id, courseid=class_id))
+        else:
+            return redirect(url_for('create_essay', assignment_id=assignment_id, courseid=class_id))
     except Exception as e:
         # Log the detailed error message and traceback
         print("An error occurred:", str(e))
         return render_template('webpages/500.html'), 500
+
+@app.route('/create-quiz/<int:courseid>/<int:assignment_id>')
+def create_quiz(courseid, assignment_id):
+    return render_template('webpages/create-quiz.html', assignment_id=assignment_id, courseid=courseid)
+
+@app.route('/create-essay/<int:courseid>/<int:assignment_id>')
+def create_essay(courseid, assignment_id):
+    return render_template('webpages/create-essay.html', assignment_id=assignment_id, courseid=courseid)
     
 
 @app.route('/submit-announcement', methods=['POST'])
@@ -558,8 +572,49 @@ def submit_announcement():
         print("An error occurred:", str(e))
         return render_template('webpages/500.html'), 500
 
+@app.route('/submit-quiz/<int:assignment_id>', methods=['POST'])
+def submit_quiz(assignment_id):
+    for i in range(1, 4):  # For each question
+        question_text = request.form.get(f'question{i}')
+        correct_answer_index = request.form.get(f'question{i}_correct')
 
+        # Insert the question
+        cur = mysql.connection.cursor()
+        cur.execute('''INSERT INTO Questions (name, IsEssay, AssignmentID) VALUES (%s, %s, %s)''',
+                    (question_text, False, assignment_id))
+        question_id = cur.lastrowid  # Get the ID of the inserted question
 
+        for j in range(1, 3):  # For each answer
+            answer_text = request.form.get(f'question{i}_answer{j}')
+            is_correct = str(j) == correct_answer_index  # Compare strings to see if this is the correct answer
+
+            # Insert the answer
+            cur.execute('''INSERT INTO Answers (name, IsCorrect, QuestionID) VALUES (%s, %s, %s)''',
+                        (answer_text, is_correct, question_id))
+        
+        mysql.connection.commit()  # Commit after inserting each question and its answers
+
+    cur.close()
+    return redirect(url_for('course_details', courseid=session.get('courseid')))
+
+@app.route('/submit-essay/<int:assignment_id>', methods=['POST'])
+def submit_essay(assignment_id):
+    try:
+        cur = mysql.connection.cursor()
+        for i in range(1, 4):  # Assuming three essay questions
+            essay_question = request.form.get(f'essayQuestion{i}')
+            if essay_question:  # Only insert if the question field was filled out
+                cur.execute('''INSERT INTO Questions (name, IsEssay, AssignmentID) VALUES (%s, %s, %s)''',
+                            (essay_question, True, assignment_id))
+        mysql.connection.commit()
+    except Exception as e:
+        mysql.connection.rollback()
+        print(f"Error occurred: {e}")
+        return render_template('webpages/500.html'), 500
+    finally:
+        cur.close()
+    
+    return redirect(url_for('course_details', courseid=session.get('courseid')))
 
 if __name__ == '__main__':
     app.run(debug=True)

@@ -379,7 +379,7 @@ def student_dashboard():
 @app.route('/student-dashboard')
 def view_course():
     cur = mysql.connection.cursor()
-    cur.execute('select title, description from courses')
+    cur.execute('SELECT title, description FROM Courses')
     course= cur.fetchall()
     
     return course

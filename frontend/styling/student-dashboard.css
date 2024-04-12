@@ -28,12 +28,12 @@ nav ul{
 
 nav ul li a{
     display: block;
-    height: 50px;
+    height: 45px;
     padding: 15px;
 }
 
 nav li:hover{
-    background-color:#1f2f64 
+    background-color:#354990 
 }
 
 #course-card{

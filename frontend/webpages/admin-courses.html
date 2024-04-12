@@ -19,39 +19,20 @@
     <header>
         <h1>Course Management</h1>
     </header>
-
     <div class="course-container">
-        <!-- Example course card -->
-        <div class="course-card" onclick="window.location.href='{{ url_for('course_details') }}';">
-            <h2>Introduction to Computer Science</h2>
-            <p>Start Date: 01/09/2024 - End Date: 20/12/2024</p>
-            <p>Average Grade: B+</p>
-            <p>Professor: John Doe</p>
-            <p>Seats: 60/100</p>
-        </div>
-        <div class="course-container2">
-            <!-- Example course card -->
-            <div class="course-card" onclick="window.location.href='{{ url_for('course_details') }}';">
-                <h2>Advanced Mathematics</h2>
-                <p>Start Date: 07/09/2024 - End Date: 28/12/2024</p>
-                <p>Average Grade: C+</p>
-                <p>Professor: Maryam</p>
-                <p>Seats: 90/148</p>
-        </div>
-        <div class="course-container2">
-                <!-- Example course card -->
-                <div class="course-card" onclick="window.location.href='{{ url_for('course_details') }}';">
-                    <h2>Geography 101</h2>
-                    <p>Start Date: 07/09/2024 - End Date: 28/12/2024</p>
-                    <p>Average Grade: A-</p>
-                    <p>Professor: CHarlie Sheen</p>
-                    <p>Seats: 34/56</p>
-        </div>
-        <!-- Repeat above div for more courses with different details -->
-
+        {% for course in courses %}
+            <div class="course-card">
+                <h2>{{ course.title }}</h2>
+                <p>Start Date: {{ course.start_date.strftime('%d/%m/%Y') }} - End Date: {{ course.end_date.strftime('%d/%m/%Y') }}</p>
+                <p>Seats: {{ course.seats_filled }}/{{ course.seats }}</p>
+                <p>Professor: {{ course.professor }}</p>
+            </div>
+        {% endfor %}
+    
         <!-- Button to create a new course -->
-        <button id="create-course" onclick="window.location.href='{{ url_for('create_course') }}';">Create Course</button>
+        <button id="create-course" onclick="window.location.href='{{ url_for('create_course_form') }}';">Create Course</button>
     </div>
+    
 
     <script src="../js/adminscripts.js"></script>
 </body>

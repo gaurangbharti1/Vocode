@@ -39,6 +39,14 @@ def initialize_database():
         FOREIGN KEY (admin_id) REFERENCES Users(id)
     )''')
 
+    cur.execute('''CREATE TABLE IF NOT EXISTS CourseDetails (
+    course_id INT PRIMARY KEY,
+    start_date DATE,
+    end_date DATE,
+    seats INT,
+    FOREIGN KEY (course_id) REFERENCES Courses(id) ON DELETE CASCADE
+    )''')
+
     # Create the Assignments table
     cur.execute('''CREATE TABLE IF NOT EXISTS Assignment (
         id INT AUTO_INCREMENT PRIMARY KEY,
@@ -123,6 +131,27 @@ def initialize_database():
     cur.execute("INSERT INTO Answers (name, isCorrect, QuestionID) VALUES ('banana', 0, 2)")
     cur.execute("INSERT INTO Answers (name, isCorrect, QuestionID) VALUES ('Structured Query Language', 1, 2)")
     cur.execute("INSERT INTO Answers (name, isCorrect, QuestionID) VALUES ('apple', 0, 2)")
+
+        # Assuming dummy courses have already been inserted, as shown in your existing code.
+    # Now, let's insert dummy course details.
+
+    # Insert dummy course details for 'Basic Programming'
+    cur.execute("SELECT id FROM Courses WHERE title = 'Basic Programming'")
+    course_id = cur.fetchone()['id'] if cur.fetchone() else None
+    if course_id:
+        cur.execute("INSERT IGNORE INTO CourseDetails (course_id, start_date, end_date, seats) VALUES (%s, '2024-01-10', '2024-06-10', 30)", (course_id,))
+
+    # Insert dummy course details for 'Database Concepts'
+    cur.execute("SELECT id FROM Courses WHERE title = 'Database Concepts'")
+    course_id = cur.fetchone()['id'] if cur.fetchone() else None
+    if course_id:
+        cur.execute("INSERT IGNORE INTO CourseDetails (course_id, start_date, end_date, seats) VALUES (%s, '2024-02-15', '2024-07-15', 25)", (course_id,))
+
+    # Insert dummy course details for 'Web Development'
+    cur.execute("SELECT id FROM Courses WHERE title = 'Web Development'")
+    course_id = cur.fetchone()['id'] if cur.fetchone() else None
+    if course_id:
+        cur.execute("INSERT IGNORE INTO CourseDetails (course_id, start_date, end_date, seats) VALUES (%s, '2024-03-20', '2024-08-20', 20)", (course_id,))
 
 
     # Commit changes and close the connection
@@ -272,7 +301,6 @@ def student_classes():
 def register():
     cur = None
     try:
-        
         first_name = request.form['firstname']
         last_name = request.form['lastname']
         birthdate = request.form['birthdate']
@@ -282,16 +310,13 @@ def register():
         role = request.form['role']
 
         if password != confirm_password:
-            flash('Passwords do not match')
-            return redirect(url_for('index'))  # Assuming a route for the registration page exists
-
+            return render_template('webpages/error.html', error_message='Passwords do not match.', return_url=url_for('index'))
         # hashed_password = bcrypt.generate_password_hash(password).decode('utf-8')
 
         cur = mysql.connection.cursor()
         cur.execute("SELECT id FROM Users WHERE email = %s", (email,))
         if cur.fetchone():
-            flash('Email already exists')
-            return redirect(url_for('index'))
+            return render_template('webpages/error.html', error_message='Email already exists.', return_url=url_for('index'))
         else:
             cur.execute("INSERT INTO Users (first_name, last_name, date_of_birth, email, password, role) VALUES (%s, %s, %s, %s, %s, %s)", 
                         (first_name, last_name, birthdate, email, password, role))
@@ -312,8 +337,7 @@ def register():
                 return redirect(url_for('student_dashboard'))
     except Exception as e:
         # Log the exception and handle it
-        flash('An error occurred during registration. Please try again.')
-        return redirect(url_for('register'))
+        return render_template('webpages/error.html', error_message='An error occurred during registration. Please try again.', return_url=url_for('index'))
     finally:
         if cur is not None:
             cur.close()
@@ -342,15 +366,112 @@ def login():
             else:  # Assume student if not admin or teacher
                 return redirect(url_for('student_dashboard'))
         else:
-            flash('Invalid username or password')
-            return redirect(url_for('index'))  # Assuming you have a route for showing the login page
+            return render_template('webpages/error.html', error_message='Invalid username or password.', return_url=url_for('index'))
     except Exception as e:
         # Log the exception and handle it
-        flash('An error occurred during login. Please try again.')
-        return redirect(url_for('index'))
+        return render_template('webpages/error.html', error_message='An error occurred during login. Please try again.', return_url=url_for('index'))
     finally:
         if cur is not None:
             cur.close()
+
+@app.route('/admin-dashboard')
+def admin_dashboard():
+    if 'user_id' not in session or session['role'] != 'admin':
+        return "Unauthorized", 401
+
+    cur = mysql.connection.cursor()
+    cur.execute('SELECT * FROM Users')
+    users = cur.fetchall()
+    cur.execute('SELECT * FROM Courses')
+    courses = cur.fetchall()
+    cur.close()
+
+    return render_template('webpages/admin-dashboard.html', users=users, courses=courses)
+
+@app.route('/admin-courses')
+def admin_courses():
+    cur = mysql.connection.cursor()
+    # Join Courses with CourseDetails and Users to fetch course information along with the instructor's name
+    cur.execute('''
+        SELECT Courses.title, CourseDetails.start_date, CourseDetails.end_date, 
+               CourseDetails.seats, Users.first_name, Users.last_name,
+               (SELECT COUNT(*) FROM Enrollment WHERE course_id = Courses.id) as seats_filled
+        FROM Courses
+        JOIN CourseDetails ON Courses.id = CourseDetails.course_id
+        JOIN Users ON Courses.admin_id = Users.id
+    ''')
+    courses_raw = cur.fetchall()
+    cur.close()
+    
+    courses = []
+    for course in courses_raw:
+        # Check if dates are not None and directly assign them; otherwise, provide a default value
+        start_date = course['start_date'] if course['start_date'] else 'N/A'
+        end_date = course['end_date'] if course['end_date'] else 'N/A'
+        
+        course_data = {
+            'title': course['title'],
+            'start_date': start_date,
+            'end_date': end_date,
+            'seats': course['seats'],
+            'seats_filled': course['seats_filled'],
+            'professor': f"{course['first_name']} {course['last_name']}"
+        }
+        courses.append(course_data)
+
+    return render_template('webpages/admin-courses.html', courses=courses)
+
+@app.route('/create-course-form')
+def create_course_form():
+    if 'user_id' not in session or session['role'] != 'admin':
+        flash("Unauthorized access.", "error")
+        return redirect(url_for('login'))
+    return render_template('webpages/create-course-form.html')
+
+@app.route('/create-course', methods=['POST'])
+def create_course():
+    if 'user_id' not in session or session['role'] != 'admin':
+        flash("Unauthorized access.", "error")
+        return redirect(url_for('login'))
+
+    title = request.form.get('course-name', '').strip()
+    description = request.form.get('course-description', '').strip()
+    start_date = request.form.get('start-date')
+    end_date = request.form.get('end-date')
+    seats = request.form.get('seats', '0')
+
+    # Basic validation
+    if not title or not description or not start_date or not end_date or not seats.isdigit() or int(seats) < 1:
+        flash('Invalid input data. Please ensure all fields are correctly filled.', 'error')
+        return redirect(url_for('create_course_form'))
+
+    try:
+        cur = mysql.connection.cursor()
+        # Insert the new course into the Courses table
+        cur.execute('''INSERT INTO Courses (title, description, admin_id) 
+                       VALUES (%s, %s, %s)''',
+                    (title, description, session['user_id']))
+        course_id = cur.lastrowid  # Retrieve the auto-generated course_id
+
+        # Validate and convert dates and seats for database insertion
+        # You might want to ensure that start_date and end_date are in correct format
+        # e.g., YYYY-MM-DD, and convert them as needed
+
+        # Insert the course details into the CourseDetails table
+        cur.execute('''INSERT INTO CourseDetails (course_id, start_date, end_date, seats) 
+                       VALUES (%s, %s, %s, %s)''',
+                    (course_id, start_date, end_date, int(seats)))
+
+        mysql.connection.commit()
+        flash('Course and course details created successfully.')
+    except Exception as e:
+        mysql.connection.rollback()
+        flash('Failed to create course. Please try again.')
+        print(e)  # For debugging purposes
+    finally:
+        cur.close()
+
+    return redirect(url_for('admin_dashboard'))
 
 @app.route('/student-dashboard')
 def student_dashboard():
@@ -400,10 +521,6 @@ def quiz():
 @app.route('/written_assignment')
 def written_assignment():
     return render_template('webpages/written-assignment.html')
-
-# @app.route('/edit_profile')
-# def edit_profile():
-#     return render_template('webpages/edit-profile.html')
 
 @app.route('/teacher-dashboard')
 def teacher_dashboard():
@@ -535,7 +652,6 @@ def submit_assignment():
         # Log the detailed error message and traceback
         print("An error occurred:", str(e))
         return render_template('webpages/500.html'), 500
-    
 
 @app.route('/submit-announcement', methods=['POST'])
 def submit_announcement():
@@ -557,8 +673,6 @@ def submit_announcement():
         # Log the detailed error message and traceback
         print("An error occurred:", str(e))
         return render_template('webpages/500.html'), 500
-
-
 
 
 if __name__ == '__main__':

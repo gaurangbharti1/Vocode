@@ -376,11 +376,17 @@ def student_dashboard():
 
     return render_template('webpages/student-dashboard.html', courses=courses, assignments = assignments)
 
+@app.route('/student-dashboard')
+def view_course():
+    cur = mysql.connection.cursor()
+    cur.execute('select title, description from courses')
+    course= cur.fetchall()
+    
+    return course
+    
 @app.route('/student-enrollcourse')
 def student_course():
     return render_template('webpages/student-enrollcourse.html')
-
-
 
 @app.route('/student-grades')
 def student_grades():

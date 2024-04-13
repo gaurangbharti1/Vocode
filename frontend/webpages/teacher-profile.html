@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Teacher Dashboard</title>
+    <link rel="stylesheet" href="../styling/teacher-dashboard.css">
+</head>
+<body>
+    <div class="dashboard">
+        <nav>
+            <ul>
+                <img id="logo" src="../images/savnac1transparent.png" height="50" width="50" style="padding-top: 10px;">
+                <li><a href="{{ url_for('teacher_dashboard') }}"><img src="../images/student-dashboard/Home.png" alt="Home" style="height: 70%;"></a></li>
+                <li><a href="{{ url_for('profile') }}"><img src="../images/student-dashboard/Male User.png" alt="Profile" style="height: 70%;"></a></li>
+                <li><a href="{{ url_for('index') }}"><img src="../images/student-dashboard/Logout.png" alt="Logout" style="height: 80%;"></a></li>
+            </ul>
+        </nav>
+    </div>
+
+    <div class="main-content">
+        <div class="profile-details">
+            <h1>My Profile</h1>
+            <div class="edit">
+                <a href="{{ url_for('teacher_profile') }}">Edit Profile</a>
+            </div>
+            <div class="detail">
+                <strong>Name:</strong> <span>{{ user.first_name }} {{ user.last_name }}</span>
+            </div>
+            <div class="detail">
+                <strong>Email:</strong> <span>{{ user.email }}</span>
+            </div>
+            <div class="detail">
+                <strong>Date of Birth:</strong> <span>{{ user.date_of_birth }}</span>
+            </div>
+            <div class="detail">
+                <strong>Role:</strong> <span>{{ user.role }}</span>
+            </div>
+        </div>
+
+    </div>
+
+</body>
+</html>

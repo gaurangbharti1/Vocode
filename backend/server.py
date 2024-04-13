@@ -186,6 +186,110 @@ def internal_server_error(e):
 def index():
     return render_template("webpages/login.html")
 
+@app.route('/admin_profile')
+def admin_profile():
+    if 'user_id' not in session:
+        return redirect(url_for('login'))
+
+    user_id = session['user_id']
+
+    cur = mysql.connection.cursor()
+    cur.execute('SELECT * FROM Users WHERE id = %s', (user_id,))
+    user_details = cur.fetchone()
+    cur.close()
+
+    return render_template('webpages/admin-profile.html', user=user_details)
+
+@app.route('/admin_edit_profile', methods=['GET', 'POST'])
+def admin_edit_profile():
+    if 'user_id' not in session:
+        return redirect(url_for('login'))
+
+    user_id = session['user_id']
+    cur = mysql.connection.cursor()
+
+    if request.method == 'POST':
+        new_first_name = request.form.get('first_name')
+        new_last_name = request.form.get('last_name')
+        new_email = request.form.get('new_email')
+        curr_password = request.form.get('curr_password')
+        new_password = request.form.get('new_password')
+
+        cur.execute('SELECT password FROM Users WHERE id = %s', (user_id,))
+        user_data = cur.fetchone()
+
+        if new_first_name:
+            cur.execute('UPDATE Users SET first_name = %s WHERE id = %s', (new_first_name, user_id))
+        if new_last_name:
+            cur.execute('UPDATE Users SET last_name = %s WHERE id = %s', (new_last_name, user_id))
+        if new_email:
+            cur.execute('UPDATE Users SET email = %s WHERE id = %s', (new_email, user_id))
+        if new_password:
+            hashed_password = bcrypt.generate_password_hash(new_password).decode('utf-8')
+            cur.execute('UPDATE Users SET password = %s WHERE id = %s', (hashed_password, user_id))
+        mysql.connection.commit()
+        flash('Profile updated successfully.')
+        return redirect(url_for('admin-profile'))
+
+    # Always fetch the user details to display in the form, for both GET and POST
+    cur.execute('SELECT * FROM Users WHERE id = %s', (user_id,))
+    user_details = cur.fetchone()
+    cur.close()
+
+    return render_template('webpages/admin-editprofile.html', user=user_details)
+
+@app.route('/teacher-profile')
+def teacher_profile():
+    if 'user_id' not in session:
+        return redirect(url_for('login'))
+
+    user_id = session['user_id']
+
+    cur = mysql.connection.cursor()
+    cur.execute('SELECT * FROM Users WHERE id = %s', (user_id,))
+    user_details = cur.fetchone()
+    cur.close()
+
+    return render_template('webpages/teacher-profile.html', user=user_details)
+
+@app.route('/teacher-editprofile', methods=['GET', 'POST'])
+def teacher_edit_profile():
+    if 'user_id' not in session:
+        return redirect(url_for('login'))
+
+    user_id = session['user_id']
+    cur = mysql.connection.cursor()
+
+    if request.method == 'POST':
+        new_first_name = request.form.get('first_name')
+        new_last_name = request.form.get('last_name')
+        new_email = request.form.get('new_email')
+        curr_password = request.form.get('curr_password')
+        new_password = request.form.get('new_password')
+
+        cur.execute('SELECT password FROM Users WHERE id = %s', (user_id,))
+        user_data = cur.fetchone()
+
+        if new_first_name:
+            cur.execute('UPDATE Users SET first_name = %s WHERE id = %s', (new_first_name, user_id))
+        if new_last_name:
+            cur.execute('UPDATE Users SET last_name = %s WHERE id = %s', (new_last_name, user_id))
+        if new_email:
+            cur.execute('UPDATE Users SET email = %s WHERE id = %s', (new_email, user_id))
+        if new_password:
+            hashed_password = bcrypt.generate_password_hash(new_password).decode('utf-8')
+            cur.execute('UPDATE Users SET password = %s WHERE id = %s', (hashed_password, user_id))
+        mysql.connection.commit()
+        flash('Profile updated successfully.')
+        return redirect(url_for('teacher-profile'))
+
+    # Always fetch the user details to display in the form, for both GET and POST
+    cur.execute('SELECT * FROM Users WHERE id = %s', (user_id,))
+    user_details = cur.fetchone()
+    cur.close()
+
+    return render_template('webpages/teacher-editprofile.html', user=user_details)
+
 
 @app.route('/profile')
 def profile():
@@ -556,6 +660,7 @@ def student_dashboard():
     cur.close()
 
     return render_template('webpages/student-dashboard.html', courses=courses, assignments=assignments)
+
 
 @app.route('/student-course/<int:courseid>')
 def student_course(courseid):

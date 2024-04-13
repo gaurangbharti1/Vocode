@@ -99,15 +99,15 @@ def initialize_database():
             FOREIGN KEY (course_id) REFERENCES Courses(id)
         )''')
 
-    cur.execute('''
-        CREATE TABLE IF NOT EXISTS Grades (
-            student_id INT,
-            assignment_id INT,
-            grade INT,
-            PRIMARY KEY (student_id, assignment_id),
-            FOREIGN KEY (student_id) REFERENCES Users(id),
-            FOREIGN KEY (assignment_id) REFERENCES Assignment(id)
-        )''')
+    cur.execute('''CREATE TABLE IF NOT EXISTS Grade (
+        student_id INT,
+        assignment_id INT,
+        grade INT,
+        PRIMARY KEY (student_id, assignment_id),
+        FOREIGN KEY (student_id) REFERENCES Users(id),
+        FOREIGN KEY (assignment_id) REFERENCES Assignment(id)
+    )''')
+
 
     cur.execute('''
         CREATE TABLE IF NOT EXISTS TeacherCourses (
@@ -514,6 +514,7 @@ def create_course():
         cur.close()
 
     return redirect(url_for('admin_dashboard'))
+
 @app.route('/student-dashboard')
 def student_dashboard():
     if 'user_id' not in session or session['role'] != 'student':
@@ -544,27 +545,113 @@ def student_dashboard():
 
     return render_template('webpages/student-dashboard.html', courses=courses, assignments=assignments)
 
+@app.route('/student-course/<int:courseid>')
+def student_course(courseid):
+    course = get_course(courseid)
+    try:
+        cur = mysql.connection.cursor()
+        cur.execute("SELECT * FROM Announcements WHERE course_id = %s ORDER BY date DESC", [courseid])
+        announcements = cur.fetchall()
+    except Exception as e:
+        print("Failed to fetch announcements:", str(e))
+        announcements = []
+    finally:
+        if cur:
+            cur.close()
+            
+    return render_template('webpages/student-course.html', course=course, announcements=announcements)
 
-@app.route('/student-course')
-def student_course():
-    return render_template('webpages/student-course.html')
+@app.route('/student-grades/<int:courseid>')
+def student_grades(courseid):
+    course=get_course(courseid)
 
-@app.route('/student-grades')
-def student_grades():
-    return render_template('webpages/student-grades.html')
+    cur = mysql.connection.cursor()
+    cur.execute('''
+        SELECT Assignment.title, Assignment.description, Assignment.due_date, Grade.grade
+        FROM Grade
+        JOIN Assignment ON Grade.assignment_id = Assignment.id
+        WHERE Grade.student_id = %s AND Assignment.course_id = %s
+    ''', (session.get('user_id'), courseid))
+    graded_assignments = cur.fetchall()
 
-@app.route('/student-assignment')
-def student_assignment():
-    assignments = get_assignments()
-    return render_template('webpages/student-assignment.html', assignments = assignments)
+    return render_template('webpages/student-grades.html', course=course, graded_assignments = graded_assignments)
 
-@app.route('/student-resource')
-def student_resource():
-    return render_template('webpages/student-resource.html')
+@app.route('/student-assignment/<int:courseid>')
+def student_assignment(courseid):
+    course = get_course(courseid)
 
-@app.route('/quiz')
-def quiz():
-    return render_template('webpages/quiz.html')
+    cur = mysql.connection.cursor()
+    cur.execute('''
+        SELECT Assignment.id, Assignment.title, Assignment.description, Assignment.due_Date, Assignment.is_essay
+        FROM Assignment
+        LEFT JOIN Grade ON Assignment.id = Grade.assignment_id AND Grade.student_id = %s
+        WHERE Assignment.course_id = %s AND Grade.grade IS NULL
+    ''', (session.get('user_id'), courseid))
+    assignments = cur.fetchall()
+    cur.close()
+    cur.close()
+
+    return render_template('webpages/student-assignment.html', assignments = assignments, course=course)
+
+@app.route('/student-resource/<int:courseid>')
+def student_resource(courseid):
+    course=get_course(courseid)
+    return render_template('webpages/student-resource.html', course=course)
+
+@app.route('/quiz/<int:assignment_id>')
+def quiz(assignment_id):
+    cur = mysql.connection.cursor()
+    cur.execute('''
+        SELECT q.id AS question_id, q.name AS question_text, a.id AS answer_id, a.name AS answer_text
+        FROM Questions q
+        JOIN Answers a ON q.id = a.question_id
+        WHERE q.assignment_id = %s AND q.is_essay = FALSE
+        ORDER BY q.id, a.id
+    ''', (assignment_id,))
+    result = cur.fetchall()
+    cur.close()
+
+    if not result:
+        return "No quiz found or no multiple choice questions available.", 404
+
+    # Organize questions and answers
+    quiz_data = {}
+    for row in result:
+        question = quiz_data.setdefault(row['question_id'], {
+            'id': row['question_id'],
+            'question_text': row['question_text'],
+            'answers': []
+        })
+        question['answers'].append({
+            'answer_id': row['answer_id'],
+            'answer_text': row['answer_text']
+        })
+
+    questions = list(quiz_data.values())
+    return render_template('webpages/quiz.html', questions=questions, assignment_id=assignment_id)
+
+@app.route('/student-submit-quiz/<int:assignment_id>', methods=['POST'])
+def student_submit_quiz(assignment_id):
+    answers = request.form.to_dict()
+    total_questions = len(answers)
+    score = 0
+
+    cur = mysql.connection.cursor()
+    for question_id, answer_id in answers.items():
+        cur.execute('SELECT is_correct FROM Answers WHERE id = %s', (answer_id,))
+        result = cur.fetchone()
+        if result and result['is_correct']:
+            score += 1
+
+    grade = (score / total_questions) * 100
+        # Insert the new grade
+    cur.execute('INSERT INTO Grade (student_id, assignment_id, grade) VALUES (%s, %s, %s)',
+                (session.get('user_id'), assignment_id, grade))
+
+    mysql.connection.commit()
+    cur.close()
+
+    return render_template('webpages/results.html', score=score, total_questions=total_questions)
 
 @app.route('/written_assignment')
 def written_assignment():
@@ -622,7 +709,7 @@ def get_assignments():
 
     try:
         cur = mysql.connection.cursor()
-        cur.execute('''SELECT Assignment.title, Assignment.description, Assignment.dueDate
+        cur.execute('''SELECT Assignment.title, Assignment.description, Assignment.due_date
                        FROM Assignment
                        JOIN TeacherCourses ON Assignment.course_id = TeacherCourses.course_id
                        WHERE TeacherCourses.teacher_id = %s''', (teacher_id,))
@@ -687,19 +774,78 @@ def submit_assignment():
     due_date = request.form['due_date']
     class_id = request.form['class_id']
     isEssay = request.form['assignment_type']
+    session['courseid'] = class_id
 
     try:
         cur = mysql.connection.cursor()
         cur.execute('''
-            INSERT INTO Assignment (title, description, dueDate, isEssay, course_id)
+            INSERT INTO Assignment (title, description, due_date, is_essay, course_id)
             VALUES (%s, %s, %s, %s, %s)
         ''', (title, description, due_date, isEssay, class_id))
+        assignment_id = cur.lastrowid
         mysql.connection.commit()
-        return redirect(url_for('teacher_assignment', courseid=class_id))
+
+        if isEssay == "0":
+            return redirect(url_for('create_quiz', assignment_id=assignment_id, courseid=class_id))
+        else:
+            return redirect(url_for('create_essay', assignment_id=assignment_id, courseid=class_id))
     except Exception as e:
         # Log the detailed error message and traceback
         print("An error occurred:", str(e))
         return render_template('webpages/500.html'), 500
+
+@app.route('/create-quiz/<int:courseid>/<int:assignment_id>')
+def create_quiz(courseid, assignment_id):
+    return render_template('webpages/create-quiz.html', assignment_id=assignment_id, courseid=courseid)
+
+@app.route('/create-essay/<int:courseid>/<int:assignment_id>')
+def create_essay(courseid, assignment_id):
+    return render_template('webpages/create-essay.html', assignment_id=assignment_id, courseid=courseid)
+
+
+@app.route('/submit-quiz/<int:assignment_id>', methods=['POST'])
+def submit_quiz(assignment_id):
+    for i in range(1, 4):  # For each question
+        question_text = request.form.get(f'question{i}')
+        correct_answer_index = request.form.get(f'question{i}_correct')
+
+        # Insert the question
+        cur = mysql.connection.cursor()
+        cur.execute('''INSERT INTO Questions (name, is_essay, assignment_id) VALUES (%s, %s, %s)''',
+                    (question_text, False, assignment_id))
+        question_id = cur.lastrowid  # Get the ID of the inserted question
+
+        for j in range(1, 3):  # For each answer
+            answer_text = request.form.get(f'question{i}_answer{j}')
+            is_correct = str(j) == correct_answer_index  # Compare strings to see if this is the correct answer
+
+            # Insert the answer
+            cur.execute('''INSERT INTO Answers (name, is_correct, question_id) VALUES (%s, %s, %s)''',
+                        (answer_text, is_correct, question_id))
+        
+        mysql.connection.commit()  # Commit after inserting each question and its answers
+
+    cur.close()
+    return redirect(url_for('course_details', courseid=session.get('courseid')))
+
+@app.route('/submit-essay/<int:assignment_id>', methods=['POST'])
+def submit_essay(assignment_id):
+    try:
+        cur = mysql.connection.cursor()
+        for i in range(1, 4):  # Assuming three essay questions
+            essay_question = request.form.get(f'essayQuestion{i}')
+            if essay_question:  # Only insert if the question field was filled out
+                cur.execute('''INSERT INTO Questions (name, is_essay, sssignment_id) VALUES (%s, %s, %s)''',
+                            (essay_question, True, assignment_id))
+        mysql.connection.commit()
+    except Exception as e:
+        mysql.connection.rollback()
+        print(f"Error occurred: {e}")
+        return render_template('webpages/500.html'), 500
+    finally:
+        cur.close()
+    
+    return redirect(url_for('course_details', courseid=session.get('courseid')))
 
 @app.route('/submit-announcement', methods=['POST'])
 def submit_announcement():

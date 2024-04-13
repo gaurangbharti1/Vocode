@@ -73,6 +73,13 @@ header ul li a:hover{
     margin-right: 0;
 }
 
+.startbutton {
+    background-color: #ec993a;
+    padding: 10px 15px;
+    border-radius: 5px;
+}
+
+
 .upcoming h3, .past h4{
     font-family: 'Lexend Exa';
     background-color: #f3d1b9;
@@ -92,7 +99,6 @@ header ul li a:hover{
 }
 .upcoming div p, .past div p{
     margin: 5px;
-    padding-top: 10px;
 }
 .past {
     margin-top: 20px;

@@ -108,28 +108,40 @@ header ul li a:hover{
 .announcement{
     display: inline-block;
     margin: 10px;
-    margin-left: auto;
-    margin-right: auto;
+    margin-right: 250px;
     padding-left: 0;
-    
 }
+
 .announcement div{
-    width: max-content;
-    margin: 0;
-    padding: 5px;
-    margin-left: auto;
-    margin-right: auto;
+    width: 180%;
+    background-color: #f9e7da;
+    margin-bottom: 20px;
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
 }
+
 .announcement div h4{
     background-color: #f7d8c2;
-    font-family: 'Lexend Exa';
-    padding: 5px;
-   
+    font-family: 'Lexend Exa', sans-serif;
+    padding: 10px;
+    margin: -15px;
+    margin-bottom: 15px;
+    border-radius: 5px;
 }
+
 .announcement div p{
-    margin-bottom: 10px;
-    overflow: hidden;
-    background-color: #f9e7da;
-    padding: 20px;
     text-align: left;
+    padding: 5px;
+}
+
+.announcement div h5 {
+    font-family: 'Lexend Exa', sans-serif;
+    color: #333;
+    margin-top: 20px;
+    margin-bottom: 10px;
+    padding: 5px 0;
+    border-bottom: 2px solid #e69a64;
+    display: inline-block;
+    width: auto; 
 }

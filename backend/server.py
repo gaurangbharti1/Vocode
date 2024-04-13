@@ -99,7 +99,16 @@ def initialize_database():
         grade INT,
         PRIMARY KEY (student_id, assignment_id),
         FOREIGN KEY (student_id) REFERENCES Users(id),
-        FOREIGN KEY (assignment_id) REFERENCES Assignments(id)
+        FOREIGN KEY (assignment_id) REFERENCES Assignment(id)
+    )''')
+
+    cur.execute('''CREATE TABLE IF NOT EXISTS Grade (
+        student_id INT,
+        assignment_id INT,
+        grade INT,
+        PRIMARY KEY (student_id, assignment_id),
+        FOREIGN KEY (student_id) REFERENCES Users(id),
+        FOREIGN KEY (assignment_id) REFERENCES Assignment(id)
     )''')
 
         # Create the TeacherCourses table
@@ -139,6 +148,16 @@ def initialize_database():
 
     mysql.connection.commit()
     cur.close()
+
+
+def get_course(courseid):
+    cur = mysql.connection.cursor()
+    cur.execute("SELECT * FROM Courses WHERE id = %s", [courseid])
+    course = cur.fetchone()
+    cur.close()
+
+    return course
+
 
 @app.errorhandler(404)
 def page_not_found(e):
@@ -476,26 +495,111 @@ def student_dashboard():
 
     return render_template('webpages/student-dashboard.html', courses=courses, assignments = assignments)
 
-@app.route('/student-course')
-def student_course():
-    return render_template('webpages/student-course.html')
+@app.route('/student-course/<int:courseid>')
+def student_course(courseid):
+    course = get_course(courseid)
+    try:
+        cur = mysql.connection.cursor()
+        cur.execute("SELECT * FROM Announcements WHERE course_id = %s ORDER BY date DESC", [courseid])
+        announcements = cur.fetchall()
+    except Exception as e:
+        print("Failed to fetch announcements:", str(e))
+        announcements = []
+    finally:
+        if cur:
+            cur.close()
+            
+    return render_template('webpages/student-course.html', course=course, announcements=announcements)
 
-@app.route('/student-grades')
-def student_grades():
-    return render_template('webpages/student-grades.html')
 
-@app.route('/student-assignment')
-def student_assignment():
-    assignments = get_assignments()
-    return render_template('webpages/student-assignment.html', assignments = assignments)
+@app.route('/student-grades/<int:courseid>')
+def student_grades(courseid):
+    course=get_course(courseid)
 
-@app.route('/student-resource')
-def student_resource():
-    return render_template('webpages/student-resource.html')
+    cur = mysql.connection.cursor()
+    cur.execute('''
+        SELECT Assignment.title, Assignment.description, Assignment.dueDate, Grade.grade
+        FROM Grade
+        JOIN Assignment ON Grade.assignment_id = Assignment.id
+        WHERE Grade.student_id = %s AND Assignment.course_id = %s
+    ''', (session.get('user_id'), courseid))
+    graded_assignments = cur.fetchall()
 
-@app.route('/quiz')
-def quiz():
-    return render_template('webpages/quiz.html')
+    return render_template('webpages/student-grades.html', course=course, graded_assignments = graded_assignments)
+
+@app.route('/student-assignment/<int:courseid>')
+def student_assignment(courseid):
+    course = get_course(courseid)
+
+    cur = mysql.connection.cursor()
+    cur.execute("SELECT * FROM Assignment WHERE course_id = %s", [courseid])
+    assignments = cur.fetchall()
+    cur.close()
+
+    return render_template('webpages/student-assignment.html', assignments = assignments, course=course)
+
+@app.route('/student-resource/<int:courseid>')
+def student_resource(courseid):
+    course=get_course(courseid)
+    return render_template('webpages/student-resource.html', course=course)
+
+@app.route('/quiz/<int:assignment_id>')
+def quiz(assignment_id):
+    cur = mysql.connection.cursor()
+    cur.execute('''
+        SELECT q.id AS question_id, q.name AS question_text, a.id AS answer_id, a.name AS answer_text
+        FROM Questions q
+        JOIN Answers a ON q.id = a.QuestionID
+        WHERE q.AssignmentID = %s AND q.IsEssay = FALSE
+        ORDER BY q.id, a.id
+    ''', (assignment_id,))
+    result = cur.fetchall()
+    cur.close()
+
+    if not result:
+        return "No quiz found or no multiple choice questions available.", 404
+
+    # Organize questions and answers
+    quiz_data = {}
+    for row in result:
+        question = quiz_data.setdefault(row['question_id'], {
+            'id': row['question_id'],
+            'question_text': row['question_text'],
+            'answers': []
+        })
+        question['answers'].append({
+            'answer_id': row['answer_id'],
+            'answer_text': row['answer_text']
+        })
+
+    questions = list(quiz_data.values())
+    return render_template('webpages/quiz.html', questions=questions, assignment_id=assignment_id)
+
+@app.route('/student-submit-quiz/<int:assignment_id>', methods=['POST'])
+def student_submit_quiz(assignment_id):
+    answers = request.form.to_dict()
+    total_questions = len(answers)
+    score = 0
+
+    cur = mysql.connection.cursor()
+    for question_id, answer_id in answers.items():
+        cur.execute('SELECT IsCorrect FROM Answers WHERE id = %s', (answer_id,))
+        result = cur.fetchone()
+        if result and result['IsCorrect']:
+            score += 1
+
+    grade = (score / total_questions) * 100
+        # Insert the new grade
+    cur.execute('INSERT INTO Grade (student_id, assignment_id, grade) VALUES (%s, %s, %s)',
+                (session.get('user_id'), assignment_id, grade))
+
+    mysql.connection.commit()
+    cur.close()
+
+    return render_template('webpages/results.html', score=score, total_questions=total_questions)
+
+if __name__ == '__main__':
+    app.run(debug=True)
 
 @app.route('/written_assignment')
 def written_assignment():
@@ -563,14 +667,6 @@ def get_assignments():
     except Exception as e:
         print(f"An error occurred: {e}")
         return []  # Return an empty list on error
-
-def get_course(courseid):
-    cur = mysql.connection.cursor()
-    cur.execute("SELECT * FROM Courses WHERE id = %s", [courseid])
-    course = cur.fetchone()
-    cur.close()
-
-    return course
 
 @app.route('/course-details/<int:courseid>')
 def course_details(courseid):

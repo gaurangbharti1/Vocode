@@ -11,64 +11,32 @@
         <ul>
             <img id="logo" src="../images/savnac1transparent.png" height="75" width="75" style="padding-top: 10px;">
             <li><a href="{{ url_for('student_dashboard') }}"><img src="../images/student-dashboard/Home.png" alt="Home" style="height: 95%;"></a></li>
-            <li><a href="{{ url_for('student_course') }}"><img src="../images/homework.png" alt="Courses" style="height: 95%;"></a></li>
             <li><a href="{{ url_for('profile') }}"><img src="../images/student-dashboard/Male User.png" alt="Profile" style="height: 95%;"></a></li>
             <li><a href="{{ url_for('index') }}"><img src="../images/student-dashboard/Logout.png" alt="Logout" style="height: 100%;"></a></li>
         </ul>
     </nav>
 
     <header>
-        <h2>Course Name</h2>
+        <h2>{{course.title}}</h2>
         <ul>
-            <li><a href="{{ url_for('student_course') }}">Home</a></li>
-            <li><a href="{{ url_for('student_assignment') }}">Assignments</a></li>
-            <li><a href="{{ url_for('student_resource') }}">Resources</a></li>
-            <li><a href="{{ url_for('student_grades') }}">Grades</a></li>
+            <li><a href="{{ url_for('student_course', courseid=course.id) }}">Home</a></li>
+            <li><a href="{{ url_for('student_assignment', courseid=course.id) }}">Assignments</a></li>
+            <li><a href="{{ url_for('student_resource', courseid=course.id) }}">Resources</li>
+            <li>Grades</a></li>
         </ul>
     </header>
 
     <section class="graded">
         <h3>Graded Assignments</h3>
+        {% for assignment in graded_assignments %}
         <div>
-            <a href="#">Assingment</a>
-            <p>Description</p>
-            <p>Grade:</p>
+            <a href="#">{{ assignment.title }}</a>
+            <p>{{ assignment.description }}</p>
+            <p>Grade: {{ assignment.grade }}%</p>
         </div>
-        <div>
-            <a href="#">Assingment</a>
-            <p>Description</p>
-            <p>Grade:</p>
-        </div>
-        <div>
-            <a href="#">Assingment</a>
-            <p>Description</p>
-            <p>Grade:</p>
-        </div>
-        <div>
-            <a href="#">Assingment</a>
-            <p>Description</p>
-            <p>Grade:</p>
-        </div>
-    </section>
-    
-    <section class="ungraded">
-        <h4>Submitted for Grading</h4>
-        <div>
-            <a href="#">Assignment</a>
-            <p>Submitted On:</p>
-        </div>
-        <div>
-            <a href="#">Assignment</a>
-            <p>Submitted On:</p>
-        </div>
-        <div>
-            <a href="#">Assignment</a>
-            <p>Submitted On:</p>
-        </div>
-        <div>
-            <a href="#">Assignment</a>
-            <p>Submitted On:</p>
-        </div>
+        {% else %}
+        <p>No graded assignments yet.</p>
+        {% endfor %}
     </section>
 </body>
 </html>

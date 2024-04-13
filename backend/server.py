@@ -78,7 +78,19 @@ def initialize_database():
             question_id INT,
             FOREIGN KEY (question_id) REFERENCES Questions(id)
         )''')
-
+    
+    cur.execute('''
+        CREATE TABLE IF NOT EXISTS Submissions (
+            id INT AUTO_INCREMENT PRIMARY KEY,
+            answers VARCHAR(255),
+            assignment_id INT,
+            question_id INT,
+            student_id INT,
+            FOREIGN KEY (question_id) REFERENCES Questions(id),
+            FOREIGN KEY (assignment_id) REFERENCES Assignment(id),
+            FOREIGN KEY (student_id) REFERENCES Users(id)
+        )''')
+    
     cur.execute('''
         CREATE TABLE IF NOT EXISTS Announcements (
             id INT AUTO_INCREMENT PRIMARY KEY,
@@ -653,6 +665,54 @@ def student_submit_quiz(assignment_id):
 
     return render_template('webpages/results.html', score=score, total_questions=total_questions)
 
+@app.route('/essay/<int:assignment_id>')
+def essay(assignment_id):
+    cur = mysql.connection.cursor()
+    cur.execute('''
+        SELECT q.id AS question_id, q.name AS question_text
+        FROM Questions q
+        WHERE q.assignment_id = %s AND q.is_essay = TRUE
+        ORDER BY q.id
+    ''', (assignment_id,))
+    result = cur.fetchall()
+    cur.close()
+
+    if not result:
+        return "No essay questions available for this assignment.", 404
+
+    # Organize essay questions
+    questions = [{
+        'id': row['question_id'],
+        'question_text': row['question_text']
+    } for row in result]
+
+    return render_template('webpages/essay.html', questions=questions, assignment_id=assignment_id)
+
+@app.route('/student-submit-essay/<int:assignment_id>', methods=['POST'])
+def student_submit_essay(assignment_id):
+    cur = mysql.connection.cursor()
+    student_id = session.get('user_id')  # Assuming student_id is stored in session
+
+    try:
+        for key, value in request.form.items():
+            if key.startswith('answer_'):
+                question_id = key.split('_')[1]
+                # Insert each essay answer into the Submissions table
+                cur.execute('''
+                    INSERT INTO Submissions (answers, assignment_id, question_id, student_id)
+                    VALUES (%s, %s, %s, %s)
+                ''', (value, assignment_id, question_id, student_id))
+        mysql.connection.commit()
+        flash('Your essay responses have been submitted successfully.')
+    except Exception as e:
+        mysql.connection.rollback()
+        flash('An error occurred while submitting your essays.')
+        app.logger.error(f"Error submitting essays: {str(e)}")
+    finally:
+        cur.close()
+
+    return redirect(url_for('student_dashboard'))
+
 @app.route('/written_assignment')
 def written_assignment():
     return render_template('webpages/written-assignment.html')
@@ -681,7 +741,90 @@ def teacher_course():
 @app.route('/teacher-grades/<int:courseid>')
 def teacher_grades(courseid):
     course = get_course(courseid)
-    return render_template('webpages/teacher-grades.html', course=course)
+    if not course:
+        return "Course not found", 404
+
+    cur = mysql.connection.cursor()
+    try:
+        # Fetch assignments and any students who have submitted them
+        cur.execute('''
+            SELECT a.id, a.title, u.first_name, u.last_name, s.student_id
+            FROM Assignment a
+            LEFT JOIN Submissions s ON a.id = s.assignment_id
+            LEFT JOIN Users u ON s.student_id = u.id
+            WHERE a.course_id = %s AND
+            a.is_essay = TRUE
+            ORDER BY a.id, s.student_id
+        ''', (courseid,))
+        raw_data = cur.fetchall()
+    except Exception as e:
+        flash('Failed to fetch assignments and student submissions.')
+        app.logger.error(f"Error fetching assignments and submissions: {str(e)}")
+        return render_template('webpages/error.html'), 500
+    finally:
+        cur.close()
+
+    # Organize data by assignments
+    assignments = {}
+    for item in raw_data:
+        if item['id'] not in assignments:
+            assignments[item['id']] = {
+                'title': item['title'],
+                'submissions': []
+            }
+        if item['student_id']:  # There is a submission
+            assignments[item['id']]['submissions'].append({
+                'student_name': f"{item['first_name']} {item['last_name']}",
+                'student_id': item['student_id']  # Ensure student_id is included
+            })
+
+    return render_template('webpages/teacher-grades.html', course=course, assignments=assignments)
+
+@app.route('/review-submission/<int:assignment_id>/<int:student_id>')
+def review_submission(assignment_id, student_id):
+    cur = mysql.connection.cursor()
+    try:
+        # Fetch questions and the corresponding student's answers for the assignment
+        cur.execute('''
+            SELECT q.id, q.name as question_text, s.answers
+            FROM Questions q
+            LEFT JOIN Submissions s ON q.id = s.question_id AND s.student_id = %s
+            WHERE q.assignment_id = %s AND q.is_essay = TRUE
+        ''', (student_id, assignment_id))
+        submissions = cur.fetchall()
+    except Exception as e:
+        flash('Failed to fetch submissions for grading.')
+        app.logger.error(f"Error fetching submissions: {str(e)}")
+        return render_template('webpages/error.html'), 500
+    finally:
+        cur.close()
+
+    return render_template('webpages/review-submission.html', submissions=submissions, assignment_id=assignment_id, student_id=student_id)
+
+@app.route('/submit-grade/<int:assignment_id>/<int:student_id>', methods=['POST'])
+def submit_grade(assignment_id, student_id):
+    grade = request.form.get('grade')
+    if not grade:
+        flash("Please enter a grade.")
+        return redirect(url_for('review_submission', assignment_id=assignment_id, student_id=student_id))
+
+    cur = mysql.connection.cursor()
+    try:
+        # Update or insert the grade into the Grades table
+        cur.execute('''
+            INSERT INTO Grade (student_id, assignment_id, grade) VALUES (%s, %s, %s)
+            ON DUPLICATE KEY UPDATE grade = %s
+        ''', (student_id, assignment_id, grade, grade))
+        mysql.connection.commit()
+        flash('Grade successfully submitted.')
+    except Exception as e:
+        mysql.connection.rollback()
+        flash('Failed to submit grade.')
+        app.logger.error(f"Error submitting grade: {str(e)}")
+    finally:
+        cur.close()
+
+    return redirect(url_for('teacher_dashboard'))
 
 @app.route('/teacher-assignment/<int:courseid>')
 def teacher_assignment(courseid):
@@ -835,7 +978,7 @@ def submit_essay(assignment_id):
         for i in range(1, 4):  # Assuming three essay questions
             essay_question = request.form.get(f'essayQuestion{i}')
             if essay_question:  # Only insert if the question field was filled out
-                cur.execute('''INSERT INTO Questions (name, is_essay, sssignment_id) VALUES (%s, %s, %s)''',
+                cur.execute('''INSERT INTO Questions (name, is_essay, assignment_id) VALUES (%s, %s, %s)''',
                             (essay_question, True, assignment_id))
         mysql.connection.commit()
     except Exception as e:

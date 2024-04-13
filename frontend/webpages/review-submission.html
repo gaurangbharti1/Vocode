@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8" />
+    <title>Review Submissions</title>
+    <link rel="stylesheet" href="/static/grading.css">
+</head>
+<body>
+    <h1>Review and Grade Submissions</h1>
+    <form action="{{ url_for('submit_grade', assignment_id=assignment_id, student_id=student_id) }}" method="post">
+        {% for submission in submissions %}
+        <div class="question">
+            <h3>{{ loop.index }}. {{ submission.question_text }}</h3>
+            <textarea readonly rows="5" cols="50">{{ submission.answers }}</textarea>
+        </div>
+        {% endfor %}
+        <label for="grade">Grade:</label>
+        <input type="number" id="grade" name="grade" min="0" max="100" required>
+        <button type="submit">Submit Grade</button>
+    </form>
+</body>
+</html>

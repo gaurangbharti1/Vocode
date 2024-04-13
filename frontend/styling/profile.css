@@ -73,3 +73,21 @@ nav li:hover{
     width: fit-content;
     padding: 30px;
 }
+
+.breadcrumbs{
+    margin: 5px 15px 5px 5px;
+    float: left;
+ }
+ 
+.breadcrumbs p a{
+    background-color: #0f1b44;
+    color: #e7e7e7;
+    text-decoration: none;
+    padding: 2px 4px 2px 4px;
+    border-radius: 4px;
+}
+
+.breadcrumbs p a:hover{
+    background-color: #45a049;
+    color: white;
+}

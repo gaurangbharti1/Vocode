@@ -27,46 +27,14 @@
 
     <section class="graded">
         <h3>Ungraded Assignments</h3>
+        {% for assignment_id, assignment in assignments.items() %}
         <div>
-            <a href="#">Assignment</a>
-            <p>Description</p>
-            <a href="#">Click to grade<a>
+            <h4>{{ assignment.title }}</h4>
+            {% for submission in assignment.submissions %}
+            <p><a href="{{ url_for('review_submission', assignment_id=assignment_id, student_id=submission.student_id) }}">Review assignment by {{ submission.student_name }}</a></p>
+            {% endfor %}
         </div>
-        <div>
-            <a href="#">Assignment</a>
-            <p>Description</p>
-            <a href="#">Click to grade<a>
-        </div>
-        <div>
-            <a href="#">Assignment</a>
-            <p>Description</p>
-            <a href="#">Click to grade<a>
-        </div>
-        <div>
-            <a href="#">Assignment</a>
-            <p>Description</p>
-            <a href="#">Click to grade<a>
-        </div>
-    </section>
-    
-    <section class="ungraded">
-        <h4>Graded Assignments</h4>
-        <div>
-            <a href="#">Assignment</a>
-            <p>Average Grade:</p>
-        </div>
-        <div>
-            <a href="#">Assignment</a>
-            <p>Average Grade:</p>
-        </div>
-        <div>
-            <a href="#">Assignment</a>
-            <p>Average Grade:</p>
-        </div>
-        <div>
-            <a href="#">Assignment</a>
-            <p>Average Grade:</p>
-        </div>
+        {% endfor %}
     </section>
 </body>
 </html>

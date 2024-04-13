@@ -1,44 +1,26 @@
 <!DOCTYPE html>
-<html>
-    <head>
-        <meta charset="UTF-8"/>
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link rel="stylesheet" href="../styling/quiz.css">
-        <title>Quiz</title>
-    </head>
-    <body>
-        <nav>
-            <ul>
-                <img id="logo" src="../images/savnac1transparent.png" height="75" width="75" style="padding-top: 10px;">
-                <li><a href="{{ url_for('student_dashboard') }}"><img src="../images/student-dashboard/Home.png" alt="Home" style="height: 95%;"></a></li>
-                <li><a href="{{ url_for('student_course') }}"><img src="../images/homework.png" alt="Courses" style="height: 95%;"></a></li>
-                <li><a href="{{ url_for('profile') }}"><img src="../images/student-dashboard/Male User.png" alt="Profile" style="height: 95%;"></a></li>
-                <li><a href="{{ url_for('index') }}"><img src="../images/student-dashboard/Logout.png" alt="Logout" style="height: 100%;"></a></li>
-            </ul>
-        </nav>
-
-        <header>
-            <h2>Course Name</h2>
-            <ul>
-                <li><a href="{{ url_for('student_course') }}">Home</a></li>
-                <li><a href="{{ url_for('student_assignment') }}">Assignments</a></li>
-                <li><a href="{{ url_for('student_resource') }}">Resources</a></li>
-                <li><a href="{{ url_for('student_grades') }}">Grades</a></li>
-            </ul>
-        </header>
-
-        <div id='container'>
-			<div id='title'>
-				<h1>quiz</h1>
-			</div>
-   			<br/>
-  			<div id='quiz'></div>
-    		<div class='button' id='next'><a href='#'>Next</a></div>
-    		<div class='button' id='prev'><a href='#'>Prev</a></div>
-    		<div class='button' id='submit'> <a href='#'>Submit</a></div>
-    	</div>
-
-		<script type='text/javascript' src='https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js'></script>
-        <script src="../quiz-script.js"></script>
-    </body>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/static/quiz.css">
+    <title>Quiz</title>
+</head>
+<body>
+    <h1>Quiz</h1>
+    <form action="{{ url_for('student_submit_quiz', assignment_id=assignment_id) }}" method="post">
+        {% for question in questions %}
+        <div>
+            <h3>{{ loop.index }}. {{ question['question_text'] }}</h3>
+            {% for answer in question['answers'] %}
+            <div>
+                <input type="radio" name="question_{{ question['id'] }}" value="{{ answer['answer_id'] }}" required>
+                {{ answer['answer_text'] }}
+            </div>
+            {% endfor %}
+        </div>
+        {% endfor %}
+        <button type="submit">Submit Quiz</button>
+    </form>
+</body>
 </html>

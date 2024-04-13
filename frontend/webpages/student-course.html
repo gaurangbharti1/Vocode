@@ -1,9 +1,10 @@
+
 <!DOCTYPE html>
 <html>
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Courses</title>
+    <title>{{ course.title }}</title>
 
     <link rel="stylesheet" href="../styling/student-course.css">
 </head>
@@ -12,19 +13,18 @@
         <ul>
             <img id="logo" src="../images/savnac1transparent.png" height="75" width="75" style="padding-top: 10px;">
             <li><a href="{{ url_for('student_dashboard') }}"><img src="../images/student-dashboard/Home.png" alt="Home" style="height: 95%;"></a></li>
-            <li><a href="{{ url_for('student_course') }}"><img src="../images/homework.png" alt="Courses" style="height: 95%;"></a></li>
             <li><a href="{{ url_for('profile') }}"><img src="../images/student-dashboard/Male User.png" alt="Profile" style="height: 95%;"></a></li>
             <li><a href="{{ url_for('index') }}"><img src="../images/student-dashboard/Logout.png" alt="Logout" style="height: 100%;"></a></li>
         </ul>
     </nav>
 
     <header>
-        <h2>Course Name</h2>
+        <h2>{{course.title}}</h2>
         <ul>
-            <li><a href="{{ url_for('student_course') }}">Home</a></li>
-            <li><a href="{{ url_for('student_assignment') }}">Assignments</a></li>
-            <li><a href="{{ url_for('student_resource') }}">Resources</a></li>
-            <li><a href="{{ url_for('student_grades') }}">Grades</a></li>
+            <li>Home</li>
+            <li><a href="{{ url_for('student_assignment', courseid=course.id) }}">Assignments</a></li>
+            <li><a href="{{ url_for('student_resource', courseid=course.id) }}">Resources</a></li>
+            <li><a href="{{ url_for('student_grades', courseid=course.id) }}">Grades</a></li>
         </ul>
     </header>
 
@@ -57,16 +57,14 @@
 
     <section class="announcement">
         <div>
-            <h4>Title</h4>
-            <p>Content</p>
-        </div>
-        <div>
-            <h4>Title</h4>
-            <p>Content</p>
-        </div>
-        <div>
-            <h4>Title</h4>
-            <p>Content</p>
+            <h4>Announcements</h4>
+            {% for announcement in announcements %}
+                    <h5>{{ announcement.title }}</h5>
+                    <p>{{ announcement.description }}</p>
+                    <p>Posted on: {{ announcement.date.strftime('%Y-%m-%d %H:%M') }}</p>
+                {% else %}
+                <p>No announcements</p>
+                {% endfor %}
         </div>
     </section>
 </body>

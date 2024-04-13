@@ -6,159 +6,159 @@ import datetime
 app = Flask(__name__, template_folder='../frontend/', static_url_path='', static_folder='../frontend')
 
 app.config['MYSQL_HOST'] = 'sql3.freemysqlhosting.net'
-app.config['MYSQL_USER'] = 'sql3697454'
-app.config['MYSQL_PASSWORD'] = 'NIHBljF31P'
-app.config['MYSQL_DB'] = 'sql3697454'
+app.config['MYSQL_USER'] = 'sql3698588'
+app.config['MYSQL_PASSWORD'] = 'CYCutPr556'
+app.config['MYSQL_DB'] = 'sql3698588'
 app.config['MYSQL_CURSORCLASS'] = 'DictCursor'
 app.config['SECRET_KEY'] = 'test_key'
 
 bcrypt = Bcrypt(app)
 mysql = MySQL(app)
-
 @app.before_request
 def initialize_database():
     cur = mysql.connection.cursor()
-    # Create the Users table
 
-    cur.execute('''CREATE TABLE IF NOT EXISTS Users (
-        id INT AUTO_INCREMENT PRIMARY KEY,
-        first_name VARCHAR(255),
-        last_name VARCHAR(255),
-        date_of_birth DATE,
-        email VARCHAR(255) UNIQUE,
-        password VARCHAR(255),
-        role ENUM('admin', 'teacher', 'student')
-    )''')
+    # Create tables with proper datatype and constraint definitions
+    cur.execute('''
+        CREATE TABLE IF NOT EXISTS Users (
+            id INT AUTO_INCREMENT PRIMARY KEY,
+            first_name VARCHAR(255),
+            last_name VARCHAR(255),
+            date_of_birth DATE,
+            email VARCHAR(255) UNIQUE,
+            password VARCHAR(255),
+            role ENUM('admin', 'teacher', 'student')
+        )''')
 
-    # Create the Courses table
-    cur.execute('''CREATE TABLE IF NOT EXISTS Courses (
-        id INT AUTO_INCREMENT PRIMARY KEY,
-        title VARCHAR(255),
-        description TEXT,
-        admin_id INT,
-        FOREIGN KEY (admin_id) REFERENCES Users(id)
-    )''')
+    cur.execute('''
+        CREATE TABLE IF NOT EXISTS Courses (
+            id INT AUTO_INCREMENT PRIMARY KEY,
+            title VARCHAR(255),
+            description TEXT,
+            admin_id INT,
+            FOREIGN KEY (admin_id) REFERENCES Users(id)
+        )''')
 
-    cur.execute('''CREATE TABLE IF NOT EXISTS CourseDetails (
-    course_id INT PRIMARY KEY,
-    start_date DATE,
-    end_date DATE,
-    seats INT,
-    FOREIGN KEY (course_id) REFERENCES Courses(id) ON DELETE CASCADE
-    )''')
+    cur.execute('''
+        CREATE TABLE IF NOT EXISTS CourseDetails (
+            course_id INT,
+            code VARCHAR(10) UNIQUE,
+            start_date DATE,
+            end_date DATE,
+            seats INT,
+            PRIMARY KEY (course_id),
+            FOREIGN KEY (course_id) REFERENCES Courses(id) ON DELETE CASCADE
+        )''')
 
-    # Create the Assignments table
-    cur.execute('''CREATE TABLE IF NOT EXISTS Assignment (
-        id INT AUTO_INCREMENT PRIMARY KEY,
-        title VARCHAR(255),
-        description VARCHAR(255),
-        dueDate DATE,
-        isEssay BOOLEAN,
-        course_id INT,
-        FOREIGN KEY (course_id) REFERENCES Courses(id)
-    )''')
+    cur.execute('''
+        CREATE TABLE IF NOT EXISTS Assignment (
+            id INT AUTO_INCREMENT PRIMARY KEY,
+            title VARCHAR(255),
+            description TEXT,
+            due_date DATE,
+            is_essay BOOLEAN,
+            course_id INT,
+            FOREIGN KEY (course_id) REFERENCES Courses(id)
+        )''')
 
-    cur.execute('''CREATE TABLE IF NOT EXISTS Questions (
-        id INT AUTO_INCREMENT PRIMARY KEY,
-        name VARCHAR(255),
-        IsEssay BOOLEAN,
-        AssignmentID INT,
-        FOREIGN KEY (AssignmentID) REFERENCES Assignment(id)
-    )''')
+    cur.execute('''
+        CREATE TABLE IF NOT EXISTS Questions (
+            id INT AUTO_INCREMENT PRIMARY KEY,
+            name VARCHAR(255),
+            is_essay BOOLEAN,
+            assignment_id INT,
+            FOREIGN KEY (assignment_id) REFERENCES Assignment(id)
+        )''')
 
-    cur.execute('''CREATE TABLE IF NOT EXISTS Answers (
-        id INT AUTO_INCREMENT PRIMARY KEY,
-        name VARCHAR(255),
-        IsCorrect BOOLEAN,
-        QuestionID INT,
-        FOREIGN KEY (QuestionID) REFERENCES Questions(id)
-    )''')
+    cur.execute('''
+        CREATE TABLE IF NOT EXISTS Answers (
+            id INT AUTO_INCREMENT PRIMARY KEY,
+            name VARCHAR(255),
+            is_correct BOOLEAN,
+            question_id INT,
+            FOREIGN KEY (question_id) REFERENCES Questions(id)
+        )''')
 
+    cur.execute('''
+        CREATE TABLE IF NOT EXISTS Announcements (
+            id INT AUTO_INCREMENT PRIMARY KEY,
+            title VARCHAR(255),
+            description TEXT,
+            date DATETIME,
+            course_id INT,
+            FOREIGN KEY (course_id) REFERENCES Courses(id)
+        )''')
 
-    cur.execute('''CREATE TABLE IF NOT EXISTS Announcements (
-        AID INT AUTO_INCREMENT PRIMARY KEY,
-        title VARCHAR(255),
-        description VARCHAR(255),
-        date DATETIME,
-        course_id INT,
-        FOREIGN KEY (course_id) REFERENCES Courses(id)
-    )''')
-    # Create the Enrollment table
-    cur.execute('''CREATE TABLE IF NOT EXISTS Enrollment (
-        student_id INT,
-        course_id INT,
-        PRIMARY KEY (student_id, course_id),
-        FOREIGN KEY (student_id) REFERENCES Users(id),
-        FOREIGN KEY (course_id) REFERENCES Courses(id)
-    )''')
+    cur.execute('''
+        CREATE TABLE IF NOT EXISTS Enrollment (
+            student_id INT,
+            course_id INT,
+            is_approved TINYINT DEFAULT NULL,
+            PRIMARY KEY (student_id, course_id),
+            FOREIGN KEY (student_id) REFERENCES Users(id),
+            FOREIGN KEY (course_id) REFERENCES Courses(id)
+        )''')
 
-    # Create the Grades table
-    cur.execute('''CREATE TABLE IF NOT EXISTS Grades (
-        student_id INT,
-        assignment_id INT,
-        grade INT,
-        PRIMARY KEY (student_id, assignment_id),
-        FOREIGN KEY (student_id) REFERENCES Users(id),
-        FOREIGN KEY (assignment_id) REFERENCES Assignments(id)
-    )''')
+    cur.execute('''
+        CREATE TABLE IF NOT EXISTS Grades (
+            student_id INT,
+            assignment_id INT,
+            grade INT,
+            PRIMARY KEY (student_id, assignment_id),
+            FOREIGN KEY (student_id) REFERENCES Users(id),
+            FOREIGN KEY (assignment_id) REFERENCES Assignment(id)
+        )''')
 
-        # Create the TeacherCourses table
-    cur.execute('''CREATE TABLE IF NOT EXISTS TeacherCourses (
-        teacher_id INT,
-        course_id INT,
-        PRIMARY KEY (teacher_id, course_id),
-        FOREIGN KEY (teacher_id) REFERENCES Users(id) ON DELETE CASCADE,
-        FOREIGN KEY (course_id) REFERENCES Courses(id) ON DELETE CASCADE
-    )''')
+    cur.execute('''
+        CREATE TABLE IF NOT EXISTS TeacherCourses (
+            teacher_id INT,
+            course_id INT,
+            PRIMARY KEY (teacher_id, course_id),
+            FOREIGN KEY (teacher_id) REFERENCES Users(id) ON DELETE CASCADE,
+            FOREIGN KEY (course_id) REFERENCES Courses(id) ON DELETE CASCADE
+        )''')
 
-    # Insert dummy users
-    cur.execute(f"INSERT IGNORE INTO Users (first_name, last_name, date_of_birth, email, password, role) VALUES ('John', 'Doe', '1990-01-01', 'john.doe@example.com', 'hashed_password', 'admin')")
-    cur.execute(f"INSERT IGNORE INTO Users (first_name, last_name, date_of_birth, email, password, role) VALUES ('Jane', 'Smith', '1992-02-02', 'jane.smith@example.com', 'hashed_password', 'teacher')")
-    cur.execute(f"INSERT IGNORE INTO Users (first_name, last_name, date_of_birth, email, password, role) VALUES ('Jim', 'Bean', '1994-03-03', 'jim.bean@example.com', 'hashed_password', 'student')")
-    # insert dummy courses
-    cur.execute("INSERT IGNORE INTO Courses (title, description, admin_id) VALUES ('Basic Programming', 'Learn the fundamentals of programming.', 1)")
-    cur.execute("INSERT IGNORE INTO Courses (title, description, admin_id) VALUES ('Database Concepts', 'An introduction to relational databases.', 2)")
-    cur.execute("INSERT IGNORE INTO Courses (title, description, admin_id) VALUES ('Web Development', 'Design and develop interactive websites.', 1)")
-    cur.execute("INSERT IGNORE INTO Enrollment (student_id, course_id) VALUES (3, 1)")
-    cur.execute("INSERT IGNORE INTO Enrollment (student_id, course_id) VALUES (3, 2)")
-    cur.execute("INSERT IGNORE INTO Enrollment (student_id, course_id) VALUES (3, 3)")
-    # Insert dummy teacher-course associations
+    # Insert default records only if they do not exist
+    cur.execute("INSERT IGNORE INTO Users (first_name, last_name, date_of_birth, email, password, role) VALUES ('John', 'Doe', '1990-01-01', 'john.doe@example.com', 'hashed_password', 'admin')")
+    cur.execute("INSERT IGNORE INTO Users (first_name, last_name, date_of_birth, email, password, role) VALUES ('Jane', 'Smith', '1992-02-02', 'jane.smith@example.com', 'hashed_password', 'teacher')")
+    cur.execute("INSERT IGNORE INTO Users (first_name, last_name, date_of_birth, email, password, role) VALUES ('Jim', 'Bean', '1994-03-03', 'jim.bean@example.com', 'hashed_password', 'student')")
+
+    # Insert courses
+    cur.execute("INSERT IGNORE INTO Courses (title, description, admin_id) VALUES ('Introduction to Python', 'Beginner-friendly course on Python.', 1)")
+    cur.execute("INSERT IGNORE INTO Courses (title, description, admin_id) VALUES ('Web Design Basics', 'Learn HTML, CSS, and JavaScript.', 1)")
+    cur.execute("INSERT IGNORE INTO Courses (title, description, admin_id) VALUES ('Data Structures', 'Advanced course on data organizing techniques.', 1)")
+
+    # Insert course details
+    cur.execute("INSERT IGNORE INTO CourseDetails (course_id, code, start_date, end_date, seats) VALUES (1, 'PY101', '2023-01-01', '2023-06-01', 30)")
+    cur.execute("INSERT IGNORE INTO CourseDetails (course_id, code, start_date, end_date, seats) VALUES (2, 'WD101', '2023-02-01', '2023-07-01', 30)")
+    cur.execute("INSERT IGNORE INTO CourseDetails (course_id, code, start_date, end_date, seats) VALUES (3, 'DS101', '2023-03-01', '2023-08-01', 30)")
+
+    # Enroll the student with different approval statuses
+    cur.execute("INSERT IGNORE INTO Enrollment (student_id, course_id, is_approved) VALUES (3, 1, 1)")  # Approved
+    cur.execute("INSERT IGNORE INTO Enrollment (student_id, course_id, is_approved) VALUES (3, 2, NULL)")  # Pending
+    cur.execute("INSERT IGNORE INTO Enrollment (student_id, course_id, is_approved) VALUES (3, 3, 0)")  # Rejected
+
     cur.execute("INSERT IGNORE INTO TeacherCourses (teacher_id, course_id) VALUES (2, 1)")
     cur.execute("INSERT IGNORE INTO TeacherCourses (teacher_id, course_id) VALUES (2, 2)")
-    #insert dummy questions and answers
-    cur.execute("INSERT INTO Questions (name, IsEssay, AssignmentID) VALUES ('What is HTML?', 1, 1)")
-    cur.execute("INSERT INTO Questions (name, IsEssay, AssignmentID) VALUES ('What is SQL?', 0, 2)")
-    cur.execute("INSERT INTO Answers (name, isCorrect, QuestionID) VALUES ('banana', 0, 2)")
-    cur.execute("INSERT INTO Answers (name, isCorrect, QuestionID) VALUES ('Structured Query Language', 1, 2)")
-    cur.execute("INSERT INTO Answers (name, isCorrect, QuestionID) VALUES ('apple', 0, 2)")
-
-        # Assuming dummy courses have already been inserted, as shown in your existing code.
-    # Now, let's insert dummy course details.
-
-    # Insert dummy course details for 'Basic Programming'
-    cur.execute("SELECT id FROM Courses WHERE title = 'Basic Programming'")
-    course_id = cur.fetchone()['id'] if cur.fetchone() else None
-    if course_id:
-        cur.execute("INSERT IGNORE INTO CourseDetails (course_id, start_date, end_date, seats) VALUES (%s, '2024-01-10', '2024-06-10', 30)", (course_id,))
-
-    # Insert dummy course details for 'Database Concepts'
-    cur.execute("SELECT id FROM Courses WHERE title = 'Database Concepts'")
-    course_id = cur.fetchone()['id'] if cur.fetchone() else None
-    if course_id:
-        cur.execute("INSERT IGNORE INTO CourseDetails (course_id, start_date, end_date, seats) VALUES (%s, '2024-02-15', '2024-07-15', 25)", (course_id,))
-
-    # Insert dummy course details for 'Web Development'
-    cur.execute("SELECT id FROM Courses WHERE title = 'Web Development'")
-    course_id = cur.fetchone()['id'] if cur.fetchone() else None
-    if course_id:
-        cur.execute("INSERT IGNORE INTO CourseDetails (course_id, start_date, end_date, seats) VALUES (%s, '2024-03-20', '2024-08-20', 20)", (course_id,))
-
-
-    # Commit changes and close the connection
-    print('Database initialized')
-    print('Users:', cur.execute('SELECT * FROM Users'))
 
     mysql.connection.commit()
+    cur.close()
+    print('Database initialized.')
+
+@app.before_request
+def initialize_assignments():
+    cur = mysql.connection.cursor()
+
+    cur.execute("SELECT COUNT(*) AS count FROM Assignment")
+    result = cur.fetchone()
+    if result['count'] == 0:
+        cur.execute("INSERT INTO Assignment (title, description, due_date, is_essay, course_id) VALUES ('Introduction to Web Development', 'Complete the HTML and CSS exercise.', '2024-05-01', 1, 1)")
+        cur.execute("INSERT INTO Assignment (title, description, due_date, is_essay, course_id) VALUES ('Advanced Database Management', 'Read chapter 4 of the database textbook and answer questions 1-10.', '2024-06-30', 0, 2)")
+        mysql.connection.commit()
+        print("Assignments inserted.")
+    else:
+        print("Assignments table was not empty")
+
     cur.close()
 
 @app.errorhandler(404)
@@ -169,24 +169,6 @@ def page_not_found(e):
 def internal_server_error(e):
     return render_template('webpages/500.html'), 500
 
-@app.before_request
-def initialize_assignments():
-    cur = mysql.connection.cursor()
-
-    # Check if the Assignments table is empty
-    cur.execute("SELECT COUNT(*) as count FROM Assignment")
-    result = cur.fetchone()
-    if result['count'] == 0:
-        # The table is empty, safe to insert dummy data
-        cur.execute("INSERT INTO Assignment (title, description, dueDate, isEssay, course_id) VALUES ('Introduction to Web Development', 'Complete the HTML and CSS exercise.', '2024-05-01', 1, 1)")
-        cur.execute("INSERT INTO Assignment (title, description, dueDate, isEssay, course_id) VALUES ('Advanced Database Management', 'Read chapter 4 of the database textbook and answer questions 1-10.', '2024-06-30', 0, 2)")
-
-        print("Assignments inserted.")
-    else:
-        print("Assignments table was not empty")
-
-    mysql.connection.commit()
-    cur.close()
 
 @app.route('/')
 def index():
@@ -296,6 +278,63 @@ def student_classes():
     cur.close()
 
     return render_template('webpages/student-course.html', classes=classes)
+@app.route('/enroll-course', methods=['POST'])
+def enroll_course():
+    if 'user_id' not in session or session['role'] != 'student':
+        return "Unauthorized", 401
+
+    course_code = request.form.get('course_code')
+    student_id = session['user_id']
+
+    cur = mysql.connection.cursor()
+    cur.execute("SELECT course_id FROM CourseDetails WHERE code = %s", [course_code])
+    course_detail = cur.fetchone()
+
+    if course_detail:
+        cur.execute("INSERT INTO Enrollment (student_id, course_id, is_approved) VALUES (%s, %s, NULL)", (student_id, course_detail['course_id']))
+        mysql.connection.commit()
+        flash("Enrollment request sent. Waiting for admin approval.")
+    else:
+        flash("Course code not found.", "error")
+
+    cur.close()
+    return redirect(url_for('student_dashboard'))
+
+
+@app.route('/admin-review-enrollments')
+def admin_review_enrollments():
+    if 'user_id' not in session or session['role'] != 'admin':
+        return "Unauthorized", 401
+
+    cur = mysql.connection.cursor()
+    cur.execute('''
+        SELECT Enrollment.student_id, Users.first_name, Users.last_name, Courses.title, CourseDetails.code, Enrollment.course_id
+        FROM Enrollment
+        JOIN Users ON Enrollment.student_id = Users.id
+        JOIN Courses ON Enrollment.course_id = Courses.id
+        JOIN CourseDetails ON Courses.id = CourseDetails.course_id
+        WHERE Enrollment.is_approved IS NULL
+    ''')
+    pending_enrollments = cur.fetchall()
+    cur.close()
+
+    return render_template('webpages/admin-review-enrollments.html', enrollments=pending_enrollments)
+
+@app.route('/admin-approve-reject', methods=['POST'])
+def admin_approve_reject():
+    enrollment_id = request.form.get('enrollment_id')
+    decision = request.form.get('decision')  # 'approve' or 'reject'
+    
+    cur = mysql.connection.cursor()
+    status = 1 if decision == 'approve' else 0 if decision == 'reject' else None
+    cur.execute("UPDATE Enrollment SET is_approved = %s WHERE student_id = %s AND course_id = %s", (status, *enrollment_id.split("-")))
+    mysql.connection.commit()
+    flash("Enrollment decision updated successfully.")
+    cur.close()
+
+    return redirect(url_for('admin_review_enrollments'))
+
+
 
 @app.route('/register', methods=['POST'])
 def register():
@@ -435,6 +474,7 @@ def create_course():
         return redirect(url_for('login'))
 
     title = request.form.get('course-name', '').strip()
+    course_code = request.form.get('course-code', '').strip()
     description = request.form.get('course-description', '').strip()
     start_date = request.form.get('start-date')
     end_date = request.form.get('end-date')
@@ -455,9 +495,9 @@ def create_course():
         course_id = cur.lastrowid  # Retrieve the auto-generated course_id
 
         # Insert the course details into the CourseDetails table
-        cur.execute('''INSERT INTO CourseDetails (course_id, start_date, end_date, seats) 
-                       VALUES (%s, %s, %s, %s)''',
-                    (course_id, start_date, end_date, int(seats)))
+        cur.execute('''INSERT INTO CourseDetails (course_id, code, start_date, end_date, seats) 
+                       VALUES (%s, %s, %s, %s, %s)''',
+                    (course_id,course_code, start_date, end_date, int(seats)))
 
         # Assign the course to the professor using the TeacherCourses table
         cur.execute('''INSERT INTO TeacherCourses (teacher_id, course_id) 
@@ -474,31 +514,36 @@ def create_course():
         cur.close()
 
     return redirect(url_for('admin_dashboard'))
-
-
 @app.route('/student-dashboard')
 def student_dashboard():
     if 'user_id' not in session or session['role'] != 'student':
         return "Unauthorized", 401
 
     user_id = session['user_id']
-    
     cur = mysql.connection.cursor()
-    cur.execute('''SELECT Courses.id, Courses.title, Courses.description, COUNT(Assignment.id) as assignment_count
-                   FROM Enrollment
-                   JOIN Courses ON Enrollment.course_id = Courses.id
-                   LEFT JOIN Assignment ON Courses.id = Assignment.course_id
-                   WHERE Enrollment.student_id = %s
-                   GROUP BY Courses.id''', (user_id,))
+    # Fetch courses and their approval status
+    cur.execute('''
+        SELECT Courses.id, Courses.title, Courses.description, CourseDetails.code, Enrollment.is_approved
+        FROM Enrollment
+        JOIN Courses ON Enrollment.course_id = Courses.id
+        JOIN CourseDetails ON Courses.id = CourseDetails.course_id
+        WHERE Enrollment.student_id = %s
+    ''', (user_id,))
     courses = cur.fetchall()
-    cur.execute('''SELECT Assignment.title, Assignment.dueDate
-                    FROM Assignment
-                    JOIN Enrollment ON Enrollment.course_id = Assignment.course_id
-                    WHERE Enrollment.student_id = %s''', (user_id,))
+
+    # Fetch assignments for courses where the student's enrollment is approved
+    cur.execute('''
+        SELECT Assignment.title, Assignment.due_date
+        FROM Assignment
+        JOIN Courses ON Assignment.course_id = Courses.id
+        JOIN Enrollment ON Courses.id = Enrollment.course_id
+        WHERE Enrollment.student_id = %s AND Enrollment.is_approved = 1
+    ''', (user_id,))
     assignments = cur.fetchall()
     cur.close()
 
-    return render_template('webpages/student-dashboard.html', courses=courses, assignments = assignments)
+    return render_template('webpages/student-dashboard.html', courses=courses, assignments=assignments)
+
 
 @app.route('/student-course')
 def student_course():

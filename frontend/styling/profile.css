@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Lexend+Exa:wght@100..900&display=swap');
+
 body, html {
     margin: 0;
     padding: 0;
@@ -75,7 +77,8 @@ nav li:hover{
 }
 
 .breadcrumbs{
-    margin: 5px 15px 5px 5px;
+    font-family: "Lexend Exa";
+    margin: 5px 15px 5px 15px;
     float: left;
  }
  
@@ -89,5 +92,12 @@ nav li:hover{
 
 .breadcrumbs p a:hover{
     background-color: #45a049;
+    color: white;
+}
+
+.tophead{
+    font-family: "Lexend Exa";
+    padding: 1.5rem;
+    background-color: #0f1b44;
     color: white;
 }

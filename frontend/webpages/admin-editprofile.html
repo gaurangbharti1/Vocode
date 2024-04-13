@@ -7,7 +7,14 @@
         <link rel="stylesheet" href="../styling/profile.css">
     </head>
     <body>
-        <br>
+        
+        <div class="tophead">
+            <h2>Admin</h2>
+        </div>
+        <div class= breadcrumbs>
+            <p><a href="{{ url_for('admin_dashboard') }}">Home</a> | <a href="{{ url_for('admin_courses') }}">My Profile</a> | Edit Profile</p>
+        </div>
+        
         <div class="edit-form">
             <h2>Edit Profile</h2>
             <form action="{{ url_for('admin_edit_profile')}}" method="POST">

@@ -9,36 +9,15 @@ body {
     background-color: #f4f4f4;
 }
 
-nav ul{
-    list-style-type: none;
-    margin: 0;
-    padding: 0;
-    width: 105px;
-    background-color: #0f1b44;
-    height: 100%;
-    position: fixed;
-    overflow: auto;
-}
-
-nav ul li a{
-    display: block;
-    height: 50px;
-    padding: 15px;
-}
-
-nav li:hover{
-    background-color:#1f2f64 
-}
-
 .dashboard-header {
-    margin-left: 105px; /* Same width as the nav */
-    padding: 2rem;
+    /* margin-left: 105px; Same width as the nav */
+    padding: 1.5rem;
     background-color: #0f1b44;
     color: white;
 }
 
 .dashboard-main {
-    margin-left: 105px; /* Same width as the nav */
+    /* margin-left: 105px; Same width as the nav */
     padding: 1rem;
     display: flex;
     justify-content: center;
@@ -78,3 +57,14 @@ nav li:hover{
 }
 
 /* Adjust button styles as needed */
+
+.logout{
+    background-color: #0f1b44;
+    float: right;
+    margin-top: 0;
+}
+
+.logout:hover{
+    background-color: #1f2f64;
+}
+

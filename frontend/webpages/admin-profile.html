@@ -7,21 +7,15 @@
     <link rel="stylesheet" href="../styling/profile.css">
 </head>
 <body>
-    <nav>
-        <ul>
-            <img id="logo" src="../images/savnac1transparent.png" height="50" width="50" style="padding-top: 10px;">
-            <li><a href="{{ url_for('student_dashboard') }}"><img src="../images/student-dashboard/Home.png" alt="Home" style="height: 70%;"></a></li>
-            <li><a href="{{ url_for('student_course') }}"><img src="../images/homework.png" alt="Courses" style="height: 70%;"></a></li>
-            <li><a href="{{ url_for('profile') }}"><img src="../images/student-dashboard/Male User.png" alt="Profile" style="height: 70%;"></a></li>
-            <li><a href="{{ url_for('index') }}"><img src="../images/student-dashboard/Logout.png" alt="Logout" style="height: 80%;"></a></li>
-        </ul>
-    </nav>
-        </div>
+    <div class= breadcrumbs>
+        <p><a href="{{ url_for('admin_dashboard') }}">Home</a> | Manage Courses</p>
+    </div>
+        
         <div class="main-content">
             <div class="profile-details">
                 <h1>My Profile</h1>
                 <div class="edit">
-                    <a href="{{ url_for('edit_profile') }}">Edit Profile</a>
+                    <a href="{{ url_for('admin_profile') }}">Edit Profile</a>
                 </div>
                 <div class="detail">
                     <strong>Name:</strong> <span>{{ user.first_name }} {{ user.last_name }}</span>
@@ -40,6 +34,6 @@
         </div>
         
         
-        <script src="../scripts/profile.js"></script> 
+        <!-- <script src="../scripts/profile.js"></script>  -->
 </body>
 </html>

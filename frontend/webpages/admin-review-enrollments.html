@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Review Enrollments</title>
+  <link rel="stylesheet" href="../styling/admin-enrollment.css">
+</head>
+<body>
+  <nav style="display: flex; align-items: center; padding: 10px; background-color: #f4f4f4;">
+    <img id="logo" src="../images/savnac1transparent.png" height="75" width="75">
+    <ul style="list-style: none; display: flex; margin-left: auto; padding: 0;">
+      <li><a href="{{ url_for('admin_dashboard') }}"><img src="../images/student-dashboard/Home.png" alt="Dashboard" height="75"></a></li>
+      <li><a href="{{ url_for('admin_courses') }}"><img src="../images/homework.png" alt="Courses" height="75"></a></li>
+      <li><a href="{{ url_for('profile') }}"><img src="../images/student-dashboard/Male User.png" alt="Profile" height="75"></a></li>
+      <li><a href="{{ url_for('index') }}"><img src="../images/student-dashboard/Logout.png" alt="Logout" height="75"></a></li>
+    </ul>
+  </nav>
+  <header>
+    <h1>Review Enrollment Requests</h1>
+  </header>
+  <main>
+    <table class="styled-table">
+      <thead>
+        <tr>
+          <th>Student Name</th>
+          <th>Course Title</th>
+          <th>Code</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for enrollment in enrollments %}
+        <tr>
+          <td>{{ enrollment.first_name }} {{ enrollment.last_name }}</td>
+          <td>{{ enrollment.title }}</td>
+          <td>{{ enrollment.code }}</td>
+          <td>
+            <form method="POST" action="{{ url_for('admin_approve_reject') }}">
+              <input type="hidden" name="enrollment_id" value="{{ enrollment.student_id }}-{{ enrollment.course_id }}">
+              <button type="submit" class="btn-approve" name="decision" value="approve">Approve</button>
+              <button type="submit" class="btn-reject" name="decision" value="reject">Reject</button>
+            </form>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </main>
+</body>
+</html>

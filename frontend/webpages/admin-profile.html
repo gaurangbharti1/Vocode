@@ -8,14 +8,14 @@
 </head>
 <body>
     <div class= breadcrumbs>
-        <p><a href="{{ url_for('admin_dashboard') }}">Home</a> | Manage Courses</p>
+        <p><a href="{{ url_for('admin_dashboard') }}">Home</a> | Edit Profile</p>
     </div>
         
         <div class="main-content">
             <div class="profile-details">
                 <h1>My Profile</h1>
                 <div class="edit">
-                    <a href="{{ url_for('admin_profile') }}">Edit Profile</a>
+                    <a href="{{ url_for('admin_edit_profile') }}">Edit Profile</a>
                 </div>
                 <div class="detail">
                     <strong>Name:</strong> <span>{{ user.first_name }} {{ user.last_name }}</span>

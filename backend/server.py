@@ -245,7 +245,7 @@ def edit_profile():
 
     return render_template('webpages/edit-profile.html', user=user_details)
 
-@app.route('/admin-profile')
+@app.route('/admin_profile')
 def admin_profile():
     if 'user_id' not in session:
         return redirect(url_for('login'))
@@ -259,7 +259,7 @@ def admin_profile():
 
     return render_template('webpages/admin-profile.html', user=user_details)
 
-@app.route('/admin-editprofile', methods=['GET', 'POST'])
+@app.route('/admin_edit_profile', methods=['GET', 'POST'])
 def admin_edit_profile():
     if 'user_id' not in session:
         return redirect(url_for('login'))

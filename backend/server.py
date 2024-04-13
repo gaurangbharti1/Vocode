@@ -2,6 +2,8 @@ from flask import Flask, flash, redirect, render_template, request, session, url
 from flask_mysqldb import MySQL
 from flask_bcrypt import Bcrypt
 import datetime
+import os
+from os.path import join, dirname, realpath
 
 app = Flask(__name__, template_folder='../frontend/', static_url_path='', static_folder='../frontend')
 
@@ -408,6 +410,18 @@ def quiz():
 @app.route('/written_assignment')
 def written_assignment():
     return render_template('webpages/written-assignment.html')
+
+@app.route('/written_assignment', methods=['POST'])
+def student_upload():
+    uploaded= request.files['file']
+    if uploaded.filename != "":
+        filepath= os.path(app.config['UPLOAD_FOLDER'], uploaded.filename)
+        uploaded.save("studentFileUpload")
+    return redirect(url_for('submitted'))     
+
+@app.route('/submitted') 
+def submitted():
+    return render_template('webpages/submitted.html')
 
 # @app.route('/edit_profile')
 # def edit_profile():

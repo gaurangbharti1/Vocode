@@ -439,9 +439,10 @@ def create_course():
     start_date = request.form.get('start-date')
     end_date = request.form.get('end-date')
     seats = request.form.get('seats', '0')
+    professor_id = request.form.get('professor-id')  # Assuming the professor ID is passed from the form
 
     # Basic validation
-    if not title or not description or not start_date or not end_date or not seats.isdigit() or int(seats) < 1:
+    if not title or not description or not start_date or not end_date or not seats.isdigit() or int(seats) < 1 or not professor_id.isdigit():
         flash('Invalid input data. Please ensure all fields are correctly filled.', 'error')
         return redirect(url_for('create_course_form'))
 
@@ -453,17 +454,18 @@ def create_course():
                     (title, description, session['user_id']))
         course_id = cur.lastrowid  # Retrieve the auto-generated course_id
 
-        # Validate and convert dates and seats for database insertion
-        # You might want to ensure that start_date and end_date are in correct format
-        # e.g., YYYY-MM-DD, and convert them as needed
-
         # Insert the course details into the CourseDetails table
         cur.execute('''INSERT INTO CourseDetails (course_id, start_date, end_date, seats) 
                        VALUES (%s, %s, %s, %s)''',
                     (course_id, start_date, end_date, int(seats)))
 
+        # Assign the course to the professor using the TeacherCourses table
+        cur.execute('''INSERT INTO TeacherCourses (teacher_id, course_id) 
+                       VALUES (%s, %s)''',
+                    (professor_id, course_id))
+
         mysql.connection.commit()
-        flash('Course and course details created successfully.')
+        flash('Course created and professor assigned successfully.')
     except Exception as e:
         mysql.connection.rollback()
         flash('Failed to create course. Please try again.')
@@ -472,6 +474,7 @@ def create_course():
         cur.close()
 
     return redirect(url_for('admin_dashboard'))
+
 
 @app.route('/student-dashboard')
 def student_dashboard():

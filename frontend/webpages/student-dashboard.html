@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -34,20 +33,39 @@
                     <div id="course-card">
                             <h4>{{ course.title }}</h4>
                             <p>{{ course.description }}</p>
+                            {% if course.is_approved == 1 %}
+                            <p>Status: <span style="color: green">Approved</span></p>
+                            {% elif course.is_approved == 0 %}
+                            <p>Status: <span style="color: red">Rejected</span></p>
+                            {% else %}
+                            <p>Status: <span style="color: orange">Pending Approval</span></p>
+                            {% endif %}
                             <!-- You can add more course details here -->
                     </div>
                     </a>
                     {% endfor %}
                 </div>
+
+                <div id="join-course" class="course-action">
+                    <h2>Join a Course</h2>
+                    <form action="{{ url_for('enroll_course') }}" method="post">
+                      <label for="course_code">Course Code:</label>
+                      <input type="text" id="course_code" name="course_code" required />
+                      <button type="submit">Join Course</button>
+                    </form>
+                  </div>
                 
             {% else %}
-                <div id="noPanelsMessage" class="center-message">
-                    <p>You haven't joined a class yet! Press the button to join one.</p>
-                    <button id="initialAddPanel">Join Class</button>
-                </div>
+            <div id="join-course" class="course-action">
+                <h2>Join a Course</h2>
+                <form action="{{ url_for('enroll_course') }}" method="post">
+                  <label for="course_code">Course Code:</label>
+                  <input type="text" id="course_code" name="course_code" required />
+                  <button type="submit">Join Course</button>
+                </form>
+              </div>
 
             {% endif %}
-            <button id="addPanel" style="display:none;">Join Class</button>
         </div>
         
         <!-- <div id="left">

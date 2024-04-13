@@ -16,24 +16,24 @@ body{
 }
 
 nav ul{
-    list-style-type: none;
-    margin: 0;
-    padding: 0;
-    width: 105px;
-    background-color: #0f1b44;
-    height: 100%;
-    position: fixed;
-    overflow: auto;
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  width: 70px;
+  background-color: #0f1b44;
+  height: 100%;
+  position: fixed;
+  overflow: auto;
 }
 
 nav ul li a{
-    display: block;
-    height: 50px;
-    padding: 15px;
+  display: block;
+  height: 50px;
+  padding: 15px;
 }
 
 nav li:hover{
-    background-color:#1f2f64 
+  background-color:#1f2f64 
 }
 
 #dashHeader{

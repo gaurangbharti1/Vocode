@@ -66,6 +66,14 @@ def initialize_database():
         FOREIGN KEY (AssignmentID) REFERENCES Assignment(id)
     )''')
 
+    cur.execute('''CREATE TABLE IF NOT EXISTS Submissions (
+        id INT AUTO_INCREMENT PRIMARY KEY,
+        student_id INT,
+        IsEssay BOOLEAN,
+        AssignmentID INT,
+        FOREIGN KEY (AssignmentID) REFERENCES Assignment(id)
+    )''')
+
     cur.execute('''CREATE TABLE IF NOT EXISTS Answers (
         id INT AUTO_INCREMENT PRIMARY KEY,
         name VARCHAR(255),
@@ -532,8 +540,14 @@ def student_assignment(courseid):
     course = get_course(courseid)
 
     cur = mysql.connection.cursor()
-    cur.execute("SELECT * FROM Assignment WHERE course_id = %s", [courseid])
+    cur.execute('''
+        SELECT Assignment.id, Assignment.title, Assignment.description, Assignment.dueDate, Assignment.isEssay
+        FROM Assignment
+        LEFT JOIN Grade ON Assignment.id = Grade.assignment_id AND Grade.student_id = %s
+        WHERE Assignment.course_id = %s AND Grade.grade IS NULL
+    ''', (session.get('user_id'), courseid))
     assignments = cur.fetchall()
+    cur.close()
     cur.close()
 
     return render_template('webpages/student-assignment.html', assignments = assignments, course=course)

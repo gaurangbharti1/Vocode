@@ -1,130 +1,56 @@
-@import url('https://fonts.googleapis.com/css2?family=Lexend+Exa:wght@100..900&display=swap');
-
-*{
-    text-align: center;
-    font-family: Arial, sans-serif;
-    margin: 0;
-}
-header, h1,h2, h3{
-    font-family: 'Lexend Exa';
-    text-align: center;
+body {
+  font-family: 'Arial', sans-serif;
+  background-color: #f8f9fa;
+  margin: 0;
+  padding: 20px;
+  color: #333;
 }
 
-body{
-    top: 0;
-    margin: 0;
-}
-nav ul{
-    list-style-type: none;
-    margin: 0;
-    padding: 0;
-    width: 60px;
-    background-color: #0f1b44;
-    height: 100%;
-    position: fixed;
-    overflow: auto;
-
+h1 {
+  color: #007bff;
+  text-align: center;
 }
 
-nav ul li a{
-    display: block;
-    height: 50px;
+form {
+  max-width: 600px;
+  margin: 20px auto;
+  padding: 20px;
+  background-color: #ffffff;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
 }
 
-header h2{
-    background-color: #48b896;
-    padding: 5px;
-    width: 100%;
-}
-header ul{
-    width: 100%;
-    background-color: #acdfcf;
-    padding: 5px;
-}
-header ul li{
-    display: inline-block;
-    list-style-type: none;
-    width: 20%;
-    padding: 0;
-    margin: 2px;
-    
+div.question {
+  margin-bottom: 20px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid #eee;
 }
 
-header ul li a{
-    text-decoration: none;
-    color: black;
-    position: relative;
-    font-family: 'Lexend Exa';
-    padding: 7px;
-    margin: 0;
-    width: 20%;
+h3 {
+  margin: 0 0 10px;
 }
 
-header ul li a:hover{
-    background-color: #48b896;
+div.answers {
+  margin-left: 20px;
 }
 
-
-#title {
-  text-decoration: underline;
-}
-
-#quiz {
-  text-indent: 10px;
-  display:none;
-}
-
-.button {
-  border:2px solid;
-  border-radius:5px;
-  width: 40px;
-  padding-left:5px;
-  padding-right: 5px;
-  position: relative;
-  float:right;
-  background-color: #e3d8da;
-  color: #0f1b44;
-  margin: 0 2px 0 2px;
-}
-
-.button.active {
-  background-color: #F8F8FF;
-  color: #0f1b44;
+input[type="radio"] {
+  margin-right: 10px;
 }
 
 button {
-  position: relative;
-  float:right;
+  background-color: #28a745;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  font-size: 16px;
+  border-radius: 5px;
+  cursor: pointer;
+  display: block;
+  width: 100%;
+  margin-top: 20px;
 }
 
-.button a {
-  text-decoration: none;
-  color: black;
-}
-
-#container {
-  width:50%;
-  margin:auto;
-  margin-top: 30px;
-  padding: 0 25px 40px 10px;
-  background-color: #bca1a5;
-  border-radius:5px;
-  color: #FFFFFF;
-  font-weight: bold;
-  box-shadow: 5px 5px 5px #888;
-}
-
-ul {
-  list-style-type: none;
-  padding: 0;
-  margin: 0;
-}
-
-#prev {
-  display:none;
-}
-
-#submit {
-  display:none;
-  width: 90px;
+button:hover {
+  background-color: #218838;
 }

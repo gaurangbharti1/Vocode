@@ -92,3 +92,11 @@ nav li:hover{
     padding: 10px;
     margin: 5px;
 }
+
+.panels a{
+    text-decoration: none;
+}
+
+.panels a:hover{
+    font-weight: bold;
+}

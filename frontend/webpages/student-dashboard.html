@@ -29,11 +29,13 @@
             {% if courses %}
                 <div class="panels">
                     {% for course in courses %}
+                    <a href="{{  url_for('student_course, courseid=course.id) }}">
                     <div id="course-card">
                             <h4>{{ course.title }}</h4>
                             <p>{{ course.description }}</p>
                             <!-- You can add more course details here -->
                         </div>
+                    </a>
                     {% endfor %}
                 </div>
                 

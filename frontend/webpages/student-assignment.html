@@ -34,7 +34,7 @@
         <div>
             <a href="#">{{ assignment.title }}</a>
             <p>{{ assignment.description }}</p>
-            <p>Due Date: {{ assignment.dueDate }}</p>
+            <p>Due Date: {{ assignment.due_date }}</p>
             {% if assignment.is_essay %}
             <a class="startbutton" href="{{ url_for('essay', assignment_id=assignment.id) }}">Go to Essay</a>
             {% else %}

@@ -1,76 +1,59 @@
 body {
-    font-family: Arial, sans-serif;
+    font-family: 'Arial', sans-serif;
+    background-color: #f9f9f9;
     margin: 0;
-    padding: 0;
-    background-color: #f4f4f4;
-}
-
-nav ul{
-    list-style-type: none;
-    margin: 0;
-    padding: 0;
-    width: 105px;
-    background-color: #0f1b44;
-    height: 100%;
-    position: fixed;
-    overflow: auto;
-}
-
-nav ul li a{
-    display: block;
-    height: 50px;
-    padding: 15px;
-}
-
-nav li:hover{
-    background-color:#1f2f64 
+    padding: 20px;
+    color: #333;
 }
 
 .page-header {
-    background-color: #333;
-    color: white;
     text-align: center;
-    padding: 20px;
+    background-color: #0056b3;
+    color: white;
+    padding: 20px 0;
     margin-bottom: 30px;
 }
 
-.essay-creation-container {
-    margin: 0 auto;
-    width: 80%;
-    max-width: 600px;
+.assignment-creation-container {
+    width: 70%;
+    margin: auto;
+    background-color: #fff;
+    padding: 20px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    border-radius: 10px;
 }
 
-.essay-question-block {
+.essay-question {
     margin-bottom: 20px;
 }
 
-.essay-question-block label {
+.essay-question label {
+    font-weight: bold;
     display: block;
-    margin-bottom: 10px;
+    margin-bottom: 5px;
 }
 
-.essay-question-block textarea {
+.essay-question input[type="text"] {
     width: 100%;
     padding: 10px;
-    margin-bottom: 10px;
+    border: 1px solid #ccc;
     border-radius: 5px;
-    border: 1px solid #ddd;
-    height: 150px; /* Adjust height as needed */
+    box-sizing: border-box; /* Includes padding and border in the element's width and height */
 }
 
-.submit-essay {
-    background-color: #5cb85c;
+button {
+    background-color: #28a745;
     color: white;
     border: none;
-    padding: 10px 20px;
-    cursor: pointer;
+    padding: 12px 20px;
+    font-size: 16px;
     border-radius: 5px;
+    cursor: pointer;
+    display: block;
+    width: 100%;
+    margin-top: 20px;
 }
 
-.submit-essay:hover {
-    background-color: #4cae4c;
-}
-
-.submit-essay:focus {
-    outline: none;
+button:hover {
+    background-color: #218838;
 }

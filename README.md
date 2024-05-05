@@ -2,6 +2,20 @@
 
 **Walkthrough Video:** [View Walkthrough](https://youtu.be/tJEbzTNg5TM)
 
+**A step-by-step guide to handling our project:**
+
+- Clone the repository: git clone https://github.com/gaurangbharti1/Vocode.git
+- Make sure to have all dependencies installed:
+- pip install flask
+- pip install mysqldb
+- pip install bcrypt
+- Run the program: python backend/server.py
+- Admin user: john.doe@example.com
+- Admin Password: hashed_password
+- Teacher user: john.doe@example.com
+- Teacher Password: hashed_password
+- Student user: john.doe@example.com
+- Student Password: hashed_password
 
 **User Requirements:**
 
